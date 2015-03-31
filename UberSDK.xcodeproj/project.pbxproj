@@ -1,0 +1,865 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8279E8E81ACA93E300186FC1 /* UberSDKiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 8279E8E71ACA93E300186FC1 /* UberSDKiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8279E8EE1ACA93E300186FC1 /* UberSDKiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8279E8E21ACA93E300186FC1 /* UberSDKiOS.framework */; };
+		8279E8F51ACA93E300186FC1 /* UberSDKiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E8F41ACA93E300186FC1 /* UberSDKiOSTests.swift */; };
+		8279E9061ACA93FB00186FC1 /* UberSDKMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 8279E9051ACA93FB00186FC1 /* UberSDKMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8279E90C1ACA93FB00186FC1 /* UberSDKMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8279E9011ACA93FB00186FC1 /* UberSDKMac.framework */; };
+		8279E9131ACA93FB00186FC1 /* UberSDKMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9121ACA93FB00186FC1 /* UberSDKMacTests.swift */; };
+		8279E91B1ACA943000186FC1 /* UberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E91A1ACA943000186FC1 /* UberManager.swift */; };
+		8279E91C1ACA943000186FC1 /* UberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E91A1ACA943000186FC1 /* UberManager.swift */; };
+		8279E91D1ACA943000186FC1 /* UberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E91A1ACA943000186FC1 /* UberManager.swift */; };
+		8279E91E1ACA943000186FC1 /* UberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E91A1ACA943000186FC1 /* UberManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8279E8EF1ACA93E300186FC1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8279E8D71ACA93C400186FC1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8279E8E11ACA93E300186FC1;
+			remoteInfo = UberSDKiOS;
+		};
+		8279E90D1ACA93FB00186FC1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8279E8D71ACA93C400186FC1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8279E9001ACA93FB00186FC1;
+			remoteInfo = UberSDKMac;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8279E8E21ACA93E300186FC1 /* UberSDKiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UberSDKiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8279E8E61ACA93E300186FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8279E8E71ACA93E300186FC1 /* UberSDKiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UberSDKiOS.h; sourceTree = "<group>"; };
+		8279E8ED1ACA93E300186FC1 /* UberSDKiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UberSDKiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8279E8F31ACA93E300186FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8279E8F41ACA93E300186FC1 /* UberSDKiOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UberSDKiOSTests.swift; sourceTree = "<group>"; };
+		8279E9011ACA93FB00186FC1 /* UberSDKMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UberSDKMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8279E9041ACA93FB00186FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8279E9051ACA93FB00186FC1 /* UberSDKMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UberSDKMac.h; sourceTree = "<group>"; };
+		8279E90B1ACA93FB00186FC1 /* UberSDKMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UberSDKMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8279E9111ACA93FB00186FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8279E9121ACA93FB00186FC1 /* UberSDKMacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UberSDKMacTests.swift; sourceTree = "<group>"; };
+		8279E91A1ACA943000186FC1 /* UberManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8279E8DE1ACA93E300186FC1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E8EA1ACA93E300186FC1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8279E8EE1ACA93E300186FC1 /* UberSDKiOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E8FD1ACA93FB00186FC1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E9081ACA93FB00186FC1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8279E90C1ACA93FB00186FC1 /* UberSDKMac.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8279E8D61ACA93C400186FC1 = {
+			isa = PBXGroup;
+			children = (
+				8279E91F1ACA943A00186FC1 /* CoreFiles */,
+				8279E8E41ACA93E300186FC1 /* UberSDKiOS */,
+				8279E8F11ACA93E300186FC1 /* UberSDKiOSTests */,
+				8279E9021ACA93FB00186FC1 /* UberSDKMac */,
+				8279E90F1ACA93FB00186FC1 /* UberSDKMacTests */,
+				8279E8E31ACA93E300186FC1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8279E8E31ACA93E300186FC1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8279E8E21ACA93E300186FC1 /* UberSDKiOS.framework */,
+				8279E8ED1ACA93E300186FC1 /* UberSDKiOSTests.xctest */,
+				8279E9011ACA93FB00186FC1 /* UberSDKMac.framework */,
+				8279E90B1ACA93FB00186FC1 /* UberSDKMacTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8279E8E41ACA93E300186FC1 /* UberSDKiOS */ = {
+			isa = PBXGroup;
+			children = (
+				8279E8E71ACA93E300186FC1 /* UberSDKiOS.h */,
+				8279E8E51ACA93E300186FC1 /* Supporting Files */,
+			);
+			path = UberSDKiOS;
+			sourceTree = "<group>";
+		};
+		8279E8E51ACA93E300186FC1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8279E8E61ACA93E300186FC1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8279E8F11ACA93E300186FC1 /* UberSDKiOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				8279E8F41ACA93E300186FC1 /* UberSDKiOSTests.swift */,
+				8279E8F21ACA93E300186FC1 /* Supporting Files */,
+			);
+			path = UberSDKiOSTests;
+			sourceTree = "<group>";
+		};
+		8279E8F21ACA93E300186FC1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8279E8F31ACA93E300186FC1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8279E9021ACA93FB00186FC1 /* UberSDKMac */ = {
+			isa = PBXGroup;
+			children = (
+				8279E9051ACA93FB00186FC1 /* UberSDKMac.h */,
+				8279E9031ACA93FB00186FC1 /* Supporting Files */,
+			);
+			path = UberSDKMac;
+			sourceTree = "<group>";
+		};
+		8279E9031ACA93FB00186FC1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8279E9041ACA93FB00186FC1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8279E90F1ACA93FB00186FC1 /* UberSDKMacTests */ = {
+			isa = PBXGroup;
+			children = (
+				8279E9121ACA93FB00186FC1 /* UberSDKMacTests.swift */,
+				8279E9101ACA93FB00186FC1 /* Supporting Files */,
+			);
+			path = UberSDKMacTests;
+			sourceTree = "<group>";
+		};
+		8279E9101ACA93FB00186FC1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8279E9111ACA93FB00186FC1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8279E91F1ACA943A00186FC1 /* CoreFiles */ = {
+			isa = PBXGroup;
+			children = (
+				8279E91A1ACA943000186FC1 /* UberManager.swift */,
+			);
+			name = CoreFiles;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8279E8DF1ACA93E300186FC1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8279E8E81ACA93E300186FC1 /* UberSDKiOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E8FE1ACA93FB00186FC1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8279E9061ACA93FB00186FC1 /* UberSDKMac.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8279E8E11ACA93E300186FC1 /* UberSDKiOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8279E8FA1ACA93E300186FC1 /* Build configuration list for PBXNativeTarget "UberSDKiOS" */;
+			buildPhases = (
+				8279E8DD1ACA93E300186FC1 /* Sources */,
+				8279E8DE1ACA93E300186FC1 /* Frameworks */,
+				8279E8DF1ACA93E300186FC1 /* Headers */,
+				8279E8E01ACA93E300186FC1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UberSDKiOS;
+			productName = UberSDKiOS;
+			productReference = 8279E8E21ACA93E300186FC1 /* UberSDKiOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8279E8EC1ACA93E300186FC1 /* UberSDKiOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8279E8FB1ACA93E300186FC1 /* Build configuration list for PBXNativeTarget "UberSDKiOSTests" */;
+			buildPhases = (
+				8279E8E91ACA93E300186FC1 /* Sources */,
+				8279E8EA1ACA93E300186FC1 /* Frameworks */,
+				8279E8EB1ACA93E300186FC1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8279E8F01ACA93E300186FC1 /* PBXTargetDependency */,
+			);
+			name = UberSDKiOSTests;
+			productName = UberSDKiOSTests;
+			productReference = 8279E8ED1ACA93E300186FC1 /* UberSDKiOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8279E9001ACA93FB00186FC1 /* UberSDKMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8279E9141ACA93FB00186FC1 /* Build configuration list for PBXNativeTarget "UberSDKMac" */;
+			buildPhases = (
+				8279E8FC1ACA93FB00186FC1 /* Sources */,
+				8279E8FD1ACA93FB00186FC1 /* Frameworks */,
+				8279E8FE1ACA93FB00186FC1 /* Headers */,
+				8279E8FF1ACA93FB00186FC1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UberSDKMac;
+			productName = UberSDKMac;
+			productReference = 8279E9011ACA93FB00186FC1 /* UberSDKMac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8279E90A1ACA93FB00186FC1 /* UberSDKMacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8279E9171ACA93FB00186FC1 /* Build configuration list for PBXNativeTarget "UberSDKMacTests" */;
+			buildPhases = (
+				8279E9071ACA93FB00186FC1 /* Sources */,
+				8279E9081ACA93FB00186FC1 /* Frameworks */,
+				8279E9091ACA93FB00186FC1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8279E90E1ACA93FB00186FC1 /* PBXTargetDependency */,
+			);
+			name = UberSDKMacTests;
+			productName = UberSDKMacTests;
+			productReference = 8279E90B1ACA93FB00186FC1 /* UberSDKMacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8279E8D71ACA93C400186FC1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				TargetAttributes = {
+					8279E8E11ACA93E300186FC1 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					8279E8EC1ACA93E300186FC1 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					8279E9001ACA93FB00186FC1 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					8279E90A1ACA93FB00186FC1 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+				};
+			};
+			buildConfigurationList = 8279E8DA1ACA93C400186FC1 /* Build configuration list for PBXProject "UberSDK" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8279E8D61ACA93C400186FC1;
+			productRefGroup = 8279E8E31ACA93E300186FC1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8279E8E11ACA93E300186FC1 /* UberSDKiOS */,
+				8279E8EC1ACA93E300186FC1 /* UberSDKiOSTests */,
+				8279E9001ACA93FB00186FC1 /* UberSDKMac */,
+				8279E90A1ACA93FB00186FC1 /* UberSDKMacTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8279E8E01ACA93E300186FC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E8EB1ACA93E300186FC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E8FF1ACA93FB00186FC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E9091ACA93FB00186FC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8279E8DD1ACA93E300186FC1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8279E91B1ACA943000186FC1 /* UberManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E8E91ACA93E300186FC1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8279E8F51ACA93E300186FC1 /* UberSDKiOSTests.swift in Sources */,
+				8279E91C1ACA943000186FC1 /* UberManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E8FC1ACA93FB00186FC1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8279E91D1ACA943000186FC1 /* UberManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8279E9071ACA93FB00186FC1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8279E9131ACA93FB00186FC1 /* UberSDKMacTests.swift in Sources */,
+				8279E91E1ACA943000186FC1 /* UberManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8279E8F01ACA93E300186FC1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8279E8E11ACA93E300186FC1 /* UberSDKiOS */;
+			targetProxy = 8279E8EF1ACA93E300186FC1 /* PBXContainerItemProxy */;
+		};
+		8279E90E1ACA93FB00186FC1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8279E9001ACA93FB00186FC1 /* UberSDKMac */;
+			targetProxy = 8279E90D1ACA93FB00186FC1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		8279E8DB1ACA93C400186FC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		8279E8DC1ACA93C400186FC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		8279E8F61ACA93E300186FC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = UberSDKiOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8279E8F71ACA93E300186FC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = UberSDKiOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		8279E8F81ACA93E300186FC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = UberSDKiOSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		8279E8F91ACA93E300186FC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = UberSDKiOSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8279E9151ACA93FB00186FC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = UberSDKMac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8279E9161ACA93FB00186FC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = UberSDKMac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		8279E9181ACA93FB00186FC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = UberSDKMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8279E9191ACA93FB00186FC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = UberSDKMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8279E8DA1ACA93C400186FC1 /* Build configuration list for PBXProject "UberSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8279E8DB1ACA93C400186FC1 /* Debug */,
+				8279E8DC1ACA93C400186FC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8279E8FA1ACA93E300186FC1 /* Build configuration list for PBXNativeTarget "UberSDKiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8279E8F61ACA93E300186FC1 /* Debug */,
+				8279E8F71ACA93E300186FC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8279E8FB1ACA93E300186FC1 /* Build configuration list for PBXNativeTarget "UberSDKiOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8279E8F81ACA93E300186FC1 /* Debug */,
+				8279E8F91ACA93E300186FC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8279E9141ACA93FB00186FC1 /* Build configuration list for PBXNativeTarget "UberSDKMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8279E9151ACA93FB00186FC1 /* Debug */,
+				8279E9161ACA93FB00186FC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8279E9171ACA93FB00186FC1 /* Build configuration list for PBXNativeTarget "UberSDKMacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8279E9181ACA93FB00186FC1 /* Debug */,
+				8279E9191ACA93FB00186FC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8279E8D71ACA93C400186FC1 /* Project object */;
+}
