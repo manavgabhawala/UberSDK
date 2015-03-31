@@ -12,11 +12,11 @@ public typealias UberProductSuccessBlock = ([UberProduct]) -> Void
 
 public class UberProduct : Printable, DebugPrintable
 {
-	var productID: String
-	var name: String
-	var imageURL : NSURL
-	var productDescription: String
-	var capacity : Int
+	public var productID: String
+	public var name: String
+	public var imageURL : NSURL?
+	public var productDescription: String
+	public var capacity : Int
 	
 	
 	public var description : String
@@ -33,16 +33,16 @@ public class UberProduct : Printable, DebugPrintable
 			return description
 		}
 	}
-	init(productID: String, name: String, productDescription: String, capacity: Int, imageURL : String)
+	private init(productID: String, name: String, productDescription: String, capacity: Int, imageURL : String)
 	{
 		self.productID = productID
 		self.name = name
 		self.productDescription = productDescription
-		self.imageURL = NSURL(string: imageURL)!
+		self.imageURL = NSURL(string: imageURL)
 		self.capacity = capacity
 	}
 	
-	convenience init?(productID: String?, name: String?, productDescription: String?, capacity: Int?, imageURL: String?)
+	private convenience init?(productID: String?, name: String?, productDescription: String?, capacity: Int?, imageURL: String?)
 	{
 		
 		if let id = productID, let name = name, let description = productDescription, let capacity = capacity, let imageURL = imageURL
@@ -53,7 +53,7 @@ public class UberProduct : Printable, DebugPrintable
 		self.init(productID: "", name: "", productDescription: "", capacity: 0, imageURL: "")
 		return nil
 	}
-	convenience init?(JSON: [NSObject: AnyObject])
+	internal convenience init?(JSON: [NSObject: AnyObject])
 	{
 		self.init(productID: JSON["product_id"] as? String, name: JSON["display_name"] as? String, productDescription: JSON["description"] as? String, capacity: JSON["capacity"] as? Int, imageURL: JSON["image"] as? String)
 		if self.productID.isEmpty
