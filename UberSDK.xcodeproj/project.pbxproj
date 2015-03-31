@@ -17,6 +17,14 @@
 		8279E91C1ACA943000186FC1 /* UberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E91A1ACA943000186FC1 /* UberManager.swift */; };
 		8279E91D1ACA943000186FC1 /* UberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E91A1ACA943000186FC1 /* UberManager.swift */; };
 		8279E91E1ACA943000186FC1 /* UberManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E91A1ACA943000186FC1 /* UberManager.swift */; };
+		8279E9221ACA94B900186FC1 /* UberProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9201ACA94B900186FC1 /* UberProduct.swift */; };
+		8279E9231ACA94B900186FC1 /* UberProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9201ACA94B900186FC1 /* UberProduct.swift */; };
+		8279E9241ACA94B900186FC1 /* UberProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9201ACA94B900186FC1 /* UberProduct.swift */; };
+		8279E9251ACA94B900186FC1 /* UberProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9201ACA94B900186FC1 /* UberProduct.swift */; };
+		8279E9261ACA94B900186FC1 /* UberUserOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */; };
+		8279E9271ACA94B900186FC1 /* UberUserOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */; };
+		8279E9281ACA94B900186FC1 /* UberUserOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */; };
+		8279E9291ACA94B900186FC1 /* UberUserOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +58,8 @@
 		8279E9111ACA93FB00186FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8279E9121ACA93FB00186FC1 /* UberSDKMacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UberSDKMacTests.swift; sourceTree = "<group>"; };
 		8279E91A1ACA943000186FC1 /* UberManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberManager.swift; sourceTree = "<group>"; };
+		8279E9201ACA94B900186FC1 /* UberProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberProduct.swift; sourceTree = "<group>"; };
+		8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberUserOAuth.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				8279E91A1ACA943000186FC1 /* UberManager.swift */,
+				8279E9201ACA94B900186FC1 /* UberProduct.swift */,
+				8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */,
 			);
 			name = CoreFiles;
 			sourceTree = "<group>";
@@ -358,6 +370,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8279E91B1ACA943000186FC1 /* UberManager.swift in Sources */,
+				8279E9261ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
+				8279E9221ACA94B900186FC1 /* UberProduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,8 +379,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8279E9271ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
 				8279E8F51ACA93E300186FC1 /* UberSDKiOSTests.swift in Sources */,
 				8279E91C1ACA943000186FC1 /* UberManager.swift in Sources */,
+				8279E9231ACA94B900186FC1 /* UberProduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +391,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8279E91D1ACA943000186FC1 /* UberManager.swift in Sources */,
+				8279E9281ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
+				8279E9241ACA94B900186FC1 /* UberProduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,8 +400,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8279E9291ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
 				8279E9131ACA93FB00186FC1 /* UberSDKMacTests.swift in Sources */,
 				8279E91E1ACA943000186FC1 /* UberManager.swift in Sources */,
+				8279E9251ACA94B900186FC1 /* UberProduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
