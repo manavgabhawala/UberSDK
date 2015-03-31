@@ -78,6 +78,7 @@ public class UberManager : NSObject
 {
 	private var delegate : UberManagerDelegate
 	private var userManager : UberUserOAuth
+	
 	/**
 	Dedicated default constructor for an UberManager.
 	
@@ -88,13 +89,36 @@ public class UberManager : NSObject
 	public init(delegate: UberManagerDelegate)
 	{
 		self.delegate = delegate
-		userManager = UberUserOAuth()
+		userManager = UberUserOAuth(delegate: delegate)
 	}
 	
 	public func synchronouslyGetProducts(#latitude: Float, longitude: Float, errorHandler: UberErrorHandler) -> [UberProduct]?
 	{
 		let request = createRequestForURL("\(delegate.baseURL.URL)/v1/products", withQueryParameters: ["latitude" : latitude, "longitude" : longitude])
+		var response : NSURLResponse?
+		var error : NSError?
 		
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+		var JSONData: NSDictionary? = nil
+		if let data = data
+		{
+			JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? NSDictionary
+		}
+		if (error == nil)
+		{
+			if let productsJSON = JSONData?.objectForKey("products") as? [NSDictionary]
+			{
+				for product in productsJSON
+				{
+					
+				}
+			}
+		}
+		else
+		{
+			uberLog(JSONData)
+			errorHandler(response, error)
+		}
 		return nil
 	}
 	public func asynchronouslyGetProducts(#latitude: Float, longitude: Float, completionBlock success: UberProductSuccessBlock, errorHandler: UberErrorHandler)

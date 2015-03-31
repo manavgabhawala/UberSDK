@@ -8,11 +8,13 @@
 
 import Foundation
 
+
 internal class UberUserOAuth
 {
-	init()
+	var delegate: UberManagerDelegate
+	init(delegate: UberManagerDelegate)
 	{
-		
+		self.delegate = delegate
 	}
 	/**
 	This function adds the
@@ -41,6 +43,8 @@ internal class UberUserOAuth
 	
 	func setupOAuth2AccountStore()
 	{
-		
+		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(delegate.clientID)")!
+		let request = NSMutableURLRequest(URL: URL)
+		request.HTTPMethod = "GET"
 	}
 }

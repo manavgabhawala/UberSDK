@@ -7,10 +7,8 @@
 //
 
 import Foundation
-import UIKit
 
 public typealias UberProductSuccessBlock = ([UberProduct]) -> Void
-public typealias UberProductImageDownloadedBlock = (UberProduct) -> Void
 
 public class UberProduct : Printable, DebugPrintable
 {
@@ -20,7 +18,6 @@ public class UberProduct : Printable, DebugPrintable
 	var productDescription: String
 	var capacity : Int
 	
-	var image: UIImage?
 	
 	public var description : String
 	{
@@ -44,23 +41,5 @@ public class UberProduct : Printable, DebugPrintable
 		self.imageURL = NSURL(string: imageURL)!
 		self.capacity = capacity
 	}
-	public func downloadImageInBackground(successCallbackBlock success: UberProductImageDownloadedBlock?, andFailureCallbackBlock failure: UberErrorHandler?)
-	{
-		let request = NSURLRequest(URL: imageURL)
-		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
-			if error == nil
-			{
-				if let image = UIImage(data: data)
-				{
-					self.image = image
-					success?(self)
-				}
-				failure?(response, error)
-			}
-			else
-			{
-				failure?(response, error)
-			}
-		})
-	}
+	
 }

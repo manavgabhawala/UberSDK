@@ -25,6 +25,12 @@
 		8279E9271ACA94B900186FC1 /* UberUserOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */; };
 		8279E9281ACA94B900186FC1 /* UberUserOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */; };
 		8279E9291ACA94B900186FC1 /* UberUserOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */; };
+		8279EA091ACA997100186FC1 /* UberProductUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA081ACA997100186FC1 /* UberProductUIImage.swift */; };
+		8279EA0A1ACA997100186FC1 /* UberProductUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA081ACA997100186FC1 /* UberProductUIImage.swift */; };
+		8279EA0C1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
+		8279EA0D1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
+		8279EA0E1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
+		8279EA0F1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +66,8 @@
 		8279E91A1ACA943000186FC1 /* UberManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberManager.swift; sourceTree = "<group>"; };
 		8279E9201ACA94B900186FC1 /* UberProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberProduct.swift; sourceTree = "<group>"; };
 		8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberUserOAuth.swift; sourceTree = "<group>"; };
+		8279EA081ACA997100186FC1 /* UberProductUIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberProductUIImage.swift; sourceTree = "<group>"; };
+		8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				8279E8E71ACA93E300186FC1 /* UberSDKiOS.h */,
+				8279EA081ACA997100186FC1 /* UberProductUIImage.swift */,
 				8279E8E51ACA93E300186FC1 /* Supporting Files */,
 			);
 			path = UberSDKiOS;
@@ -190,6 +199,7 @@
 		8279E91F1ACA943A00186FC1 /* CoreFiles */ = {
 			isa = PBXGroup;
 			children = (
+				8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */,
 				8279E91A1ACA943000186FC1 /* UberManager.swift */,
 				8279E9201ACA94B900186FC1 /* UberProduct.swift */,
 				8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */,
@@ -370,8 +380,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8279E91B1ACA943000186FC1 /* UberManager.swift in Sources */,
+				8279EA0C1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */,
 				8279E9261ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
 				8279E9221ACA94B900186FC1 /* UberProduct.swift in Sources */,
+				8279EA091ACA997100186FC1 /* UberProductUIImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +395,8 @@
 				8279E8F51ACA93E300186FC1 /* UberSDKiOSTests.swift in Sources */,
 				8279E91C1ACA943000186FC1 /* UberManager.swift in Sources */,
 				8279E9231ACA94B900186FC1 /* UberProduct.swift in Sources */,
+				8279EA0A1ACA997100186FC1 /* UberProductUIImage.swift in Sources */,
+				8279EA0D1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +407,7 @@
 				8279E91D1ACA943000186FC1 /* UberManager.swift in Sources */,
 				8279E9281ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
 				8279E9241ACA94B900186FC1 /* UberProduct.swift in Sources */,
+				8279EA0E1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8279E9291ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
+				8279EA0F1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */,
 				8279E9131ACA93FB00186FC1 /* UberSDKMacTests.swift in Sources */,
 				8279E91E1ACA943000186FC1 /* UberManager.swift in Sources */,
 				8279E9251ACA94B900186FC1 /* UberProduct.swift in Sources */,
@@ -480,6 +496,10 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OAuth2Client",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -531,6 +551,10 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OAuth2Client",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -585,6 +609,10 @@
 				INFOPLIST_FILE = UberSDKiOSTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OAuth2Client",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -629,6 +657,10 @@
 				INFOPLIST_FILE = UberSDKiOSTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OAuth2Client",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -681,6 +713,10 @@
 				INFOPLIST_FILE = UberSDKMac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OAuth2Client",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -732,6 +768,10 @@
 				INFOPLIST_FILE = UberSDKMac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OAuth2Client",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -784,6 +824,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = UberSDKMacTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OAuth2Client",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -828,6 +872,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = UberSDKMacTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OAuth2Client",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
