@@ -43,7 +43,7 @@ internal class UberUserOAuth
 	
 	func setupOAuth2AccountStore()
 	{
-		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(delegate.clientID)")!
+		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(delegate.clientID)&client_secret=\(delegate.clientSecret)&grant_type=authorization_code&redirect_uri=\(delegate.redirectURI)")!
 		let request = NSMutableURLRequest(URL: URL)
 		request.HTTPMethod = "GET"
 	}

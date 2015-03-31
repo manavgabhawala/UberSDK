@@ -31,6 +31,7 @@
 		8279EA0D1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
 		8279EA0E1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
 		8279EA0F1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
+		8280B5861ACB425E0098E4D8 /* UberSDKProductsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8280B5851ACB425E0098E4D8 /* UberSDKProductsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberUserOAuth.swift; sourceTree = "<group>"; };
 		8279EA081ACA997100186FC1 /* UberProductUIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberProductUIImage.swift; sourceTree = "<group>"; };
 		8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericExtensions.swift; sourceTree = "<group>"; };
+		8280B5851ACB425E0098E4D8 /* UberSDKProductsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberSDKProductsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				8279E8F41ACA93E300186FC1 /* UberSDKiOSTests.swift */,
+				8280B5851ACB425E0098E4D8 /* UberSDKProductsTests.swift */,
 				8279E8F21ACA93E300186FC1 /* Supporting Files */,
 			);
 			path = UberSDKiOSTests;
@@ -392,6 +395,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8279E9271ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
+				8280B5861ACB425E0098E4D8 /* UberSDKProductsTests.swift in Sources */,
 				8279E8F51ACA93E300186FC1 /* UberSDKiOSTests.swift in Sources */,
 				8279E91C1ACA943000186FC1 /* UberManager.swift in Sources */,
 				8279E9231ACA94B900186FC1 /* UberProduct.swift in Sources */,
@@ -494,7 +498,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = UberSDKiOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -549,7 +553,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = UberSDKiOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -607,7 +611,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = UberSDKiOSTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -655,7 +659,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = UberSDKiOSTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -902,6 +906,7 @@
 				8279E8F71ACA93E300186FC1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8279E8FB1ACA93E300186FC1 /* Build configuration list for PBXNativeTarget "UberSDKiOSTests" */ = {
 			isa = XCConfigurationList;
@@ -910,6 +915,7 @@
 				8279E8F91ACA93E300186FC1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8279E9141ACA93FB00186FC1 /* Build configuration list for PBXNativeTarget "UberSDKMac" */ = {
 			isa = XCConfigurationList;
@@ -918,6 +924,7 @@
 				8279E9161ACA93FB00186FC1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8279E9171ACA93FB00186FC1 /* Build configuration list for PBXNativeTarget "UberSDKMacTests" */ = {
 			isa = XCConfigurationList;
@@ -926,6 +933,7 @@
 				8279E9191ACA93FB00186FC1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

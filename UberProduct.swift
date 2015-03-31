@@ -42,4 +42,23 @@ public class UberProduct : Printable, DebugPrintable
 		self.capacity = capacity
 	}
 	
+	convenience init?(productID: String?, name: String?, productDescription: String?, capacity: Int?, imageURL: String?)
+	{
+		
+		if let id = productID, let name = name, let description = productDescription, let capacity = capacity, let imageURL = imageURL
+		{
+			self.init(productID: id, name: name, productDescription: description, capacity: capacity, imageURL: imageURL)
+			return
+		}
+		self.init(productID: "", name: "", productDescription: "", capacity: 0, imageURL: "")
+		return nil
+	}
+	convenience init?(JSON: [NSObject: AnyObject])
+	{
+		self.init(productID: JSON["product_id"] as? String, name: JSON["display_name"] as? String, productDescription: JSON["description"] as? String, capacity: JSON["capacity"] as? Int, imageURL: JSON["image"] as? String)
+		if self.productID.isEmpty
+		{
+			return nil
+		}
+	}
 }
