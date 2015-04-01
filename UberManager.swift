@@ -281,6 +281,7 @@ extension UberManager
 			}
 		})
 	}
+	
 	/**
 	Use this function to fetch price estimates for a particular trip between two points `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitudes and longitudes.
 	
