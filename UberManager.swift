@@ -12,83 +12,6 @@ import CoreLocation
 public typealias UberErrorHandler =  (NSURLResponse!, NSError!) -> Void
 
 /**
-This is an enumeration that allows you to choose between the ProductionAPI and the SandboxAPI.
-*/
-public enum UberBaseURL : Printable, DebugPrintable
-{
-	/// Use ProductionAPI when you want the SDK to communicate with the actual production API provided by Uber.
-	case ProductionAPI
-	/// Use the SandboxAPI when you want the SDK to communicate with the sandbox API provided by Uber for testing purposes.
-	case SandboxAPI
-	private var URL:  String
-	{
-		get
-		{
-			switch self
-			{
-			case .ProductionAPI:
-				return "https://api.uber.com"
-			case .SandboxAPI:
-				return "https://sandbox-api.uber.com"
-			default:
-				assert(false, "You must choose between either the ProductionAPI or the SandboxAPI")
-				return ""
-			}
-		}
-	}
-	public var description : String {
-		get
-		{
-			switch self
-			{
-			case .ProductionAPI:
-				return "Production API"
-			case .SandboxAPI:
-				return "Sandbox API"
-			default:
-				assert(false, "You must choose between either the ProductionAPI or the SandboxAPI")
-				return ""
-			}
-		}
-	}
-	public var debugDescription : String { get { return description } }
-}
-/**
-Use this enumeration to provide the scopes you wish to show the user when performing OAuth2 with the Uber API.
-
-- Profile:     The Profile scope grants you access to basic profile information on a user's Uber account including their first name, email address, and profile picture
-- HistoryLite: The HistroyLite scope enables you to pull trip data including times and product type of a user's historical pickups and drop-offs.
-- Request:     The Request scope grants you permission to make requests for Uber Products on behalf of users.
-*/
-public enum UberScopes : Printable, DebugPrintable
-{
-	/// The Profile scope grants you access to basic profile information on a user's Uber account including their first name, email address, and profile picture
-	case Profile
-	/// The HistroyLite scope enables you to pull trip data including times and product type of a user's historical pickups and drop-offs.
-	case HistoryLite
-	/// The Request scope grants you permission to make requests for Uber Products on behalf of users.
-	case Request
-	public var description : String
-	{
-		get
-		{
-			switch self
-			{
-			case .Profile:
-				return "profile"
-			case .HistoryLite:
-				return "history_lite"
-			case .Request:
-				return "request"
-			default:
-				assert(false, "We should never reach here since we only support scopes defined within this enum.")
-				return ""
-			}
-		}
-	}
-	public var debugDescription : String  { get { return description } }
-}
-/**
 You must implement this protocol to communicate with the UberManager and return information as and when requested. This information can all be found in the Uber app dashboard at `https://developer.uber.com/apps/`.
 */
 public protocol UberManagerDelegate
@@ -105,6 +28,7 @@ public protocol UberManagerDelegate
 	var redirectURI : String { get }
 	/// This is an enumeration that allows you to choose between using the SandboxAPI or the ProductionAPI. You should use the Sandbox while testing and change this to Production before releasing the app. See `UberBaseURL` enumeration.
 	var baseURL : UberBaseURL { get }
+	/// Return an array of scopes that you would like to request from the user if you are using OAuth2.0. If you don't require user authentication, return an empty array. This must be an array of UberScopes. See the enum type.
 	var scopes : [UberScopes] { get }
 }
 
@@ -114,9 +38,6 @@ This class is the main wrapper around the über API. Create a instance of this c
 public class UberManager : NSObject
 {
 	//MARK: - General Initializers and Properties
-	private var delegate : UberManagerDelegate
-	private var userManager : UberUserOAuth
-	
 	/**
 	Dedicated default constructor for an UberManager.
 	
@@ -126,27 +47,53 @@ public class UberManager : NSObject
 	*/
 	public init(delegate: UberManagerDelegate)
 	{
-		self.delegate = delegate
-		userManager = UberUserOAuth(delegate: delegate)
+		sharedDelegate = delegate
+		sharedUserManager = UberUserOAuth()
 	}
+}
+//MARK: - Product Fetching
+extension UberManager
+{
+	/**
+	Use this function to fetch uber products for a particular location `synchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
 	
-	//MARK: - Product Fetching
+	:param: location The location for which you want to find Uber products.
+	:param: response The NSURLResponse will be stored in the variable passed by reference to this function.
+	:param: error    An error pointer, if an error occurs, the error will be stored in this variable.
+	
+	:returns: An array of UberProducts for a location. nil if an error occurs. We will also log the number of products found for your convienence. See the `UberProduct` class for more details on how this is returned.
+	*/
 	public func synchronouslyFetchProducts(#location: CLLocation, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberProduct]?
 	{
 		return synchronouslyFetchProducts(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, response: response, error: error)
 	}
+	
+	/**
+	Use this function to fetch uber products for a particular latitude and longitude `synchronously`.
+	
+	:param: latitude  The latitude for which you want to find Uber products.
+	:param: longitude The longitude for which you want to find Uber products.
+	:param: response  The NSURLResponse will be stored in the variable passed by reference to this function.
+	:param: error     An error pointer, if an error occurs, the error will be stored in this variable.
+	
+	:returns: An array of UberProducts for a location. nil if an error occurs. We will also log the number of products found for your convienence. See the `UberProduct` class for more details on how this is returned.
+	*/
 	public func synchronouslyFetchProducts(#latitude: Double, longitude: Double, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberProduct]?
 	{
-		let request = createRequestForURL("\(delegate.baseURL.URL)/v1/products", withPathParameters: ["latitude" : latitude, "longitude" : longitude])
-		
-		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: error)
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/products", withPathParameters: ["latitude" : latitude, "longitude" : longitude])
+		var err : NSError?
+		if error != nil
+		{
+			err = error.memory
+		}
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: &err)
 		var JSONData: NSDictionary? = nil
 		var JSONError : NSError?
 		if let data = data
 		{
 			JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? NSDictionary
 		}
-		if (error.memory == nil)
+		if (err == nil)
 		{
 			if let productsJSON = JSONData?.objectForKey("products") as? [[NSObject : AnyObject]]
 			{
@@ -156,22 +103,39 @@ public class UberManager : NSObject
 				return actualProducts
 			}
 			uberLog("Error parsing Product JSON. Please look at the console to see the JSON that got parsed.")
+			uberLog(JSONData)
 			uberLog(JSONError)
 		}
 		else
 		{
 			uberLog(JSONData)
-			
 		}
 		return nil
 	}
+	
+	/**
+	Use this function to fetch uber products for a particular location `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
+	
+	:param: location The location for which you want to find Uber products.
+	:param: completionBlock  The block to be executed if the request was successful and we were able to parse the products. This block takes one parameter, an array of UberProducts. See the `UberProduct` class for more details on how this is returned.
+	:param: errorHandler  This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	*/
 	public func asynchronouslyFetchProducts(#location: CLLocation, completionBlock success: UberProductSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		asynchronouslyFetchProducts(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, completionBlock: success, errorHandler: failure)
 	}
+	
+	/**
+	Use this function to fetch uber products for a particular latitude and longitude `asynchronously`.
+	
+	:param: latitude  The latitude for which you want to find Uber products.
+	:param: longitude The longitude for which you want to find Uber products.
+	:param: completionBlock   The block to be executed if the request was successful and we were able to parse the products. This block takes one parameter, an array of UberProducts. See the `UberProduct` class for more details on how this is returned.
+	:param: errorHandler   This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	*/
 	public func asynchronouslyFetchProducts(#latitude: Double, longitude: Double, completionBlock success: UberProductSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
-		let request = createRequestForURL("\(delegate.baseURL.URL)/v1/products", withPathParameters: ["latitude": latitude, "longitude": longitude])
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/products", withPathParameters: ["latitude": latitude, "longitude": longitude])
 		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
 			var JSONError: NSError?
 			if (error == nil)
@@ -204,50 +168,155 @@ public class UberManager : NSObject
 		})
 	}
 }
+
+//MARK: - Price Estimates
 extension UberManager
 {
-	private func createRequestForURL(var URL: String, withQueryParameters queries: [NSObject: AnyObject]? = nil, withPathParameters paths: [NSObject: AnyObject]? = nil, requireUserAccessToken accessTokenRequired: Bool = false, usingHTTPMethod method: HTTPMethod = .Get) -> NSURLRequest
+	/**
+	Use this function to fetch price estimates for a particular trip between two points as defined by you `synchronously`.
+	
+	:param: startLatitude  The starting latitude for the trip.
+	:param: startLongitude The starting longitude for the trip.
+	:param: endLatitude    The ending latitude for the trip.
+	:param: endLongitude   The ending longitude for the trip.
+	:param: response       The NSURLResponse will be stored in the variable passed by reference to this function.
+	:param: error          An error pointer, if an error occurs, the error will be stored in this variable.
+	
+	:returns: An array of UberPriceEstimatess for the trip with different products. nil if an error occurs. We will also log the number of price estimates found for your convienence. See the `UberPriceEstimate` class for more details on how this is returned.
+	
+	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
+	*/
+	public func synchronouslyFetchPriceEstimateForTrip(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberPriceEstimate]?
 	{
-		if let pathParameters = paths
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/estimates/price", withPathParameters: ["start_latitude" : startLatitude, "start_longitude" : startLongitude, "end_latitude" : endLatitude, "end_longitude" : endLongitude])
+		var err : NSError?
+		if (error != nil)
 		{
-			URL += "?"
-			for pathParameter in pathParameters
-			{
-				URL += "\(pathParameter.0)=\(pathParameter.1)&"
-			}
-			URL = URL.substringToIndex(URL.endIndex.predecessor())
+			err = error.memory
 		}
-		let request = NSMutableURLRequest(URL: NSURL(string: URL)!)
-		request.HTTPMethod = method.rawValue
-		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		// If we couldn't add the user access header
-		if !userManager.addBearerAccessHeader(request)
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: &err)
+		var JSONData: NSDictionary? = nil
+		var JSONError : NSError?
+		if let data = data
 		{
-			if accessTokenRequired
+			JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? NSDictionary
+		}
+		if (err == nil)
+		{
+			if let priceEstimateJSON = JSONData?.objectForKey("prices") as? [[NSObject : AnyObject]]
 			{
-				userManager.setupOAuth2AccountStore()
-				// TODO: User related stuff.
+				let priceEstimates = priceEstimateJSON.map { UberPriceEstimate(JSON: $0) }.filter { $0 != nil }.map { $0! }
+				uberLog("Number of price estimates found: \(priceEstimates.count)")
+				return priceEstimates
+			}
+			uberLog("Error parsing Product JSON. Please look at the console to see the JSON that got parsed.")
+			uberLog(JSONData)
+			uberLog(JSONError)
+		}
+		else
+		{
+			uberLog(JSONData)
+		}
+		return nil
+	}
+	
+	/**
+	Use this function to fetch price estimates for a particular trip between two points `synchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitudes and longitudes.
+	
+	:param: startLocation The starting location for the trip
+	:param: endLocation   The ending location for the trip
+	:param: response      The NSURLResponse will be stored in the variable passed by reference to this function.
+	:param: error         An error pointer, if an error occurs, the error will be stored in this variable.
+	
+	:returns: An array of UberPriceEstimatess for the trip with different products. nil if an error occurs. We will also log the number of price estimates found for your convienence. See the `UberPriceEstimate` class for more details on how this is returned.
+	
+	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
+	*/
+	public func synchronouslyFetchPriceEstimateForTrip(#startLocation: CLLocation, endLocation: CLLocation, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberPriceEstimate]?
+	{
+		return synchronouslyFetchPriceEstimateForTrip(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, response: response, error: error)
+	}
+	/**
+	Use this function to fetch price estimates for a particular trip between two points as defined by you `asynchronously`.
+	
+	:param: startLatitude  The starting latitude for the trip.
+	:param: startLongitude The starting longitude for the trip.
+	:param: endLatitude    The ending latitude for the trip.
+	:param: endLongitude   The ending longitude for the trip.
+	:param: success        The block to be executed if the request was successful and we were able to parse the price estimates. This block takes one parameter, an array of UberPriceEstimates. See the `UberPriceEstimate` class for more details on how this is returned.
+	:param: failure        This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	
+	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
+	*/
+	public func asynchronouslyFetchPriceEstimateForTrip(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPriceEstimateSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/estimates/price", withPathParameters: ["start_latitude" : startLatitude, "start_longitude" : startLongitude, "end_latitude" : endLatitude, "end_longitude" : endLongitude])
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
+			if (error == nil)
+			{
+				var JSONError: NSError?
+				if let JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? NSDictionary
+				{
+					if let priceEstimatesJSON = JSONData.objectForKey("prices") as? [[NSObject: AnyObject]]
+					{
+						let priceEstimates = priceEstimatesJSON.map { UberPriceEstimate(JSON: $0) }.filter { $0 != nil }.map { $0! }
+						uberLog("Number of price estimates found: \(priceEstimates.count)")
+						success?(priceEstimates)
+						return
+					}
+					uberLog("No products found inside of JSON object. Please look at the console to figure out what went wrong.")
+					uberLog(JSONError)
+					failure?(response, error)
+				}
+				else
+				{
+					uberLog("Error parsing Product JSON. Please look at the console to see the JSON that got parsed.")
+					uberLog(JSONError)
+					failure?(response, error)
+				}
 			}
 			else
 			{
-				request.addValue("Token \(delegate.serverToken)", forHTTPHeaderField: "Authorization")
+				failure?(response, error)
 			}
-		}
-		if let queryParameters = queries
+		})
+	}
+	/**
+	Use this function to fetch price estimates for a particular trip between two points `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitudes and longitudes.
+	
+	:param: startLocation The starting location for the trip
+	:param: endLocation   The ending location for the trip
+	:param: success       The block to be executed if the request was successful and we were able to parse the price estimates. This block takes one parameter, an array of UberPriceEstimates. See the `UberPriceEstimate` class for more details on how this is returned.
+	:param: failure       This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	
+	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
+	*/
+	public func asynchronouslyFetchPriceEstimateForTrip(#startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPriceEstimateSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		asynchronouslyFetchPriceEstimateForTrip(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, completionBlock: success, errorHandler: failure)
+	}
+}
+//MARK: - Time Estimates
+extension UberManager
+{
+	private func synchronouslyFetchTimeEstaimateForLocation(#startLatitude: Double, startLongitude: Double, userID: String?, productID: String?, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberTimeEstimate]?
+	{
+		var pathParatmeters : [NSObject: AnyObject] = ["start_latitude": startLatitude, "start_longitude" : startLongitude]
+		if let user = userID
 		{
-			let data = NSJSONSerialization.dataWithJSONObject(queryParameters, options: nil, error: nil)!
-			let json = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? NSDictionary
-			println(json)
-			request.HTTPBody = NSJSONSerialization.dataWithJSONObject(queryParameters, options: nil, error: nil)
+			pathParatmeters["customer_uuid"] = user
 		}
-		return request.copy() as! NSURLRequest
+		if let product = productID
+		{
+			pathParatmeters["product_id"] = product
+		}
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)", withPathParameters: pathParatmeters)
+		
+		return nil
 	}
 }
 
-private enum HTTPMethod : String
+//MARK: - Private Helpers
+extension UberManager
 {
-	case Post = "POST"
-	case Get = "GET"
-	case Delete = "DELETE"
-	case Put = "PUT"
 }

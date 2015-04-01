@@ -15,13 +15,13 @@ class Delegate : UberManagerDelegate
 	var applicationName: String { get { return "CocoaSDK" } }
 	var clientID : String { get { return "DUf5ZDdiJlrhLvFIljaiHUF5n4RNdhTA" } }
 	var clientSecret: String { get { return "" } }
-	var serverToken : String { get { return "hNsUcO5PW5jbofJ_atHhlt9fZ7SoEJuDrB1zZ22J" } }
+	var serverToken : String { get { return "" } }
 	var redirectURI : String { get { return "https://localhost:8000" } }
 	var baseURL : UberBaseURL { get { return .SandboxAPI } }
 	var scopes : [UberScopes] { get { return [.Profile] } }
 }
 
-let sharedDelegate = Delegate()
+let sharedTestingDelegate = Delegate()
 
 class UberSDKiOSTests: XCTestCase {
     

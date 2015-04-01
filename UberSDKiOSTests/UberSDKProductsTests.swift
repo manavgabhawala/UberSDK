@@ -12,7 +12,7 @@ import UIKit
 import CoreLocation
 import XCTest
 
-func validProduct(product: UberProduct?) -> Bool
+private func validProduct(product: UberProduct?) -> Bool
 {
 	if product == nil
 	{
@@ -37,7 +37,7 @@ class UberSDKProductsTests: XCTestCase
 	{
 		super.setUp()
 		// Put setup code here. This method is called before the invocation of each test method in the class.
-		manager = UberManager(delegate: sharedDelegate)
+		manager = UberManager(delegate: sharedTestingDelegate)
 	}
 	override func tearDown()
 	{
@@ -77,8 +77,6 @@ class UberSDKProductsTests: XCTestCase
 	func testAsynchronousProductFetching()
 	{
 		let productCompletion = expectationWithDescription("Products found")
-		var response: NSURLResponse?
-		var error: NSError?
 		self.manager.asynchronouslyFetchProducts(latitude: startLatitude, longitude: startLongitude, completionBlock: {(products) in
 			XCTAssertNotNil(products, "Fatal error occured. We expected products to be returned after fetching products. Recieved nil as products.")
 			println("We found Uber products: \(products)")
@@ -122,10 +120,13 @@ class UberSDKProductsTests: XCTestCase
 			XCTAssertNotNil(product, "Product returned shouldn't be nil")
 			XCTAssertTrue(validProduct(product), "Invalid product returned from the download image function.")
 			XCTAssertNotNil(image, "Image downloaded should not be nil.")
+			imageDownloaded.fulfill()
 			}, andFailureCallbackBlock: {(response, error) in
 				XCTAssertNotNil(response, "Response should not be nil in the error handler.")
 				XCTAssertNotNil(error, "Error should not be nil in the error handler.")
 				XCTFail("Fatal error occured. We expected no errors when downloading the image. Recieved: \(error)\n\nWith Response: \(response)\n")
 		})
+		waitForExpectationsWithTimeout(20.0, handler: nil)
+
 	}
 }
