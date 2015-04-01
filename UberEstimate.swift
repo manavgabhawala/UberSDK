@@ -68,7 +68,8 @@ public class UberPriceEstimate : UberEstimate, Printable, DebugPrintable
 		}
 	}
 }
-public class UberTimeEstimate : UberEstimate
+public typealias UberTimeEstimateSuccessBlock = ([UberTimeEstimate]) -> Void
+public class UberTimeEstimate : UberEstimate, Printable, DebugPrintable
 {
 	public var estimate : NSTimeInterval
 	/// This is a computed property that tells you the estimated time of departure for the Uber user if he selects a certian Product.
@@ -79,6 +80,9 @@ public class UberTimeEstimate : UberEstimate
 			return NSDate(timeIntervalSinceNow: estimate)
 		}
 	}
+	public var description : String { get { return "Uber Time Estimate: Estimated time before \(productDisplayName) arrives is \(estimate * 60) minutes." } }
+	public var debugDescription : String { get { return description } }
+	
 	private init(id: String, displayName: String, estimate: Int)
 	{
 		self.estimate = NSTimeInterval(estimate)

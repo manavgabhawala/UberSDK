@@ -296,10 +296,23 @@ extension UberManager
 		asynchronouslyFetchPriceEstimateForTrip(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, completionBlock: success, errorHandler: failure)
 	}
 }
+
 //MARK: - Time Estimates
 extension UberManager
 {
-	private func synchronouslyFetchTimeEstaimateForLocation(#startLatitude: Double, startLongitude: Double, userID: String?, productID: String?, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberTimeEstimate]?
+	/**
+	Use this function to fetch time estimates for a particular latitude and longitude `synchronously`. Optionally, add a productID and/or a userID to narrow down the search results.
+	
+	:param: startLatitude  The starting latitude of the user.
+	:param: startLongitude The starting longitude of the user.
+	:param: userID         An optional parameter: the user's unique ID which allows you to improve search results as defined in the Uber API endpoints.
+	:param: productID      An optional parameter: a specific product ID which allows you to narrow down searches to a particular product.
+	:param: response       The NSURLResponse will be stored in the variable passed by reference to this function.
+	:param: error          An error pointer, if an error occurs, the error will be stored in this variable.
+	
+	:returns: An array of UberTimeEstimates for a location. nil if an error occurs. We will also log the number of time estimates found for your convienence. See the `UberTimeEstimate` class for more details on how this is returned.
+	*/
+	public func synchronouslyFetchTimeEstaimateForLocation(#startLatitude: Double, startLongitude: Double, userID: String? = nil, productID: String? = nil, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberTimeEstimate]?
 	{
 		var pathParatmeters : [NSObject: AnyObject] = ["start_latitude": startLatitude, "start_longitude" : startLongitude]
 		if let user = userID
@@ -310,9 +323,119 @@ extension UberManager
 		{
 			pathParatmeters["product_id"] = product
 		}
-		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)", withPathParameters: pathParatmeters)
-		
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/estimates/time", withPathParameters: pathParatmeters)
+		var err : NSError?
+		if (error != nil)
+		{
+			err = error.memory
+		}
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: &err)
+		var JSONData: NSDictionary? = nil
+		var JSONError : NSError?
+		if let data = data
+		{
+			JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? NSDictionary
+		}
+		if (err == nil)
+		{
+			if let timeEstimatesJSON = JSONData?.objectForKey("times") as? [[NSObject : AnyObject]]
+			{
+				let timeEstimates = timeEstimatesJSON.map { UberTimeEstimate(JSON: $0) }.filter { $0 != nil }.map { $0! }
+				uberLog("Number of time estimates found: \(timeEstimates.count)")
+				return timeEstimates
+			}
+			uberLog("Error parsing Time Estimate JSON. Please look at the console to see the JSON that got parsed.")
+			uberLog(JSONData)
+			uberLog(JSONError)
+		}
+		else
+		{
+			uberLog(JSONData)
+		}
 		return nil
+	}
+	
+	/**
+	Use this function to fetch time estimates for a particular latitude and longitude `synchronously`. Optionally, add a productID and/or a userID to narrow down the search results. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
+	
+	:param: location  The location of the user.
+	:param: productID An optional parameter: a specific product ID which allows you to narrow down searches to a particular product.
+	:param: userID    An optional parameter: the user's unique ID which allows you to improve search results as defined in the Uber API endpoints.
+	:param: response  The NSURLResponse will be stored in the variable passed by reference to this function.
+	:param: error     An error pointer, if an error occurs, the error will be stored in this variable.
+	
+	:returns: An array of UberTimeEstimates for a location. nil if an error occurs. We will also log the number of time estimates found for your convienence. See the `UberTimeEstimate` class for more details on how this is returned.
+	*/
+	public func synchronouslyFetchTimeEstaimateForLocation(#location: CLLocation, productID: String? = nil, userID : String? = nil, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberTimeEstimate]?
+	{
+		return synchronouslyFetchTimeEstaimateForLocation(startLatitude: location.coordinate.latitude, startLongitude: location.coordinate.longitude, userID: userID, productID: productID, response: response, error: error)
+	}
+	
+	/**
+	Use this function to fetch time estimates for a particular latitude and longitude `asynchronously`. Optionally, add a productID and/or a userID to narrow down the search results.
+	
+	:param: startLatitude  The starting latitude of the user.
+	:param: startLongitude The starting longitude of the user.
+	:param: userID         An optional parameter: the user's unique ID which allows you to improve search results as defined in the Uber API endpoints.
+	:param: productID      An optional parameter: a specific product ID which allows you to narrow down searches to a particular product.
+	:param: success        The block to be executed if the request was successful and we were able to parse the time estimates. This block takes one parameter, an array of UberTimeEstimates. See the `UberTimeEstimate` class for more details on how this is returned.
+	:param: failure        This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	*/
+	public func asynchronouslyFetchTimeEstaimateForLocation(#startLatitude: Double, startLongitude: Double, userID: String? = nil, productID: String? = nil, completionBlock success: UberTimeEstimateSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		var pathParatmeters : [NSObject: AnyObject] = ["start_latitude": startLatitude, "start_longitude" : startLongitude]
+		if let user = userID
+		{
+			pathParatmeters["customer_uuid"] = user
+		}
+		if let product = productID
+		{
+			pathParatmeters["product_id"] = product
+		}
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/estimates/time", withPathParameters: pathParatmeters)
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
+			var JSONError: NSError?
+			if (error == nil)
+			{
+				if let JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? NSDictionary
+				{
+					if let timeEstimatesJSON = JSONData.objectForKey("times") as? [[NSObject: AnyObject]]
+					{
+						let timeEstimates = timeEstimatesJSON.map { UberTimeEstimate(JSON: $0) }.filter { $0 != nil }.map { $0! }
+						uberLog("Number of time estimates found: \(timeEstimates.count)")
+						success?(timeEstimates)
+						return
+					}
+					uberLog("No time estimates found inside of JSON object. Please look at the console to figure out what went wrong.")
+					uberLog(JSONError)
+					failure?(response, error)
+				}
+				else
+				{
+					uberLog("Error parsing Product JSON. Please look at the console to see the JSON that got parsed.")
+					uberLog(JSONError)
+					failure?(response, error)
+				}
+			}
+			else
+			{
+				failure?(response, error)
+			}
+		})
+	}
+	
+	/**
+	Use this function to fetch time estimates for a particular latitude and longitude `synchronously`. Optionally, add a productID and/or a userID to narrow down the search results. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
+	
+	:param: location  The location of the user.
+	:param: productID An optional parameter: a specific product ID which allows you to narrow down searches to a particular product.
+	:param: userID    An optional parameter: the user's unique ID which allows you to improve search results as defined in the Uber API endpoints.
+	:param: success   The block to be executed if the request was successful and we were able to parse the time estimates. This block takes one parameter, an array of UberTimeEstimates. See the `UberTimeEstimate` class for more details on how this is returned.
+	:param: failure   This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	*/
+	public func asynchronouslyFetchTimeEstaimateForLocation(#location: CLLocation, productID: String? = nil, userID : String? = nil, completionBlock success: UberTimeEstimateSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		asynchronouslyFetchTimeEstaimateForLocation(startLatitude: location.coordinate.latitude, startLongitude: location.coordinate.longitude, userID: userID, productID: productID, completionBlock: success, errorHandler: failure)
 	}
 }
 
