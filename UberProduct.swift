@@ -15,15 +15,17 @@ public typealias UberProductSuccessBlock = ([UberProduct]) -> Void
 public class UberProduct : Printable, DebugPrintable
 {
 	/// The Product ID for the associated Uber product.
-	public var productID: String
+	public let productID: String
 	/// A user displayable name for the Uber product.
-	public var name: String
+	public let name: String
 	/// A URL to an image of the product. Depending on the platform you are using you can ask the UberProduct class to download the image `asynchronously` for you too.
-	public var imageURL : NSURL?
+	public let imageURL : NSURL?
 	/// A description of the Uber product.
-	public var productDescription: String
-	/// The maximum capacity of the product.
-	public var capacity : Int
+	public let productDescription: String
+	/// Capacity of product. For example, 4 people.
+	public let capacity : Int
+	/// The basic price details (not including any surge pricing adjustments). If null, the price is a metered fare such as a taxi service.
+	public var priceDetails : UberPriceDetails?
 	
 	public var description : String
 	{
@@ -67,6 +69,7 @@ public class UberProduct : Printable, DebugPrintable
 		{
 			return nil
 		}
+		self.priceDetails = UberPriceDetails(JSON: JSON["price_details"] as? [NSObject: AnyObject])
 	}
 	
 	/**
@@ -117,3 +120,81 @@ public class UberProduct : Printable, DebugPrintable
 		}
 	}
 }
+
+/**
+This class represents the PriceDetails object associated with the Products endpoint.
+*/
+public class UberPriceDetails
+{
+	/// The base price.
+	public let base : Float
+	/// The minimum price of a trip.
+	public let minimum : Float
+	/// The charge per minute (if applicable for the product type).
+	public let costPerMinute : Float?
+	/// The charge per distance unit (if applicable for the product type).
+	public let costPerDistance : Float?
+	/// The unit of distance used to calculate the fare (either mile or km).
+	public let distanceUnit: String
+	/// The fee if a rider cancels the trip after the grace period.
+	public let cancellationFee : Float
+	/// http://en.wikipedia.org/wiki/ISO_4217 ISO 4217 currency code.
+	public let currencyCode : String
+	/// Array containing additional fees added to the price of a product.
+	public let serviceFees : [UberServiceFees]
+	
+	private init(base: Float, minimum: Float, costPerMinute: Float?, costPerDistance: Float?, distanceUnit: String, cancellationFee: Float, currencyCode: String, serviceFees: [UberServiceFees])
+	{
+		self.base = base
+		self.minimum = minimum
+		self.costPerMinute = costPerMinute
+		self.costPerDistance = costPerDistance
+		self.distanceUnit = distanceUnit
+		self.cancellationFee = cancellationFee
+		self.currencyCode = currencyCode
+		self.serviceFees = serviceFees
+	}
+	
+	private convenience init?(JSON: [NSObject: AnyObject]?)
+	{
+		if let JSON = JSON
+		{
+			if let base = JSON["base"] as? Float, let minimum = JSON["minimum"] as? Float, let distanceUnit = JSON["distance_unit"] as? String, let cancellationFee = JSON["cancellation_fee"] as? Float, let currencyCode = JSON["currency_code"] as? String, let serviceFees = JSON["service_fees"] as? [[NSObject: AnyObject]]
+			{
+				self.init(base: base, minimum: minimum, costPerMinute: JSON["cost_per_minute"] as? Float, costPerDistance: JSON["cost_per_distance"] as? Float, distanceUnit: distanceUnit, cancellationFee: cancellationFee, currencyCode: currencyCode, serviceFees: UberServiceFees.serviceFeesFromJSON(serviceFees))
+				return
+			}
+		}
+		self.init(base: 0, minimum: 0, costPerMinute: nil, costPerDistance: nil, distanceUnit: "", cancellationFee: 0, currencyCode: "", serviceFees: [])
+		return nil
+	}
+}
+/**
+This class reprsents the Service Fees object that is served as an array to the `UberPriceDetails` object from the Uber API.
+*/
+public class UberServiceFees
+{
+	/// The name of the service fee.
+	public let name : String
+	/// The amount of the service fee.
+	public let fee : Float
+	
+	private init(name: String, fee: Float)
+	{
+		self.name = name
+		self.fee = fee
+	}
+	private class func serviceFeesFromJSON(JSON: [[NSObject: AnyObject]]) -> [UberServiceFees]
+	{
+		var serviceFees = [UberServiceFees]()
+		for object in JSON
+		{
+			if let name = object["name"] as? String, let fee = object["fee"] as? Float
+			{
+				serviceFees.append(UberServiceFees(name: name, fee: fee))
+			}
+		}
+		return serviceFees
+	}
+}
+

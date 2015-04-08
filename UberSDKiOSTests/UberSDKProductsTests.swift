@@ -22,6 +22,13 @@ private func validProduct(product: UberProduct?) -> Bool
 	{
 		return false
 	}
+	if (product!.name != "uberT" && product!.name != "uberTAXI")
+	{
+		if (product!.priceDetails == nil)
+		{
+			return false
+		}
+	}
 	return true
 }
 

@@ -26,6 +26,7 @@ private func validPriceEstimate(estimate: UberPriceEstimate?) -> Bool
 	}
 	return true
 }
+
 class UberSDKPriceEstimateTests: XCTestCase
 {
 	var manager : UberManager!

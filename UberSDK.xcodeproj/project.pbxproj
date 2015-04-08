@@ -31,6 +31,10 @@
 		8279EA0D1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
 		8279EA0E1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
 		8279EA0F1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */; };
+		827CD3B61AD4B14200534ABD /* UberPromotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827CD3B51AD4B14200534ABD /* UberPromotion.swift */; };
+		827CD3B71AD4B14200534ABD /* UberPromotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827CD3B51AD4B14200534ABD /* UberPromotion.swift */; };
+		827CD3B81AD4B14200534ABD /* UberPromotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827CD3B51AD4B14200534ABD /* UberPromotion.swift */; };
+		827CD3B91AD4B14200534ABD /* UberPromotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827CD3B51AD4B14200534ABD /* UberPromotion.swift */; };
 		8280B5861ACB425E0098E4D8 /* UberSDKProductsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8280B5851ACB425E0098E4D8 /* UberSDKProductsTests.swift */; };
 		8280B5891ACB5F4A0098E4D8 /* UberUserOAuthiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8280B5881ACB5F4A0098E4D8 /* UberUserOAuthiOS.swift */; };
 		8280B58A1ACB5F4A0098E4D8 /* UberUserOAuthiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8280B5881ACB5F4A0098E4D8 /* UberUserOAuthiOS.swift */; };
@@ -84,6 +88,7 @@
 		8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberUserOAuth.swift; sourceTree = "<group>"; };
 		8279EA081ACA997100186FC1 /* UberProductUIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberProductUIImage.swift; sourceTree = "<group>"; };
 		8279EA0B1ACA9C8400186FC1 /* GenericExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericExtensions.swift; sourceTree = "<group>"; };
+		827CD3B51AD4B14200534ABD /* UberPromotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberPromotion.swift; sourceTree = "<group>"; };
 		8280B5851ACB425E0098E4D8 /* UberSDKProductsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberSDKProductsTests.swift; sourceTree = "<group>"; };
 		8280B5881ACB5F4A0098E4D8 /* UberUserOAuthiOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberUserOAuthiOS.swift; sourceTree = "<group>"; };
 		8280B58B1ACB64240098E4D8 /* UberProductNSImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberProductNSImage.swift; sourceTree = "<group>"; };
@@ -232,6 +237,7 @@
 				8279E9201ACA94B900186FC1 /* UberProduct.swift */,
 				8280B5AF1ACB711C0098E4D8 /* UberUser.swift */,
 				8280B5B41ACB747F0098E4D8 /* UberEstimate.swift */,
+				827CD3B51AD4B14200534ABD /* UberPromotion.swift */,
 				8279E9211ACA94B900186FC1 /* UberUserOAuth.swift */,
 			);
 			name = CoreFiles;
@@ -412,6 +418,7 @@
 				8279E91B1ACA943000186FC1 /* UberManager.swift in Sources */,
 				8279EA0C1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */,
 				8280B5891ACB5F4A0098E4D8 /* UberUserOAuthiOS.swift in Sources */,
+				827CD3B61AD4B14200534ABD /* UberPromotion.swift in Sources */,
 				8280B5B01ACB711C0098E4D8 /* UberUser.swift in Sources */,
 				8279E9261ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
 				8279E9221ACA94B900186FC1 /* UberProduct.swift in Sources */,
@@ -427,6 +434,7 @@
 				8279E9271ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
 				8280B5861ACB425E0098E4D8 /* UberSDKProductsTests.swift in Sources */,
 				8280B58A1ACB5F4A0098E4D8 /* UberUserOAuthiOS.swift in Sources */,
+				827CD3B71AD4B14200534ABD /* UberPromotion.swift in Sources */,
 				8279E8F51ACA93E300186FC1 /* UberSDKiOSTests.swift in Sources */,
 				8279E91C1ACA943000186FC1 /* UberManager.swift in Sources */,
 				8279E9231ACA94B900186FC1 /* UberProduct.swift in Sources */,
@@ -445,6 +453,7 @@
 				8279E91D1ACA943000186FC1 /* UberManager.swift in Sources */,
 				8279E9281ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
 				8280B58F1ACB648B0098E4D8 /* UberUserOAuthMac.swift in Sources */,
+				827CD3B81AD4B14200534ABD /* UberPromotion.swift in Sources */,
 				8280B5B21ACB711C0098E4D8 /* UberUser.swift in Sources */,
 				8279E9241ACA94B900186FC1 /* UberProduct.swift in Sources */,
 				8280B58C1ACB64240098E4D8 /* UberProductNSImage.swift in Sources */,
@@ -458,6 +467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8279E9291ACA94B900186FC1 /* UberUserOAuth.swift in Sources */,
+				827CD3B91AD4B14200534ABD /* UberPromotion.swift in Sources */,
 				8280B5B81ACB747F0098E4D8 /* UberEstimate.swift in Sources */,
 				8279EA0F1ACA9C8400186FC1 /* GenericExtensions.swift in Sources */,
 				8280B5901ACB648B0098E4D8 /* UberUserOAuthMac.swift in Sources */,

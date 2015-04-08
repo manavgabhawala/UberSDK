@@ -10,8 +10,10 @@ import Foundation
 
 public class UberEstimate
 {
-	public var productID: String
-	public var productDisplayName: String
+	/// Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+	public let productID: String
+	/// Display name of product.
+	public let productDisplayName: String
 	
 	private init(id: String, displayName: String)
 	{
@@ -22,10 +24,21 @@ public class UberEstimate
 public typealias UberPriceEstimateSuccessBlock = ([UberPriceEstimate]) -> Void
 public class UberPriceEstimate : UberEstimate, Printable, DebugPrintable
 {
-	public var highEstimate: Int, lowEstimate: Int
-	public var estimate: String, currency: String
-	public var duration: NSTimeInterval, distance: Float
-	public var surgeMultiplier: Float
+	/// Upper bound of the estimated price.
+	public let highEstimate: Int
+	/// Lower bound of the estimated price.
+	public let lowEstimate: Int
+	/// Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
+	public let estimate: String
+	/// http://en.wikipedia.org/wiki/ISO_4217 ISO 4217 currency code.
+	public let currency: String
+	/// Expected activity duration (in seconds). Always show duration in minutes.
+	public let duration: NSTimeInterval
+	/// Expected activity distance (in miles).
+	public let distance: Float
+	/// Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
+	public let surgeMultiplier: Float
+	
 	/// A computed property that gives the estimated time of arrival if one were to take the trip for which the price estimate was requested.
 	public var ETA: NSDate
 	{
@@ -34,8 +47,10 @@ public class UberPriceEstimate : UberEstimate, Printable, DebugPrintable
 			return NSDate(timeIntervalSinceNow: duration)
 		}
 	}
+	
 	public var description : String { get { return "Uber Price Estimate: \(estimate) for \(distance) mile long trip, lasting \(duration * 60) minutes." } }
 	public var debugDescription : String { get { return description } }
+	
 	private init(id: String, displayName: String, lowEstimate: Int, highEstimate: Int, estimate: String, currency: String, surge: Float, duration: Int, distance: Float)
 	{
 		self.highEstimate = highEstimate
@@ -71,7 +86,9 @@ public class UberPriceEstimate : UberEstimate, Printable, DebugPrintable
 public typealias UberTimeEstimateSuccessBlock = ([UberTimeEstimate]) -> Void
 public class UberTimeEstimate : UberEstimate, Printable, DebugPrintable
 {
-	public var estimate : NSTimeInterval
+	/// ETA for the product (in seconds). Always show estimate in minutes.
+	public let estimate : NSTimeInterval
+	
 	/// This is a computed property that tells you the estimated time of departure for the Uber user if he selects a certian Product.
 	public var ETD: NSDate
 	{

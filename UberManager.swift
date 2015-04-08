@@ -32,6 +32,28 @@ public protocol UberManagerDelegate
 	var scopes : [UberScopes] { get }
 }
 
+private class PrivateUberDelegate : UberManagerDelegate
+{
+	let applicationName : String
+	let clientID : String
+	let clientSecret: String
+	let serverToken : String
+	let redirectURI : String
+	let baseURL : UberBaseURL
+	let scopes : [UberScopes]
+	
+	init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: [UberScopes])
+	{
+		self.applicationName = applicationName
+		self.clientID = clientID
+		self.clientSecret = clientSecret
+		self.serverToken = serverToken
+		self.redirectURI = redirectURI
+		self.baseURL = baseURL
+		self.scopes = scopes
+	}
+}
+
 /**
 This class is the main wrapper around the über API. Create a instance of this class to communicate with this SDK and make all your main requests using this wrapper.
 */
@@ -50,6 +72,24 @@ public class UberManager : NSObject
 		sharedDelegate = delegate
 		sharedUserManager = UberUserOAuth()
 	}
+	/**
+	Use this constructor if you do not wish to create a delegate around one of your classes and just wish to pass in the data once.
+	
+	:param: applicationName The application name with which you setup the Uber app.
+	:param: clientID        The client ID for the application setup in Uber
+	:param: clientSecret    The client secret for the application setup in Uber
+	:param: serverToken     The server token for the application setup in Uber
+	:param: redirectURI     The redirect URI/URL for the application setup in Uber
+	:param: baseURL         This is an enumeration that allows you to choose between using the SandboxAPI or the ProductionAPI. You should use the Sandbox while testing and change this to Production before releasing the app. See `UberBaseURL` enumeration.
+	:param: scopes          Return an array of scopes that you would like to request from the user if you are using OAuth2.0. If you don't require user authentication, return an empty array. This must be an array of UberScopes. See the enum type.
+	
+	:returns: An initialized UberManager wrapper.
+	*/
+	public convenience init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: [UberScopes])
+	{
+		self.init(delegate: PrivateUberDelegate(applicationName: applicationName, clientID: clientID, clientSecret: clientSecret, serverToken: serverToken, redirectURI: redirectURI, baseURL: baseURL, scopes: scopes))
+	}
+	
 }
 //MARK: - Product Fetching
 extension UberManager
