@@ -24,6 +24,7 @@ extension UberProduct
 					if let image = UIImage(data: data)
 					{
 						success?(self, image)
+						return
 					}
 					failure?(response, error)
 				}

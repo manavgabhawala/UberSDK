@@ -16,7 +16,7 @@ internal class UberUserOAuth : NSObject
 	private var expiration : NSDate!
 	private var uberOAuthCredentialsLocation : String!
 	
-	override init()
+	internal override init()
 	{
 		if let directory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, NSSearchPathDomainMask.UserDomainMask, true).first as? String
 		{
@@ -64,7 +64,7 @@ internal class UberUserOAuth : NSObject
 		}
 		return false
 	}
-	func requestAccessToken(allowsRefresh: Bool = true) -> String?
+	internal func requestAccessToken(allowsRefresh: Bool = true) -> String?
 	{
 		if (accessToken == nil || refreshToken == nil || expiration == nil)
 		{
@@ -132,7 +132,7 @@ internal class UberUserOAuth : NSObject
 			println("Error in sending request for access token: \(error)")
 		}
 	}
-	func parseAuthDataReceived(authData: NSData)
+	private func parseAuthDataReceived(authData: NSData)
 	{
 		var jsonError : NSError?
 		let authDictionary = NSJSONSerialization.JSONObjectWithData(authData, options: nil, error: &jsonError) as! NSDictionary

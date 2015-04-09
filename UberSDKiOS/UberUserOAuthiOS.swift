@@ -19,7 +19,6 @@ extension UberUserOAuth
 		view.delegate = self
 		view.loadRequest(request)
 	}
-	
 }
 extension UberUserOAuth : UIWebViewDelegate
 {

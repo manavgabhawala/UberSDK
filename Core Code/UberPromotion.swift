@@ -30,6 +30,10 @@ public enum UberPromotionType
 		{
 			return .AccountCredit
 		}
+		else if string == ""
+		{
+			return .Unknown
+		}
 		uberLog("Unknown Promotion Type Recieved: \(string)")
 		return .Unknown
 	}

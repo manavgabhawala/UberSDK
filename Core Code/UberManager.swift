@@ -480,6 +480,69 @@ extension UberManager
 	}
 }
 
+//MARK: - Promotions
+extension UberManager
+{
+	public func synchronouslyFetchPromotionsForLocation(startLatitude: Double! = nil, startLongitude: Double! = nil, endLatitude: Double! = nil, endLongitude: Double! = nil, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
+	{
+		assert((startLatitude != nil && startLongitude != nil) || (endLatitude != nil && endLongitude != nil), "At least one location must be specified for the promotions end point.")
+		assert((startLatitude != nil) == (startLongitude != nil), "If you specify the start latitude/longitude you must also specify the other end coordinate. Start Latitude: \(startLatitude), Start Longitude: \(startLongitude)")
+		assert((endLatitude != nil) == (endLongitude != nil), "If you specify the end latitude/longitude you must also specify the other end coordinate. End Latitude: \(endLatitude), End Longitude: \(endLongitude)")
+		var pathParamters = [NSObject: AnyObject]()
+		if startLatitude != nil
+		{
+			pathParamters["start_latitude"] = startLatitude
+			pathParamters["start_longitude"] = startLongitude
+		}
+		if endLatitude != nil
+		{
+			pathParamters["end_latitude"] = endLatitude
+			pathParamters["end_longitude"] = endLongitude
+		}
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/promotions", withPathParameters: pathParamters)
+		var err : NSError?
+		if (error != nil)
+		{
+			err = error.memory
+		}
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: &err)
+		var JSONData: NSDictionary? = nil
+		var JSONError : NSError?
+		if let data = data
+		{
+			JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? NSDictionary
+		}
+		if (err == nil)
+		{
+			if let JSON = JSONData as? [NSObject : AnyObject]
+			{
+				println(JSON)
+				let promotion = UberPromotion(JSON: JSON)
+				return promotion
+			}
+			uberLog("Error parsing Product JSON. Please look at the console to see the JSON that got parsed.")
+			uberLog(JSONData)
+			uberLog(JSONError)
+		}
+		else
+		{
+			uberLog(JSONData)
+		}
+		return nil
+	}
+	
+	public func synchronouslyFetchPromotionsForLocation(startLocation: CLLocation! = nil, endLocation: CLLocation! = nil, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
+	{
+		assert(startLocation != nil || endLocation != nil, "At least one location must be specified for the promotions end point.")
+		let startLatitude = startLocation?.coordinate.latitude
+		let startLongitude = startLocation?.coordinate.longitude
+		let endLatitude = endLocation?.coordinate.latitude
+		let endLongitude = endLocation?.coordinate.longitude
+		
+		return synchronouslyFetchPromotionsForLocation(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, response: response, error: error)
+	}
+}
+
 //MARK: - Private Helpers
 extension UberManager
 {
