@@ -8,6 +8,8 @@
 
 import Foundation
 
+public typealias UberActivitySuccessCallback = ([UberActivity], offset: Int, limit: Int, count: Int) -> Void
+
 public enum UberActivityStatus : String
 {
 	case Completed = "completed"

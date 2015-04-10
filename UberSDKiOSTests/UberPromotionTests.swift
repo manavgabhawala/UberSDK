@@ -29,6 +29,8 @@ class UberPromotionTests: XCTestCase
 	
 	let startLatitude = 42.280609
 	let startLongitude = -83.731088
+	let endLatitude = 42.279672
+	let endLongitude = -83.748447
 	
 	override func setUp()
 	{
@@ -45,7 +47,7 @@ class UberPromotionTests: XCTestCase
 	{
 		var response : NSURLResponse?
 		var error : NSError?
-		let promotion = self.manager.synchronouslyFetchPromotionsForLocation(startLatitude: self.startLatitude, startLongitude: self.startLongitude, response: &response, error: &error)
+		let promotion = self.manager.synchronouslyFetchPromotionsForLocation(startLatitude: self.startLatitude, startLongitude: self.startLongitude, endLatitude: self.endLatitude, endLongitude: self.endLongitude, response: &response, error: &error)
 		XCTAssertNil(error, "Fatal error occured. We expected no errors when fetching a promotion. Recieved: \(error)\n\nWith response: \(response)\n")
 		//XCTAssertNotNil(promotion, "Fatal error occured. We expected a promotion to be returned after fetching promotions. Recieved nil as products.")
 		if let promo = promotion

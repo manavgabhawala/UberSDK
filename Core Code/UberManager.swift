@@ -119,9 +119,9 @@ extension UberManager
 	
 	:returns: An array of UberProducts for a location. nil if an error occurs. We will also log the number of products found for your convienence. See the `UberProduct` class for more details on how this is returned.
 	*/
-	public func synchronouslyFetchProducts(#location: CLLocation, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberProduct]?
+	public func synchronouslyFetchProducts(#location: CLLocation, inout response: NSURLResponse?, inout error: NSError?) -> [UberProduct]?
 	{
-		return synchronouslyFetchProducts(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, response: response, error: error)
+		return synchronouslyFetchProducts(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, response: &response, error: &error)
 	}
 	
 	/**
@@ -134,15 +134,15 @@ extension UberManager
 	
 	:returns: An array of UberProducts for a location. nil if an error occurs. We will also log the number of products found for your convienence. See the `UberProduct` class for more details on how this is returned.
 	*/
-	public func synchronouslyFetchProducts(#latitude: Double, longitude: Double, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberProduct]?
+	public func synchronouslyFetchProducts(#latitude: Double, longitude: Double, inout response: NSURLResponse?, inout error: NSError?) -> [UberProduct]?
 	{
 		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/products", withPathParameters: ["latitude" : latitude, "longitude" : longitude])
 		var err : NSError?
 		if error != nil
 		{
-			err = error.memory
+			err = error
 		}
-		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: &err)
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &err)
 		var JSONData: NSDictionary? = nil
 		var JSONError : NSError?
 		if let data = data
@@ -242,15 +242,15 @@ extension UberManager
 	
 	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
 	*/
-	public func synchronouslyFetchPriceEstimateForTrip(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberPriceEstimate]?
+	public func synchronouslyFetchPriceEstimateForTrip(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, inout response: NSURLResponse?, inout error: NSError?) -> [UberPriceEstimate]?
 	{
 		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/estimates/price", withPathParameters: ["start_latitude" : startLatitude, "start_longitude" : startLongitude, "end_latitude" : endLatitude, "end_longitude" : endLongitude])
 		var err : NSError?
 		if (error != nil)
 		{
-			err = error.memory
+			err = error
 		}
-		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: &err)
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &err)
 		var JSONData: NSDictionary? = nil
 		var JSONError : NSError?
 		if let data = data
@@ -288,10 +288,11 @@ extension UberManager
 	
 	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
 	*/
-	public func synchronouslyFetchPriceEstimateForTrip(#startLocation: CLLocation, endLocation: CLLocation, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberPriceEstimate]?
+	public func synchronouslyFetchPriceEstimateForTrip(#startLocation: CLLocation, endLocation: CLLocation, inout response: NSURLResponse?, inout error: NSError?) -> [UberPriceEstimate]?
 	{
-		return synchronouslyFetchPriceEstimateForTrip(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, response: response, error: error)
+		return synchronouslyFetchPriceEstimateForTrip(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, response: &response, error: &error)
 	}
+	
 	/**
 	Use this function to fetch price estimates for a particular trip between two points as defined by you `asynchronously`.
 	
@@ -369,7 +370,7 @@ extension UberManager
 	
 	:returns: An array of UberTimeEstimates for a location. nil if an error occurs. We will also log the number of time estimates found for your convienence. See the `UberTimeEstimate` class for more details on how this is returned.
 	*/
-	public func synchronouslyFetchTimeEstaimateForLocation(#startLatitude: Double, startLongitude: Double, userID: String? = nil, productID: String? = nil, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberTimeEstimate]?
+	public func synchronouslyFetchTimeEstaimateForLocation(#startLatitude: Double, startLongitude: Double, userID: String? = nil, productID: String? = nil, inout response: NSURLResponse?, inout error: NSError?) -> [UberTimeEstimate]?
 	{
 		var pathParatmeters : [NSObject: AnyObject] = ["start_latitude": startLatitude, "start_longitude" : startLongitude]
 		if let user = userID
@@ -384,9 +385,9 @@ extension UberManager
 		var err : NSError?
 		if (error != nil)
 		{
-			err = error.memory
+			err = error
 		}
-		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: &err)
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &err)
 		var JSONData: NSDictionary? = nil
 		var JSONError : NSError?
 		if let data = data
@@ -423,9 +424,9 @@ extension UberManager
 	
 	:returns: An array of UberTimeEstimates for a location. nil if an error occurs. We will also log the number of time estimates found for your convienence. See the `UberTimeEstimate` class for more details on how this is returned.
 	*/
-	public func synchronouslyFetchTimeEstaimateForLocation(#location: CLLocation, productID: String? = nil, userID : String? = nil, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> [UberTimeEstimate]?
+	public func synchronouslyFetchTimeEstaimateForLocation(#location: CLLocation, productID: String? = nil, userID : String? = nil, inout response: NSURLResponse?, inout error: NSError?) -> [UberTimeEstimate]?
 	{
-		return synchronouslyFetchTimeEstaimateForLocation(startLatitude: location.coordinate.latitude, startLongitude: location.coordinate.longitude, userID: userID, productID: productID, response: response, error: error)
+		return synchronouslyFetchTimeEstaimateForLocation(startLatitude: location.coordinate.latitude, startLongitude: location.coordinate.longitude, userID: userID, productID: productID, response: &response, error: &error)
 	}
 	
 	/**
@@ -510,7 +511,7 @@ extension UberManager
 	
 	:returns: An UberPromotion object or nil if an error occurred. See the `UberPromotion` class.
 	*/
-	public func synchronouslyFetchPromotionsForLocation(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
+	public func synchronouslyFetchPromotionsForLocation(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, inout response: NSURLResponse?, inout error err: NSError?) -> UberPromotion?
 	{
 		var pathParamters = [NSObject: AnyObject]()
 		pathParamters["start_latitude"] = startLatitude
@@ -519,12 +520,12 @@ extension UberManager
 		pathParamters["end_longitude"] = endLongitude
 		
 		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/promotions", withPathParameters: pathParamters)
-		var err : NSError?
-		if (error != nil)
+		var error : NSError?
+		if (err != nil)
 		{
-			err = error.memory
+			error = err
 		}
-		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error: &err)
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
 		var JSONData: NSDictionary? = nil
 		var JSONError : NSError?
 		if let data = data
@@ -559,14 +560,14 @@ extension UberManager
 	
 	:returns: An UberPromotion object or nil if an error occurred. See the `UberPromotion` class.
 	*/
-	public func synchronouslyFetchPromotionsForLocation(#startLocation: CLLocation, endLocation: CLLocation, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
+	public func synchronouslyFetchPromotionsForLocation(#startLocation: CLLocation, endLocation: CLLocation, inout  response: NSURLResponse?, inout error: NSError?) -> UberPromotion?
 	{
 		let startLatitude = startLocation.coordinate.latitude
 		let startLongitude = startLocation.coordinate.longitude
 		let endLatitude = endLocation.coordinate.latitude
 		let endLongitude = endLocation.coordinate.longitude
 		
-		return synchronouslyFetchPromotionsForLocation(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, response: response, error: error)
+		return synchronouslyFetchPromotionsForLocation(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, response: &response, error: &error)
 	}
 	
 	/**
@@ -614,6 +615,7 @@ extension UberManager
 			}
 		})
 	}
+	
 	/**
 	Use this function to fetch promotions for new users for a particular start and end locations `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
 	
@@ -632,33 +634,29 @@ extension UberManager
 		asynchronouslyFetchPromotionsForLocation(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, completionBlock: success, errorHandler: failure)
 	}
 }
+
 //MARK: - Profile
 extension UberManager
 {
 	/**
 	Use this function to `synchronously` create an Uber User. The uber user gives you access to the logged in user's profile.
 	
-	:param: responsePointer An NSURLResponse pointer that allows you to recieve the response if there is an error.
+	:param: response An NSURLResponse pointer that allows you to recieve the response if there is an error.
 	:param: errorPointer    An error pointer that will get set if there is an error.
 	
 	:returns: An UberUser is returned if there are no errors and the profile scope has been given.
 	*/
-	public func createUserProfileSynchronously(response responsePointer: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error errorPointer: NSErrorPointer) -> UberUser?
+	public func createUserProfileSynchronously(inout response: NSURLResponse?, inout errorPointer: NSError?) -> UberUser?
 	{
 		let request = createRequestForURL("\(sharedDelegate.baseURL)/v1/me", requireUserAccessToken: true)
-		var response : NSURLResponse?
-		if responsePointer != nil
-		{
-			response = responsePointer.memory
-		}
 		var error : NSError?
+		if errorPointer != nil
+		{
+			error = errorPointer
+		}
 		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
 		var JSONData : [NSObject : AnyObject]?
 		var JSONError : NSError?
-		if errorPointer != nil
-		{
-			error = errorPointer.memory
-		}
 		if let data = data
 		{
 			JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? [NSObject: AnyObject]
@@ -687,8 +685,6 @@ extension UberManager
 	public func createUserProfileAsynchronously(success: UberUserSuccess?, failure: UberErrorHandler?)
 	{
 		let request = createRequestForURL("\(sharedDelegate.baseURL)/v1/me", requireUserAccessToken: true)
-		var response : NSURLResponse?
-		var error : NSError?
 		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
 			var JSONError: NSError?
 			if (error == nil)
@@ -716,13 +712,73 @@ extension UberManager
 		})
 	}
 }
+
 //MARK: - Activity
 extension UberManager
 {
+	public func synchronosulyFetchActivityForUser(offset: Int = 0, limit: Int = 5, inout response: NSURLResponse?, inout errorPointer: NSError?) -> ([UberActivity], offset: Int, limit: Int, count: Int)?
+	{
+		let request = createRequestForURL("\(sharedDelegate.baseURL)/v1.1/history", requireUserAccessToken: true)
+		var error : NSError?
+		if (errorPointer != nil)
+		{
+			error = errorPointer
+		}
+		let session = NSURLSession.sharedSession()
+		let task = session.dataTaskWithRequest(request)
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+		if (error == nil)
+		{
+			if let JSONData = NSJSONSerialization.JSONObjectWithData(data!, options: nil, error: &error) as? [NSObject : AnyObject]
+			{
+				let count = JSONData["count"] as? Int
+				let offset = JSONData["offset"] as? Int
+				let limit = JSONData["limit"] as? Int
+				if let activitiesJSON = JSONData["history"] as? [[NSObject : AnyObject]], let count = count, let offset = offset, let limit = limit
+				{
+					let activities = activitiesJSON.map { UberActivity(JSON: $0) }.filter { $0 != nil }.map({ $0! })
+					return (activities, offset, limit, count)
+				}
+				uberLog("Could not parse JSON data. Please look at the console for the JSON.")
+				uberLog(JSONData)
+			}
+		}
+		return nil
+	}
 	
+	public func asynchronosulyFetchActivityForUser(offset: Int = 0, limit: Int = 5, success: UberActivitySuccessCallback?, failure: UberErrorHandler?)
+	{
+		let request = createRequestForURL("\(sharedDelegate.baseURL)/v1.1/history", withPathParameters: ["offset" : offset, "limit" : limit], requireUserAccessToken: true)
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
+			var JSONError: NSError?
+			if (error == nil)
+			{
+				if let JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? [NSObject: AnyObject]
+				{
+					if let count = JSONData["count"] as? Int, let offset = JSONData["offset"] as? Int, let limit = JSONData["limit"] as? Int, let activitiesJSON = JSONData["history"] as? [[NSObject : AnyObject]]
+					{
+						let activities = activitiesJSON.map { UberActivity(JSON: $0) }.filter { $0 != nil }.map({ $0! })
+						success?(activities, offset: offset, limit: limit, count: count)
+						return
+					}
+					uberLog("Error parsing Activities JSON. Please look at the console to see the JSON that got parsed.")
+					failure?(response, JSONError)
+				}
+				else
+				{
+					uberLog("Error parsing Activities JSON. Please look at the console to see the JSON that got parsed.")
+					failure?(response, JSONError)
+				}
+			}
+			else
+			{
+				failure?(response, error)
+			}
+		})
+	}
 }
 
-//MARK: - Private Helpers
+// MARK: - Private Helpers
 extension UberManager
 {
 }
