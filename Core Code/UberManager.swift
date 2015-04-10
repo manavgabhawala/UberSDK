@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public typealias UberErrorHandler =  (NSURLResponse!, NSError!) -> Void
+public typealias UberErrorHandler =  (NSURLResponse?, NSError?) -> Void
 
 /**
 You must implement this protocol to communicate with the UberManager and return information as and when requested. This information can all be found in the Uber app dashboard at `https://developer.uber.com/apps/`.
@@ -54,6 +54,8 @@ private class PrivateUberDelegate : UberManagerDelegate
 	}
 }
 
+public typealias UberSuccessCallback = () -> Void
+
 /**
 This class is the main wrapper around the über API. Create a instance of this class to communicate with this SDK and make all your main requests using this wrapper.
 */
@@ -72,6 +74,7 @@ public class UberManager : NSObject
 		sharedDelegate = delegate
 		sharedUserManager = UberUserOAuth()
 	}
+	
 	/**
 	Use this constructor if you do not wish to create a delegate around one of your classes and just wish to pass in the data once.
 	
@@ -88,6 +91,18 @@ public class UberManager : NSObject
 	public convenience init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: [UberScopes])
 	{
 		self.init(delegate: PrivateUberDelegate(applicationName: applicationName, clientID: clientID, clientSecret: clientSecret, serverToken: serverToken, redirectURI: redirectURI, baseURL: baseURL, scopes: scopes))
+	}
+	
+	/**
+	Call this function before using any end points that require user OAuth 2.0. This function will handle displaying the webview and saving and caching the access and refresh tokens to the disk in an encrypted format.
+	
+	:param: successCallback The block of code to execute once we have successfully recieved the user's access token.
+	:param: errorHandler    An error occurred while getting the user's login. Somehow handle the error in this block.
+	*/
+	public func performUserAuthorization(successCallback: UberSuccessCallback?, errorHandler: UberErrorHandler?)
+	{
+		sharedUserManager.setCallbackBlocks(successBlock: successCallback, errorBlock: errorHandler)
+		sharedUserManager.setupOAuth2AccountStore()
 	}
 	
 }
@@ -448,8 +463,7 @@ extension UberManager
 						return
 					}
 					uberLog("No time estimates found inside of JSON object. Please look at the console to figure out what went wrong.")
-					uberLog(JSONError)
-					failure?(response, error)
+					failure?(response, JSONError)
 				}
 				else
 				{
@@ -483,22 +497,14 @@ extension UberManager
 //MARK: - Promotions
 extension UberManager
 {
-	public func synchronouslyFetchPromotionsForLocation(startLatitude: Double! = nil, startLongitude: Double! = nil, endLatitude: Double! = nil, endLongitude: Double! = nil, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
+	public func synchronouslyFetchPromotionsForLocation(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
 	{
-		assert((startLatitude != nil && startLongitude != nil) || (endLatitude != nil && endLongitude != nil), "At least one location must be specified for the promotions end point.")
-		assert((startLatitude != nil) == (startLongitude != nil), "If you specify the start latitude/longitude you must also specify the other end coordinate. Start Latitude: \(startLatitude), Start Longitude: \(startLongitude)")
-		assert((endLatitude != nil) == (endLongitude != nil), "If you specify the end latitude/longitude you must also specify the other end coordinate. End Latitude: \(endLatitude), End Longitude: \(endLongitude)")
 		var pathParamters = [NSObject: AnyObject]()
-		if startLatitude != nil
-		{
-			pathParamters["start_latitude"] = startLatitude
-			pathParamters["start_longitude"] = startLongitude
-		}
-		if endLatitude != nil
-		{
-			pathParamters["end_latitude"] = endLatitude
-			pathParamters["end_longitude"] = endLongitude
-		}
+		pathParamters["start_latitude"] = startLatitude
+		pathParamters["start_longitude"] = startLongitude
+		pathParamters["end_latitude"] = endLatitude
+		pathParamters["end_longitude"] = endLongitude
+		
 		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/promotions", withPathParameters: pathParamters)
 		var err : NSError?
 		if (error != nil)
@@ -516,7 +522,6 @@ extension UberManager
 		{
 			if let JSON = JSONData as? [NSObject : AnyObject]
 			{
-				println(JSON)
 				let promotion = UberPromotion(JSON: JSON)
 				return promotion
 			}
@@ -531,15 +536,60 @@ extension UberManager
 		return nil
 	}
 	
-	public func synchronouslyFetchPromotionsForLocation(startLocation: CLLocation! = nil, endLocation: CLLocation! = nil, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
+	public func synchronouslyFetchPromotionsForLocation(#startLocation: CLLocation, endLocation: CLLocation, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
 	{
-		assert(startLocation != nil || endLocation != nil, "At least one location must be specified for the promotions end point.")
-		let startLatitude = startLocation?.coordinate.latitude
-		let startLongitude = startLocation?.coordinate.longitude
-		let endLatitude = endLocation?.coordinate.latitude
-		let endLongitude = endLocation?.coordinate.longitude
+		let startLatitude = startLocation.coordinate.latitude
+		let startLongitude = startLocation.coordinate.longitude
+		let endLatitude = endLocation.coordinate.latitude
+		let endLongitude = endLocation.coordinate.longitude
 		
 		return synchronouslyFetchPromotionsForLocation(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, response: response, error: error)
+	}
+	
+	public func asynchronouslyFetchPromotionsForLocation(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPromotionSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		var pathParamters = [NSObject: AnyObject]()
+		pathParamters["start_latitude"] = startLatitude
+		pathParamters["start_longitude"] = startLongitude
+		pathParamters["end_latitude"] = endLatitude
+		pathParamters["end_longitude"] = endLongitude
+		
+		let request = createRequestForURL("\(sharedDelegate.baseURL.URL)/v1/promotions", withPathParameters: pathParamters)
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
+			var JSONError: NSError?
+			if (error == nil)
+			{
+				if let JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? [NSObject: AnyObject]
+				{
+					if let promotion = UberPromotion(JSON: JSONData)
+					{
+						success?(promotion)
+						return
+					}
+					uberLog("Error parsing Promotion JSON. Please look at the console to see the JSON that got parsed.")
+					failure?(response, JSONError)
+				}
+				else
+				{
+					uberLog("Error parsing Promotion JSON. Please look at the console to see the JSON that got parsed.")
+					failure?(response, JSONError)
+				}
+			}
+			else
+			{
+				failure?(response, error)
+			}
+		})
+	}
+	
+	public func asynchronouslyFetchPromotionsForLocation(#startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPromotionSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		let startLatitude = startLocation.coordinate.latitude
+		let startLongitude = startLocation.coordinate.longitude
+		let endLatitude = endLocation.coordinate.latitude
+		let endLongitude = endLocation.coordinate.longitude
+		
+		asynchronouslyFetchPromotionsForLocation(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, completionBlock: success, errorHandler: failure)
 	}
 }
 

@@ -18,6 +18,7 @@ extension UberUserOAuth
 		view.scalesPageToFit = true
 		view.delegate = self
 		view.loadRequest(request)
+		UIApplication.sharedApplication().keyWindow!.addSubview(view)
 	}
 }
 extension UberUserOAuth : UIWebViewDelegate
@@ -38,7 +39,6 @@ extension UberUserOAuth : UIWebViewDelegate
 						if key == "code"
 						{
 							code = keyValue.last
-							println("Code: \(code)\n")
 						}
 					}
 				}
@@ -49,6 +49,7 @@ extension UberUserOAuth : UIWebViewDelegate
 				}
 				else
 				{
+					self.errorHandler?(nil, nil)
 					uberLog("Error from UIWebView")
 				}
 				return false
@@ -61,10 +62,10 @@ extension UberUserOAuth : UIWebViewDelegate
 		UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 		//TODO: Show error
 		uberLog(error)
+		errorHandler?(nil, error)
 	}
 	func webViewDidFinishLoad(webView: UIWebView)
 	{
 		UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 	}
-
 }

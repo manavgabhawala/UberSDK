@@ -7,6 +7,7 @@
 //
 
 import Foundation
+public typealias UberPromotionSuccessBlock = (UberPromotion) -> Void
 /**
 An enumeration of the possible Promotion Types.
 
@@ -39,7 +40,7 @@ public enum UberPromotionType
 	}
 }
 
-public class UberPromotion
+public class UberPromotion : Printable, DebugPrintable
 {
 	/// A localized string we recommend to use when offering the promotion to users.
 	public let displayText : String
@@ -47,6 +48,10 @@ public class UberPromotion
 	public let value: String
 	/// The type of Promotion as defined by the Uber API
 	public let type : UberPromotionType
+	
+	public var description: String { get { return displayText } }
+	
+	public var debugDescription: String { get { return description } }
 	
 	private init(displayText : String, value : String, type: String)
 	{

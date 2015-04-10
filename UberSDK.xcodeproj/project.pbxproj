@@ -235,13 +235,13 @@
 		8279E91F1ACA943A00186FC1 /* CoreFiles */ = {
 			isa = PBXGroup;
 			children = (
-				828882991AD5ED5C006A305B /* GenericExtensions.swift */,
-				8288829A1AD5ED5C006A305B /* UberEstimate.swift */,
 				8288829B1AD5ED5C006A305B /* UberManager.swift */,
 				8288829C1AD5ED5C006A305B /* UberProduct.swift */,
+				8288829A1AD5ED5C006A305B /* UberEstimate.swift */,
 				8288829D1AD5ED5C006A305B /* UberPromotion.swift */,
 				8288829E1AD5ED5C006A305B /* UberUser.swift */,
 				8288829F1AD5ED5C006A305B /* UberUserOAuth.swift */,
+				828882991AD5ED5C006A305B /* GenericExtensions.swift */,
 			);
 			name = CoreFiles;
 			sourceTree = "<group>";

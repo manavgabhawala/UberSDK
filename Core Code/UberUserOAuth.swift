@@ -15,6 +15,9 @@ internal class UberUserOAuth : NSObject
 	private var refreshToken: String!
 	private var expiration : NSDate!
 	private var uberOAuthCredentialsLocation : String!
+	private var successBlock : UberSuccessCallback?
+	
+	internal var errorHandler : UberErrorHandler?
 	
 	internal override init()
 	{
@@ -64,7 +67,7 @@ internal class UberUserOAuth : NSObject
 		}
 		return false
 	}
-	internal func requestAccessToken(allowsRefresh: Bool = true) -> String?
+	private func requestAccessToken(allowsRefresh: Bool = true) -> String?
 	{
 		if (accessToken == nil || refreshToken == nil || expiration == nil)
 		{
@@ -82,7 +85,7 @@ internal class UberUserOAuth : NSObject
 		}
 		return nil
 	}
-	func refreshAccessToken()
+	private func refreshAccessToken()
 	{
 		let data = "client_id=\(sharedDelegate.clientID)&client_secret=\(sharedDelegate.clientSecret)&redirect_uri=\(sharedDelegate.redirectURI)&grant_type=refresh_token&refresh_token=\(refreshToken)"
 		let URL = NSURL(string: "https://login.uber.com/oauth/token")!
@@ -108,7 +111,7 @@ internal class UberUserOAuth : NSObject
 			uberLog("Error in sending request for refresh token: \(error)")
 		}
 	}
-	func getAuthTokenForCode(code: String)
+	internal func getAuthTokenForCode(code: String)
 	{
 		let data = "code=\(code)&client_id=\(sharedDelegate.clientID)&client_secret=\(sharedDelegate.clientSecret)&redirect_uri=\(sharedDelegate.redirectURI)&grant_type=authorization_code"
 		
@@ -130,6 +133,7 @@ internal class UberUserOAuth : NSObject
 		else
 		{
 			println("Error in sending request for access token: \(error)")
+			errorHandler?(response, error)
 		}
 	}
 	private func parseAuthDataReceived(authData: NSData)
@@ -158,22 +162,32 @@ internal class UberUserOAuth : NSObject
 						uberLog("Failed to cached and encrypt OAuth details")
 					}
 				}
-				
-				//TODO: Notify access token recieved.
+				successBlock?()
 			}
 		}
 		else
 		{
 			uberLog("Error retrieving access token. Recieved JSON Error: \(jsonError)")
+			errorHandler?(nil, jsonError)
 		}
 	}
-	func setupOAuth2AccountStore()
+	internal func setupOAuth2AccountStore()
 	{
+		if let accessCode = requestAccessToken()
+		{
+			successBlock?()
+			return
+		}
 		var scopes = sharedDelegate.scopes.reduce("", combine: { $0.0 + "%20" + $0.1.description })
 		scopes = scopes.substringFromIndex(advance(scopes.startIndex, 3))
-		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(sharedDelegate.clientID)&client_secret=\(sharedDelegate.clientSecret)&grant_type=authorization_code&redirect_uri=\(sharedDelegate.redirectURI)&scope=\(scopes)&redirect_uri=\(sharedDelegate.redirectURI)")!
-		let request = NSMutableURLRequest(URL: URL)
-		request.HTTPMethod = "GET"
+		let redirectURL = sharedDelegate.redirectURI.stringByAddingPercentEncodingWithAllowedCharacters(.URLPasswordAllowedCharacterSet())!
+		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(sharedDelegate.clientID)&redirect_uri=\(redirectURL)&scope=\(scopes)")!
+		let request = NSURLRequest(URL: URL)
 		generateCodeForRequest(request)
+	}
+	internal func setCallbackBlocks(#successBlock: UberSuccessCallback?, errorBlock: UberErrorHandler?)
+	{
+		self.successBlock = successBlock
+		errorHandler = errorBlock
 	}
 }

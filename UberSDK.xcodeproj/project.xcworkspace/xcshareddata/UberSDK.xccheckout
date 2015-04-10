@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>172E4078-18CC-4F07-990F-A69862DF81BC</string>
 	<key>IDESourceControlProjectName</key>
-	<string>UberSDK</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>373B220CA354207D69494C22AD591676B8E5C48D</key>
 		<string>https://github.com/manavgabhawala/UberSDK.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>UberSDK.xcodeproj</string>
+	<string>UberSDK.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>373B220CA354207D69494C22AD591676B8E5C48D</key>

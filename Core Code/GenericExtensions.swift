@@ -145,8 +145,7 @@ internal func createRequestForURL(var URL: String, withQueryParameters queries: 
 	{
 		if accessTokenRequired
 		{
-			sharedUserManager.setupOAuth2AccountStore()
-			// TODO: User related stuff.
+			assert(false, "You must call the ... in the Uber Manager class to ensure that the user has been authorized before using this end point because it requires an OAuth2 access token.")
 		}
 		else
 		{
@@ -157,7 +156,6 @@ internal func createRequestForURL(var URL: String, withQueryParameters queries: 
 	{
 		let data = NSJSONSerialization.dataWithJSONObject(queryParameters, options: nil, error: nil)!
 		let json = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? NSDictionary
-		println(json)
 		request.HTTPBody = NSJSONSerialization.dataWithJSONObject(queryParameters, options: nil, error: nil)
 	}
 	return request.copy() as! NSURLRequest
