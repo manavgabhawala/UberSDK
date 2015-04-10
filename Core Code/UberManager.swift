@@ -716,8 +716,19 @@ extension UberManager
 //MARK: - Activity
 extension UberManager
 {
+	/**
+	Use this function to fetch a user's activity data `synchronously`.
+	
+	:param: offset       Offset the list of returned results by this amount. Default is zero.
+	:param: limit        Number of items to retrieve. Default is 5, maximum is 50.
+	:param: response     The NSURLRespone object where the response will be stored.
+	:param: errorPointer A pointer to an array to store any errors if errors occur.
+	
+	:returns: A tuple with an array of `UberActivity`, offset that is passed in, the limit passed in and the count which is the total number of items available.
+	*/
 	public func synchronosulyFetchActivityForUser(offset: Int = 0, limit: Int = 5, inout response: NSURLResponse?, inout errorPointer: NSError?) -> ([UberActivity], offset: Int, limit: Int, count: Int)?
 	{
+		assert(limit <= 50, "The maximum limit size supported by this endpoint is 50. Please pass in a value smaller than this.")
 		let request = createRequestForURL("\(sharedDelegate.baseURL)/v1.1/history", requireUserAccessToken: true)
 		var error : NSError?
 		if (errorPointer != nil)
@@ -746,8 +757,17 @@ extension UberManager
 		return nil
 	}
 	
+	/**
+	Use this function to fetch a user's activity data `asynchronously`.
+	
+	:param: offset  Offset the list of returned results by this amount. Default is zero.
+	:param: limit   Number of items to retrieve. Default is 5, maximum is 50.
+	:param: success The block of code to execute on success. The parameters to this block is an array of `UberActivity`, the offset that is passed in, the limit passed in, the count which is the total number of items available.
+	:param: failure The block of code to execute on failure.
+	*/
 	public func asynchronosulyFetchActivityForUser(offset: Int = 0, limit: Int = 5, success: UberActivitySuccessCallback?, failure: UberErrorHandler?)
 	{
+		assert(limit <= 50, "The maximum limit size supported by this endpoint is 50. Please pass in a value smaller than this.")
 		let request = createRequestForURL("\(sharedDelegate.baseURL)/v1.1/history", withPathParameters: ["offset" : offset, "limit" : limit], requireUserAccessToken: true)
 		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
 			var JSONError: NSError?
