@@ -106,6 +106,7 @@ public class UberManager : NSObject
 	}
 	
 }
+
 //MARK: - Product Fetching
 extension UberManager
 {
@@ -497,6 +498,18 @@ extension UberManager
 //MARK: - Promotions
 extension UberManager
 {
+	/**
+	Use this function to fetch promotions for new users for a particular start and end locations `synchronously`.
+	
+	:param: startLatitude  The starting latitude of the user.
+	:param: startLongitude The starting longitude of the user.
+	:param: endLatitude    The ending latitude for the travel.
+	:param: endLongitude   The ending longitude for the travel.
+	:param: response       The NSURLResponse that will be set to the response of the connection request.
+	:param: error          An error pointer that will get set if an error occurs.
+	
+	:returns: An UberPromotion object or nil if an error occurred. See the `UberPromotion` class.
+	*/
 	public func synchronouslyFetchPromotionsForLocation(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
 	{
 		var pathParamters = [NSObject: AnyObject]()
@@ -536,6 +549,16 @@ extension UberManager
 		return nil
 	}
 	
+	/**
+	Use this function to fetch promotions for new users for a particular start and end locations `synchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
+	
+	:param: startLocation The starting location of the user.
+	:param: endLocation   The ending location for the travel.
+	:param: response      The NSURLResponse that will be set to the response of the connection request.
+	:param: error         An error pointer that will get set if an error occurs.
+	
+	:returns: An UberPromotion object or nil if an error occurred. See the `UberPromotion` class.
+	*/
 	public func synchronouslyFetchPromotionsForLocation(#startLocation: CLLocation, endLocation: CLLocation, response: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error: NSErrorPointer) -> UberPromotion?
 	{
 		let startLatitude = startLocation.coordinate.latitude
@@ -546,6 +569,16 @@ extension UberManager
 		return synchronouslyFetchPromotionsForLocation(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, response: response, error: error)
 	}
 	
+	/**
+	Use this function to fetch promotions for new users for a particular start and end locations `asynchronously`.
+	
+	:param: startLatitude  The starting latitude of the user.
+	:param: startLongitude The starting longitude of the user.
+	:param: endLatitude    The ending latitude for the travel.
+	:param: endLongitude   The ending longitude for the travel.
+	:param: success        The block of code to execute if an UberPromotion was successfully created. This block takes one parameter the `UberPromotion` object.
+	:param: failure        The block of code to execute if an error occurs.
+	*/
 	public func asynchronouslyFetchPromotionsForLocation(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPromotionSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		var pathParamters = [NSObject: AnyObject]()
@@ -581,7 +614,14 @@ extension UberManager
 			}
 		})
 	}
+	/**
+	Use this function to fetch promotions for new users for a particular start and end locations `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
 	
+	:param: startLocation The starting location of the user.
+	:param: endLocation   The ending location for the travel.
+	:param: success       The block of code to execute if an UberPromotion was successfully created. This block takes one parameter the `UberPromotion` object.
+	:param: failure       The block of code to execute if an error occurs.
+	*/
 	public func asynchronouslyFetchPromotionsForLocation(#startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPromotionSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		let startLatitude = startLocation.coordinate.latitude
@@ -591,6 +631,95 @@ extension UberManager
 		
 		asynchronouslyFetchPromotionsForLocation(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, completionBlock: success, errorHandler: failure)
 	}
+}
+//MARK: - Profile
+extension UberManager
+{
+	/**
+	Use this function to `synchronously` create an Uber User. The uber user gives you access to the logged in user's profile.
+	
+	:param: responsePointer An NSURLResponse pointer that allows you to recieve the response if there is an error.
+	:param: errorPointer    An error pointer that will get set if there is an error.
+	
+	:returns: An UberUser is returned if there are no errors and the profile scope has been given.
+	*/
+	public func createUserProfileSynchronously(response responsePointer: AutoreleasingUnsafeMutablePointer<NSURLResponse?>, error errorPointer: NSErrorPointer) -> UberUser?
+	{
+		let request = createRequestForURL("\(sharedDelegate.baseURL)/v1/me", requireUserAccessToken: true)
+		var response : NSURLResponse?
+		if responsePointer != nil
+		{
+			response = responsePointer.memory
+		}
+		var error : NSError?
+		let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+		var JSONData : [NSObject : AnyObject]?
+		var JSONError : NSError?
+		if errorPointer != nil
+		{
+			error = errorPointer.memory
+		}
+		if let data = data
+		{
+			JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? [NSObject: AnyObject]
+		}
+		if JSONError != nil
+		{
+			error = JSONError
+			return nil
+		}
+		if (error == nil)
+		{
+			if let JSON = JSONData
+			{
+				return UberUser(JSON: JSON)
+			}
+		}
+		return nil
+	}
+	
+	/**
+	Use this function to `asynchronously` create an Uber User. The uber user gives you access to the logged in user's profile.
+	
+	:param: success The block of code to execute if the user has successfully been created. This block takes one parameter an `UberUser` object.
+	:param: failure The block of code to execute if an error occurs.
+	*/
+	public func createUserProfileAsynchronously(success: UberUserSuccess?, failure: UberErrorHandler?)
+	{
+		let request = createRequestForURL("\(sharedDelegate.baseURL)/v1/me", requireUserAccessToken: true)
+		var response : NSURLResponse?
+		var error : NSError?
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response, data, error) in
+			var JSONError: NSError?
+			if (error == nil)
+			{
+				if let JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? [NSObject: AnyObject]
+				{
+					if let user = UberUser(JSON: JSONData)
+					{
+						success?(user)
+						return
+					}
+					uberLog("Error parsing Promotion JSON. Please look at the console to see the JSON that got parsed.")
+					failure?(response, JSONError)
+				}
+				else
+				{
+					uberLog("Error parsing Promotion JSON. Please look at the console to see the JSON that got parsed.")
+					failure?(response, JSONError)
+				}
+			}
+			else
+			{
+				failure?(response, error)
+			}
+		})
+	}
+}
+//MARK: - Activity
+extension UberManager
+{
+	
 }
 
 //MARK: - Private Helpers
