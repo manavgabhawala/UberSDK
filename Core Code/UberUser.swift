@@ -10,7 +10,7 @@ import Foundation
 
 public typealias UberUserSuccess = (UberUser) -> Void
 
-public class UberUser : Printable, DebugPrintable
+public class UberUser : Printable, DebugPrintable, JSONCreateable, UberObjectHasImage
 {
 	/// First name of the Uber user.
 	public let firstName : String
@@ -19,7 +19,7 @@ public class UberUser : Printable, DebugPrintable
 	/// Email address of the Uber user.
 	public let email : String
 	/// Image URL of the Uber user.
-	public let imageURL : NSURL
+	public let imageURL : NSURL?
 	/// Promo code of the Uber user.
 	public let promoCode : String
 	/// Unique identifier of the Uber user.
@@ -30,12 +30,19 @@ public class UberUser : Printable, DebugPrintable
 	
 	private init?(firstName: String?, lastName : String?, email : String?, imageURL: String?, promoCode: String?, UUID: String?)
 	{
-		if let firstName = firstName, let lastName = lastName, let email = email, let imageURLString = imageURL, let URL = NSURL(string: imageURLString), let promoCode = promoCode, let UUID = UUID
+		if let firstName = firstName, let lastName = lastName, let email = email, let promoCode = promoCode, let UUID = UUID
 		{
 			self.firstName = firstName
 			self.lastName = lastName
 			self.email = email
-			self.imageURL = URL
+			if let URL = imageURL
+			{
+				self.imageURL = NSURL(string: URL)
+			}
+			else
+			{
+				self.imageURL = nil
+			}
 			self.promoCode = promoCode
 			self.UUID = UUID
 			return
@@ -51,7 +58,8 @@ public class UberUser : Printable, DebugPrintable
 			return nil
 		}
 	}
-	internal convenience init?(JSON: [NSObject: AnyObject])
+	
+	public convenience required init?(JSON: [NSObject: AnyObject])
 	{
 		self.init(firstName: JSON["first_name"] as? String, lastName: JSON["last_name"] as? String, email: JSON["email"] as? String, imageURL: JSON["picture"] as? String, promoCode: JSON["promo_code"] as? String, UUID: JSON["uuid"] as? String)
 		if UUID.isEmpty

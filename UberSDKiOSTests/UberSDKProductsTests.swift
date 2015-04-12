@@ -51,6 +51,7 @@ class UberSDKProductsTests: XCTestCase
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 		super.tearDown()
 	}
+	/*
 	//MARK: - Synchronous Testing
 	func testSynchronousProductFetching()
 	{
@@ -79,12 +80,12 @@ class UberSDKProductsTests: XCTestCase
 			XCTAssertGreaterThan(products!.count, 0, "We expected at least one product for the given location.")
 			products!.map {(product) in XCTAssertTrue(validProduct(product), "Invalid product found for uber product: \(product)") }
 		}
-	}
+	}*/
 	//MARK: - Asynchronous Testing
 	func testAsynchronousProductFetching()
 	{
 		let productCompletion = expectationWithDescription("Products found")
-		self.manager.asynchronouslyFetchProducts(latitude: startLatitude, longitude: startLongitude, completionBlock: {(products) in
+		self.manager.fetchProductsForLocation(latitude: startLatitude, longitude: startLongitude, completionBlock: {(products) in
 			XCTAssertNotNil(products, "Fatal error occured. We expected products to be returned after fetching products. Recieved nil as products.")
 			println("We found Uber products: \(products)")
 			XCTAssertTrue(true, "Called the completion block successfully")
@@ -103,7 +104,7 @@ class UberSDKProductsTests: XCTestCase
 		let productCLCompletion = expectationWithDescription("Products found")
 		var response: NSURLResponse?
 		var error: NSError?
-		manager.asynchronouslyFetchProducts(location: CLLocation(latitude: endLatitude, longitude: endLongitude), completionBlock: {(products) in
+		manager.fetchProductsForLocation(CLLocation(latitude: endLatitude, longitude: endLongitude), completionBlock: {(products) in
 			println("We found Uber products: \(products)")
 			XCTAssertNotNil(products, "Fatal error occured. We expected products to be returned after fetching products. Recieved nil as products.")
 			XCTAssertGreaterThan(products.count, 0, "We expected at least one product for the given location.")
@@ -116,11 +117,13 @@ class UberSDKProductsTests: XCTestCase
 		})
 		waitForExpectationsWithTimeout(20.0, handler: nil)
 	}
-	
+	/*
 	//MARK: - iOS Platform Specific Testing
 	func testDownloadImage()
 	{
 		let imageDownloaded = expectationWithDescription("Image downloaded")
+		var error: NSError?
+		
 		let product = self.manager.synchronouslyFetchProducts(latitude: self.startLatitude, longitude: self.startLongitude, response: nil, error: nil)?.first
 		XCTAssertNotNil(product, "Failed to download image since the product could not be loaded from Uber.")
 		product!.downloadImageInBackground(successCallbackBlock: {(product, image) in
@@ -136,4 +139,5 @@ class UberSDKProductsTests: XCTestCase
 		waitForExpectationsWithTimeout(20.0, handler: nil)
 
 	}
+*/
 }

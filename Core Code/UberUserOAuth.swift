@@ -15,7 +15,7 @@ internal class UberUserOAuth : NSObject
 	private var refreshToken: String!
 	private var expiration : NSDate!
 	private var uberOAuthCredentialsLocation : String!
-	private var successBlock : UberSuccessCallback?
+	private var successBlock : UberSuccessBlock?
 	
 	internal var errorHandler : UberErrorHandler?
 	
@@ -185,7 +185,7 @@ internal class UberUserOAuth : NSObject
 		let request = NSURLRequest(URL: URL)
 		generateCodeForRequest(request)
 	}
-	internal func setCallbackBlocks(#successBlock: UberSuccessCallback?, errorBlock: UberErrorHandler?)
+	internal func setCallbackBlocks(#successBlock: UberSuccessBlock?, errorBlock: UberErrorHandler?)
 	{
 		self.successBlock = successBlock
 		errorHandler = errorBlock

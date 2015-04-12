@@ -51,8 +51,9 @@ public enum UberScopes : Printable, DebugPrintable
 	case HistoryLite
 	/// The Request scope grants you permission to make requests for Uber Products on behalf of users.
 	case Request
+	
 	public var description : String
-		{
+	{
 		get
 		{
 			switch self
@@ -107,7 +108,7 @@ public enum UberBaseURL : Printable, DebugPrintable
 			case .SandboxAPI:
 				return "Sandbox API"
 			default:
-				assert(false, "You must choose between either the ProductionAPI or the SandboxAPI")
+				assert(false, "You must choose between either the Production API or the Sandbox API")
 				return ""
 			}
 		}
@@ -126,8 +127,22 @@ internal enum HTTPMethod : String
 	case Delete = "DELETE"
 	case Put = "PUT"
 }
+
+internal protocol JSONCreateable
+{
+	init?(JSON: [NSObject : AnyObject])
+}
+internal protocol UberObjectHasImage
+{
+	var imageURL : NSURL? { get }
+}
+
+public typealias UberErrorHandler =  (NSURLResponse?, NSError?) -> Void
+
+
 internal func createRequestForURL(var URL: String, withQueryParameters queries: [NSObject: AnyObject]? = nil, withPathParameters paths: [NSObject: AnyObject]? = nil, requireUserAccessToken accessTokenRequired: Bool = false, usingHTTPMethod method: HTTPMethod = .Get) -> NSURLRequest
 {
+	URL = "\(sharedDelegate.baseURL.URL)\(URL)"
 	if let pathParameters = paths
 	{
 		URL += "?"
@@ -137,11 +152,11 @@ internal func createRequestForURL(var URL: String, withQueryParameters queries: 
 		}
 		URL = URL.substringToIndex(URL.endIndex.predecessor())
 	}
-	let request = NSMutableURLRequest(URL: NSURL(string: URL)!)
-	request.HTTPMethod = method.rawValue
-	request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+	let mutableRequest = NSMutableURLRequest(URL: NSURL(string: URL)!)
+	mutableRequest.HTTPMethod = method.rawValue
+	mutableRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 	// If we couldn't add the user access header
-	if !sharedUserManager.addBearerAccessHeader(request)
+	if !sharedUserManager.addBearerAccessHeader(mutableRequest)
 	{
 		if accessTokenRequired
 		{
@@ -149,14 +164,74 @@ internal func createRequestForURL(var URL: String, withQueryParameters queries: 
 		}
 		else
 		{
-			request.addValue("Token \(sharedDelegate.serverToken)", forHTTPHeaderField: "Authorization")
+			mutableRequest.addValue("Token \(sharedDelegate.serverToken)", forHTTPHeaderField: "Authorization")
 		}
 	}
 	if let queryParameters = queries
 	{
 		let data = NSJSONSerialization.dataWithJSONObject(queryParameters, options: nil, error: nil)!
 		let json = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? NSDictionary
-		request.HTTPBody = NSJSONSerialization.dataWithJSONObject(queryParameters, options: nil, error: nil)
+		mutableRequest.HTTPBody = NSJSONSerialization.dataWithJSONObject(queryParameters, options: nil, error: nil)
 	}
-	return request.copy() as! NSURLRequest
+	return mutableRequest.copy() as! NSURLRequest
+}
+
+private func performRequest(request: NSURLRequest, success: ([NSObject: AnyObject]) -> Void, failure: UberErrorHandler?)
+{
+	let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+	let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) in
+		if (error == nil)
+		{
+			var JSONError : NSError?
+			if let JSONData = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &JSONError) as? [NSObject: AnyObject]
+			{
+				success(JSONData)
+			}
+			else
+			{
+				uberLog("Error parsing JSON.")
+				failure?(response, JSONError)
+			}
+		}
+		else
+		{
+			failure?(response, error)
+		}
+	})
+	task.resume()
+}
+
+internal func fetchObjects<T: JSONCreateable>(URL: String, withQueryParameters queries: [NSObject: AnyObject]? = nil, withPathParameters paths: [NSObject: AnyObject]? = nil, requireUserAccessToken accessTokenRequired: Bool = false, usingHTTPMethod method: HTTPMethod = .Get, arrayKey key: String, completionHandler success: ([T], [NSObject: AnyObject]) -> Void, errorHandler failure: UberErrorHandler?)
+{
+	let request = createRequestForURL(URL, withQueryParameters: queries, withPathParameters: paths, requireUserAccessToken: accessTokenRequired, usingHTTPMethod: method)
+	performRequest(request, {(JSON) in
+		if let arrayJSON = JSON[key] as? [[NSObject : AnyObject]]
+		{
+			let objects = arrayJSON.map { T(JSON: $0) }.filter { $0 != nil }.map { $0! }
+			success(objects, JSON)
+		}
+		else
+		{
+			uberLog("No values found inside of JSON object. Please look at the console to figure out what went wrong.")
+			uberLog(JSON)
+			failure?(nil, NSError())
+		}
+	}, failure)
+}
+
+internal func fetchObject<T: JSONCreateable>(var URL: String, withQueryParameters queries: [NSObject: AnyObject]? = nil, withPathParameters paths: [NSObject: AnyObject]? = nil, requireUserAccessToken accessTokenRequired: Bool = false, usingHTTPMethod method: HTTPMethod = .Get, completionHandler success: (T) -> Void, errorHandler failure: UberErrorHandler?)
+{
+	let request = createRequestForURL(URL, withQueryParameters: queries, withPathParameters: paths, requireUserAccessToken: accessTokenRequired, usingHTTPMethod: method)
+	performRequest(request, {(JSON) in
+		if let object = T(JSON: JSON)
+		{
+			success(object)
+		}
+		else
+		{
+			uberLog("Could not create object using JSON. Please look at the console to figure out what went wrong.")
+			uberLog(JSON)
+			failure?(nil, NSError())
+		}
+	}, failure)
 }

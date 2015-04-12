@@ -16,7 +16,7 @@ public enum UberActivityStatus : String
 	case Unknown = "Unknown"
 }
 
-public class UberActivity
+public class UberActivity : Printable, DebugPrintable, JSONCreateable
 {
 	/// Unique activity identifier.
 	public let UUID: String
@@ -32,6 +32,9 @@ public class UberActivity
 	public let startTime : NSDate
 	/// Activity end time.
 	public let endTime : NSDate
+	
+	public var description : String { get { return "Activity \(UUID) for \(distance) miles" } }
+	public var debugDescription : String { get { return description } }
 	
 	private init?(UUID: String?, productID: String?, requestTime: NSTimeInterval?, startTime : NSTimeInterval?, endTime: NSTimeInterval?, status: String?, distance: Float?)
 	{
@@ -59,7 +62,7 @@ public class UberActivity
 		return nil
 	}
 	
-	internal convenience init?(JSON : [NSObject: AnyObject])
+	public convenience required init?(JSON : [NSObject: AnyObject])
 	{
 		self.init(UUID: JSON["uuid"] as? String, productID: JSON["product_id"] as? String, requestTime: JSON["request_time"] as? Double, startTime: JSON["start_time"] as? NSTimeInterval, endTime: JSON["end_time"] as? NSTimeInterval, status: JSON["status"] as? String, distance: JSON["distance"] as? Float)
 		if UUID.isEmpty

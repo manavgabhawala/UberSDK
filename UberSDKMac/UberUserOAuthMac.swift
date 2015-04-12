@@ -13,7 +13,7 @@ extension UberUserOAuth
 {
 	func generateCodeForRequest(request: NSURLRequest)
 	{
-		let view = WebView()
+		let view = WKWebView()
 		view.frame = NSApplication.sharedApplication().keyWindow!.contentView.frame
 		view.policyDelegate = self
 		view.frameLoadDelegate = self

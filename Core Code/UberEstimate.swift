@@ -8,21 +8,34 @@
 
 import Foundation
 
-public class UberEstimate
+public class UberEstimate: JSONCreateable, Printable, DebugPrintable
 {
 	/// Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
 	public let productID: String
 	/// Display name of product.
 	public let productDisplayName: String
 	
+	public var description : String { get { return productDisplayName } }
+	public var debugDescription : String { get { return description } }
+	
 	private init(id: String, displayName: String)
 	{
 		self.productID = id
 		self.productDisplayName = displayName
 	}
+	public convenience required init?(JSON: [NSObject : AnyObject])
+	{
+		self.init(id: JSON["product_id"] as? String ?? "", displayName: JSON["display_name"] as? String ?? "")
+		if (productID.isEmpty || productDisplayName.isEmpty)
+		{
+			return nil
+		}
+	}
 }
+
 public typealias UberPriceEstimateSuccessBlock = ([UberPriceEstimate]) -> Void
-public class UberPriceEstimate : UberEstimate, Printable, DebugPrintable
+
+public class UberPriceEstimate : UberEstimate
 {
 	/// Upper bound of the estimated price.
 	public let highEstimate: Int
@@ -48,8 +61,8 @@ public class UberPriceEstimate : UberEstimate, Printable, DebugPrintable
 		}
 	}
 	
-	public var description : String { get { return "Uber Price Estimate: \(estimate) for \(distance) mile long trip, lasting \(duration * 60) minutes." } }
-	public var debugDescription : String { get { return description } }
+	public override var description : String { get { return "Uber Price Estimate: \(estimate) for \(distance) mile long trip, lasting \(duration * 60) minutes." } }
+	public override var debugDescription : String { get { return description } }
 	
 	private init(id: String, displayName: String, lowEstimate: Int, highEstimate: Int, estimate: String, currency: String, surge: Float, duration: Int, distance: Float)
 	{
@@ -74,7 +87,7 @@ public class UberPriceEstimate : UberEstimate, Printable, DebugPrintable
 			return nil
 		}
 	}
-	internal convenience init?(JSON: [NSObject: AnyObject])
+	public convenience required init?(JSON: [NSObject: AnyObject])
 	{
 		self.init(id: JSON["product_id"] as? String, displayName: JSON["display_name"] as? String, lowEstimate: JSON["low_estimate"] as? Int, highEstimate: JSON["high_estimate"] as? Int, estimate: JSON["estimate"] as? String, currency: JSON["currency_code"] as? String, surge: JSON["surge_multiplier"] as? Float, duration: JSON["duration"] as? Int, distance: JSON["distance"] as? Float)
 		if self.productID.isEmpty
@@ -84,7 +97,8 @@ public class UberPriceEstimate : UberEstimate, Printable, DebugPrintable
 	}
 }
 public typealias UberTimeEstimateSuccessBlock = ([UberTimeEstimate]) -> Void
-public class UberTimeEstimate : UberEstimate, Printable, DebugPrintable
+
+public class UberTimeEstimate : UberEstimate
 {
 	/// ETA for the product (in seconds). Always show estimate in minutes.
 	public let estimate : NSTimeInterval
@@ -97,8 +111,9 @@ public class UberTimeEstimate : UberEstimate, Printable, DebugPrintable
 			return NSDate(timeIntervalSinceNow: estimate)
 		}
 	}
-	public var description : String { get { return "Uber Time Estimate: Estimated time before \(productDisplayName) arrives is \(estimate * 60) minutes." } }
-	public var debugDescription : String { get { return description } }
+	
+	public override var description : String { get { return "Uber Time Estimate: Estimated time before \(productDisplayName) arrives is \(estimate * 60) minutes." } }
+	public override var debugDescription : String { get { return description } }
 	
 	private init(id: String, displayName: String, estimate: Int)
 	{
@@ -117,7 +132,7 @@ public class UberTimeEstimate : UberEstimate, Printable, DebugPrintable
 			return nil
 		}
 	}
-	internal convenience init?(JSON: [NSObject: AnyObject])
+	public convenience required init?(JSON: [NSObject: AnyObject])
 	{
 		self.init(id: JSON["product_id"] as? String, displayName: JSON["display_name"] as? String, estimate: JSON["estimate"] as? Int)
 		if self.productID.isEmpty

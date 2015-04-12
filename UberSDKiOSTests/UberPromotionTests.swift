@@ -43,18 +43,17 @@ class UberPromotionTests: XCTestCase
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 		super.tearDown()
 	}
-	func testSynchronousPromotionFetching()
+	
+	func testAsynchronousPromotionFetching()
 	{
+		let promotionCompletion = expectationWithDescription("Price Estimates found")
 		var response : NSURLResponse?
 		var error : NSError?
-		let promotion = self.manager.synchronouslyFetchPromotionsForLocation(startLatitude: self.startLatitude, startLongitude: self.startLongitude, endLatitude: self.endLatitude, endLongitude: self.endLongitude, response: &response, error: &error)
-		XCTAssertNil(error, "Fatal error occured. We expected no errors when fetching a promotion. Recieved: \(error)\n\nWith response: \(response)\n")
-		//XCTAssertNotNil(promotion, "Fatal error occured. We expected a promotion to be returned after fetching promotions. Recieved nil as products.")
-		if let promo = promotion
-		{
-			println("We found an Uber promotion: \(promo)")
-		}
-		XCTAssertTrue(validPromotion(promotion), "Invalid product found for uber promotion: \(promotion)")
-		
+		self.manager.fetchPromotionsForLocations(startLatitude: self.startLatitude, startLongitude: self.startLongitude, endLatitude: self.endLatitude, endLongitude: self.endLongitude,  completionBlock: {
+			println("We found an Uber promotion: \($0)")
+			XCTAssertTrue(validPromotion($0), "Invalid product found for uber promotion: \($0)")
+			promotionCompletion.fulfill()
+			} , errorHandler: {(_, _) in  XCTAssertFalse(false, "We should not reach the error handler.") })
+		waitForExpectationsWithTimeout(60.0, handler: nil)
 	}
 }

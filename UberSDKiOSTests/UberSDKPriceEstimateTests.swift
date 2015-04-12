@@ -48,6 +48,7 @@ class UberSDKPriceEstimateTests: XCTestCase
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 		super.tearDown()
 	}
+	/*
 	//MARK: - Synchronous Testing
 	func testSynchronousPriceEstimate()
 	{
@@ -77,11 +78,12 @@ class UberSDKPriceEstimateTests: XCTestCase
 			priceEstimates!.map {(estimate) in XCTAssertTrue(validPriceEstimate(estimate), "Invalid price estimate found for uber price estimate: \(estimate)") }
 		}
 	}
+	*/
 	//MARK: - Asynchronous Testing
 	func testAsynchronousPriceEstimate()
 	{
 		let priceCompletion = expectationWithDescription("Price Estimates found")
-		manager.asynchronouslyFetchPriceEstimateForTrip(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, completionBlock: {(priceEstimates) in
+		manager.fetchPriceEstimateForTrip(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, completionBlock: {(priceEstimates) in
 			XCTAssertNotNil(priceEstimates, "Fatal error occured. We expected price estimates to be returned after fetching price estimates. Recieved nil as price estimates.")
 			println("We found Uber price estimates: \(priceEstimates)")
 			XCTAssertTrue(true, "Called the completion block successfully")
@@ -98,7 +100,7 @@ class UberSDKPriceEstimateTests: XCTestCase
 	func testAsynchronousPriceEstimateWithCoreLocation()
 	{
 		let priceCompletion = expectationWithDescription("Price Estimates found")
-		manager.asynchronouslyFetchPriceEstimateForTrip(startLocation: CLLocation(latitude: endLatitude, longitude: endLongitude), endLocation: CLLocation(latitude: startLatitude, longitude: startLongitude), completionBlock: {(priceEstimates) in
+		manager.fetchPriceEstimateForTrip(startLocation: CLLocation(latitude: endLatitude, longitude: endLongitude), endLocation: CLLocation(latitude: startLatitude, longitude: startLongitude), completionBlock: {(priceEstimates) in
 			XCTAssertNotNil(priceEstimates, "Fatal error occured. We expected price estimates to be returned after fetching price estimates. Recieved nil as price estimates.")
 			println("We found Uber price estimates: \(priceEstimates)")
 			XCTAssertTrue(true, "Called the completion block successfully")

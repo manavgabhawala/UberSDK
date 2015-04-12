@@ -40,7 +40,7 @@ public enum UberPromotionType
 	}
 }
 
-public class UberPromotion : Printable, DebugPrintable
+public class UberPromotion : Printable, DebugPrintable, JSONCreateable
 {
 	/// A localized string we recommend to use when offering the promotion to users.
 	public let displayText : String
@@ -60,7 +60,7 @@ public class UberPromotion : Printable, DebugPrintable
 		self.type = UberPromotionType.create(type)
 	}
 	
-	internal convenience init?(JSON: [NSObject: AnyObject])
+	public convenience required init?(JSON: [NSObject: AnyObject])
 	{
 		if let text = JSON["display_text"] as? String, let value = JSON["localized_value"] as? String, let type = JSON["type"] as? String
 		{
