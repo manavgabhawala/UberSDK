@@ -92,7 +92,7 @@ class UberSDKProductsTests: XCTestCase
 			XCTAssertGreaterThan(products.count, 0, "We expected at least one product for the given location.")
 			products.map {(product) in XCTAssertTrue(validProduct(product), "Invalid product found for uber product: \(product)") }
 			productCompletion.fulfill()
-			}, errorHandler: {(response, error) in
+			}, errorHandler: {(_, response, error) in
 				XCTAssertNotNil(response, "Response should not be nil in the error handler.")
 				XCTAssertNotNil(error, "Error should not be nil in the error handler.")
 				XCTFail("Fatal error occured. We expected no errors when fetching products. Recieved: \(error)\n\nWith Response: \(response)\n")
@@ -110,7 +110,7 @@ class UberSDKProductsTests: XCTestCase
 			XCTAssertGreaterThan(products.count, 0, "We expected at least one product for the given location.")
 			products.map {(product) in XCTAssertTrue(validProduct(product), "Invalid product found for uber product: \(product)") }
 			productCLCompletion.fulfill()
-			}, errorHandler: {(response, error) in
+			}, errorHandler: {(_, response, error) in
 				XCTAssertNotNil(response, "Response should not be nil in the error handler.")
 				XCTAssertNotNil(error, "Error should not be nil in the error handler.")
 				XCTFail("Fatal error occured. We expected no errors when fetching products. Recieved: \(error)\n\nWith Response: \(response)\n")

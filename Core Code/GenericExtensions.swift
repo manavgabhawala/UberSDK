@@ -9,6 +9,11 @@
 import Foundation
 /// Change this variable to false in order to stop the Uber SDK from printing things to the console
 public var uberLogMode = true
+/**
+Change this variable to be a case from the `Language` enum and all your requests will be returned in that language. This variable supports all localization that Über supports.
+*/
+public var currentLanguage = Language.English
+
 
 /**
 A generic printer for non-nil data that gets printed to the console.
@@ -168,6 +173,7 @@ internal func createRequestForURL(var URL: String, withQueryParameters queries: 
 			mutableRequest.addValue("Token \(sharedDelegate.serverToken)", forHTTPHeaderField: "Authorization")
 		}
 	}
+	mutableRequest.addValue(currentLanguage.rawValue, forHTTPHeaderField: "Accept-Language")
 	if let queryParameters = queries
 	{
 		let data = NSJSONSerialization.dataWithJSONObject(queryParameters, options: nil, error: nil)!
@@ -235,4 +241,44 @@ internal func fetchObject<T: JSONCreateable>(var URL: String, withQueryParameter
 			failure?(UberError(JSON: JSON), nil, NSError())
 		}
 	}, failure)
+}
+
+
+/**
+An enumeration of all the languages that Über supports.
+*/
+public enum Language : String
+{
+	/// Saudi Arabia
+    case Arabic     = "ar_SA"
+	/// Germany
+    case German     = "de_DE"
+	/// United States
+    case English    = "en_US"
+	/// France
+    case French     = "fr_FR"
+	/// Italy
+    case Italian    = "it_IT"
+	/// Japan
+    case Japanese   = "ja_JP"
+	/// Korea
+    case Korean     = "ko_KR"
+	/// Malaysia
+    case Malay      = "ms_MY"
+	/// Netherlands
+    case Dutch      = "nl_NL"
+	/// Brazil
+    case Portuguese = "pt_BR"
+	/// Russia
+    case Russian    = "ru_RU"
+	/// Sweden
+    case Swedish    = "sv_SE"
+	/// Thailand
+    case Thai       = "th_TH"
+	/// Philippines
+    case Tagalog    = "tl_PH"
+	/// China
+    case Chinese1   = "zh_CN"
+	/// Taiwan
+    case Chinese2   = "zh_TW"
 }

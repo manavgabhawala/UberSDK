@@ -90,7 +90,7 @@ class UberSDKPriceEstimateTests: XCTestCase
 			XCTAssertGreaterThan(priceEstimates.count, 0, "We expected at least one price estimate for the given location.")
 			priceEstimates.map {(estimate) in XCTAssertTrue(validPriceEstimate(estimate), "Invalid price estimate found for uber price estimate: \(estimate)") }
 			priceCompletion.fulfill()
-			}, errorHandler: {(response, error) in
+			}, errorHandler: {(_, response, error) in
 				XCTAssertNotNil(response, "Response should not be nil in the error handler.")
 				XCTAssertNotNil(error, "Error should not be nil in the error handler.")
 				XCTFail("Fatal error occured. We expected no errors when fetching price estimates. Recieved: \(error)\n\nWith Response: \(response)\n")
@@ -107,7 +107,7 @@ class UberSDKPriceEstimateTests: XCTestCase
 			XCTAssertGreaterThan(priceEstimates.count, 0, "We expected at least one price estimate for the given location.")
 			priceEstimates.map {(estimate) in XCTAssertTrue(validPriceEstimate(estimate), "Invalid price estimate found for uber price estimate: \(estimate)") }
 			priceCompletion.fulfill()
-			}, errorHandler: {(response, error) in
+			}, errorHandler: {(_, response, error) in
 				XCTAssertNotNil(response, "Response should not be nil in the error handler.")
 				XCTAssertNotNil(error, "Error should not be nil in the error handler.")
 				XCTFail("Fatal error occured. We expected no errors when fetching price estimates. Recieved: \(error)\n\nWith Response: \(response)\n")
