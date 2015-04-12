@@ -31,29 +31,29 @@ private func downloadImage<T: UberObjectHasImage>(object: T, successCallbackBloc
 						}
 						else
 						{
-							failure?(response, error)
+							failure?(UberError(JSONData: nil), response, error)
 						}
 					}
 					else
 					{
-						failure?(response, moveError)
+						failure?(UberError(JSONData: nil), response, moveError)
 					}
 				}
 				else
 				{
-					failure?(response, error)
+					failure?(UberError(JSONData: nil), response, error)
 				}
 			}
 			else
 			{
-				failure?(response, error)
+				failure?(UberError(JSONData: nil), response, error)
 			}
 		})
 
 	}
 	else
 	{
-		failure?(nil, NSError(domain: "UberSDK", code: 1, userInfo: ["error" : "Image URL is not valid. Failed to download image."]))
+		failure?(UberError(JSONData: nil), nil, NSError(domain: "UberSDK", code: 1, userInfo: ["error" : "Image URL is not valid. Failed to download image."]))
 	}
 }
 

@@ -49,7 +49,7 @@ extension UberUserOAuth : UIWebViewDelegate
 				}
 				else
 				{
-					self.errorHandler?(nil, nil)
+					self.errorHandler?(UberError(JSONData: nil), nil, nil)
 					uberLog("Error from UIWebView")
 				}
 				return false
@@ -62,7 +62,7 @@ extension UberUserOAuth : UIWebViewDelegate
 		UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 		//TODO: Show error
 		uberLog(error)
-		errorHandler?(nil, error)
+		errorHandler?(UberError(JSONData: nil), nil, error)
 	}
 	private func webViewDidFinishLoad(webView: UIWebView)
 	{

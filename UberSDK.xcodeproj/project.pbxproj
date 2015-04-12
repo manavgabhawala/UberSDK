@@ -72,6 +72,10 @@
 		82ABA3AB1ADA695900F3A32C /* UberLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ABA3A91ADA695900F3A32C /* UberLocation.swift */; };
 		82ABA3AC1ADA695900F3A32C /* UberLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ABA3A91ADA695900F3A32C /* UberLocation.swift */; };
 		82ABA3AD1ADA695900F3A32C /* UberLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ABA3A91ADA695900F3A32C /* UberLocation.swift */; };
+		82BFA5231ADB30D1007CE216 /* UberError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BFA5221ADB30D1007CE216 /* UberError.swift */; };
+		82BFA5241ADB30D1007CE216 /* UberError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BFA5221ADB30D1007CE216 /* UberError.swift */; };
+		82BFA5251ADB30D1007CE216 /* UberError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BFA5221ADB30D1007CE216 /* UberError.swift */; };
+		82BFA5261ADB30D1007CE216 /* UberError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BFA5221ADB30D1007CE216 /* UberError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +127,7 @@
 		82ABA39F1ADA692200F3A32C /* UberVehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UberVehicle.swift; path = "Core Code/UberVehicle.swift"; sourceTree = "<group>"; };
 		82ABA3A41ADA693A00F3A32C /* UberDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UberDriver.swift; path = "Core Code/UberDriver.swift"; sourceTree = "<group>"; };
 		82ABA3A91ADA695900F3A32C /* UberLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UberLocation.swift; path = "Core Code/UberLocation.swift"; sourceTree = "<group>"; };
+		82BFA5221ADB30D1007CE216 /* UberError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UberError.swift; path = "Core Code/UberError.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +269,7 @@
 				8288829F1AD5ED5C006A305B /* UberUserOAuth.swift */,
 				8288829C1AD5ED5C006A305B /* UberProduct.swift */,
 				8288829A1AD5ED5C006A305B /* UberEstimate.swift */,
+				82BFA5221ADB30D1007CE216 /* UberError.swift */,
 				8288829D1AD5ED5C006A305B /* UberPromotion.swift */,
 				8288829E1AD5ED5C006A305B /* UberUser.swift */,
 				822300D41AD76EF900A5CAD7 /* UberRequest.swift */,
@@ -458,6 +464,7 @@
 				82696B1B1AD7543C00A0845E /* UberActivity.swift in Sources */,
 				8279EA091ACA997100186FC1 /* Uber+UIImage.swift in Sources */,
 				828882A01AD5ED5C006A305B /* GenericExtensions.swift in Sources */,
+				82BFA5231ADB30D1007CE216 /* UberError.swift in Sources */,
 				82ABA3AA1ADA695900F3A32C /* UberLocation.swift in Sources */,
 				828882A41AD5ED5C006A305B /* UberEstimate.swift in Sources */,
 				828882B41AD5ED5C006A305B /* UberUser.swift in Sources */,
@@ -477,6 +484,7 @@
 				82360E751AD5E79A000DADA5 /* UberPromotionTests.swift in Sources */,
 				8280B5861ACB425E0098E4D8 /* UberSDKProductsTests.swift in Sources */,
 				828882B11AD5ED5C006A305B /* UberPromotion.swift in Sources */,
+				82BFA5241ADB30D1007CE216 /* UberError.swift in Sources */,
 				82696B1C1AD7543C00A0845E /* UberActivity.swift in Sources */,
 				8280B58A1ACB5F4A0098E4D8 /* UberUserOAuthiOS.swift in Sources */,
 				8279E8F51ACA93E300186FC1 /* UberSDKiOSTests.swift in Sources */,
@@ -504,6 +512,7 @@
 				82696B1D1AD7543C00A0845E /* UberActivity.swift in Sources */,
 				8280B58C1ACB64240098E4D8 /* Uber+NSImage.swift in Sources */,
 				828882A21AD5ED5C006A305B /* GenericExtensions.swift in Sources */,
+				82BFA5251ADB30D1007CE216 /* UberError.swift in Sources */,
 				82ABA3AC1ADA695900F3A32C /* UberLocation.swift in Sources */,
 				828882A61AD5ED5C006A305B /* UberEstimate.swift in Sources */,
 				828882B61AD5ED5C006A305B /* UberUser.swift in Sources */,
@@ -517,6 +526,7 @@
 			files = (
 				82696B1E1AD7543C00A0845E /* UberActivity.swift in Sources */,
 				828882BB1AD5ED5C006A305B /* UberUserOAuth.swift in Sources */,
+				82BFA5261ADB30D1007CE216 /* UberError.swift in Sources */,
 				8280B5901ACB648B0098E4D8 /* UberUserOAuthMac.swift in Sources */,
 				8280B58D1ACB64240098E4D8 /* Uber+NSImage.swift in Sources */,
 				828882A71AD5ED5C006A305B /* UberEstimate.swift in Sources */,

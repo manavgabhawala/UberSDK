@@ -15,7 +15,7 @@ internal class UberUserOAuth : NSObject
 	private var refreshToken: String!
 	private var expiration : NSDate!
 	private var uberOAuthCredentialsLocation : String!
-	private var successBlock : UberSuccessBlock?
+	private var completionBlock : UberSuccessBlock?
 	
 	internal var errorHandler : UberErrorHandler?
 	
@@ -94,22 +94,19 @@ internal class UberUserOAuth : NSObject
 		request.HTTPBody = data.dataUsingEncoding(NSUTF8StringEncoding)
 		
 		let immutableRequest = request.copy() as! NSURLRequest
-		var response : NSURLResponse?
-		var error : NSError?
 		
-		let authData = NSURLConnection.sendSynchronousRequest(immutableRequest, returningResponse: &response, error: &error)
-		
-		if (error == nil)
-		{
-			parseAuthDataReceived(authData!)
-		}
-		else
-		{
-			let dict = NSJSONSerialization.JSONObjectWithData(authData!, options: nil, error: nil) as? NSDictionary
-			uberLog(dict)
-			uberLog(response)
-			uberLog("Error in sending request for refresh token: \(error)")
-		}
+		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+		let task = session.dataTaskWithRequest(immutableRequest, completionHandler: {(data, response, error) in
+			if (error == nil)
+			{
+				self.parseAuthDataReceived(data)
+			}
+			else
+			{
+				uberLog("Error in sending request for refresh token: \(error)")
+				self.errorHandler?(UberError(JSONData: data), response, error)
+			}
+		})
 	}
 	internal func getAuthTokenForCode(code: String)
 	{
@@ -121,20 +118,19 @@ internal class UberUserOAuth : NSObject
 		request.HTTPBody = data.dataUsingEncoding(NSUTF8StringEncoding)
 		
 		let immutableRequest = request.copy() as! NSURLRequest
-		var response : NSURLResponse?
-		var error : NSError?
 		
-		let authData = NSURLConnection.sendSynchronousRequest(immutableRequest, returningResponse: &response, error: &error)
-		
-		if (error == nil)
-		{
-			parseAuthDataReceived(authData!)
-		}
-		else
-		{
-			println("Error in sending request for access token: \(error)")
-			errorHandler?(response, error)
-		}
+		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+		let task = session.dataTaskWithRequest(immutableRequest, completionHandler: {(data, response, error) in
+			if (error == nil)
+			{
+				self.parseAuthDataReceived(data)
+			}
+			else
+			{
+				uberLog("Error in sending request for access token: \(error)")
+				self.errorHandler?(UberError(JSONData: data), response, error)
+			}
+		})
 	}
 	private func parseAuthDataReceived(authData: NSData)
 	{
@@ -145,6 +141,7 @@ internal class UberUserOAuth : NSObject
 			if let access = authDictionary.objectForKey("access_token") as? String
 			{
 				accessToken = access
+				// Save to disk.
 				if let refresh = authDictionary.objectForKey("refresh_token") as? String, let timeout = authDictionary.objectForKey("expires_in") as? NSTimeInterval
 				{
 					let time = NSDate(timeInterval: timeout, sinceDate: NSDate(timeIntervalSinceNow: 0))
@@ -162,20 +159,20 @@ internal class UberUserOAuth : NSObject
 						uberLog("Failed to cached and encrypt OAuth details")
 					}
 				}
-				successBlock?()
+				completionBlock?()
 			}
 		}
 		else
 		{
 			uberLog("Error retrieving access token. Recieved JSON Error: \(jsonError)")
-			errorHandler?(nil, jsonError)
+			errorHandler?(UberError(JSONData: authData), nil, jsonError)
 		}
 	}
 	internal func setupOAuth2AccountStore()
 	{
 		if let accessCode = requestAccessToken()
 		{
-			successBlock?()
+			completionBlock?()
 			return
 		}
 		var scopes = (sharedDelegate.scopes as! [Int]).reduce("", combine: { $0.0 + "%20" + UberScopes(rawValue: $0.1)!.description })
@@ -187,7 +184,24 @@ internal class UberUserOAuth : NSObject
 	}
 	internal func setCallbackBlocks(#successBlock: UberSuccessBlock?, errorBlock: UberErrorHandler?)
 	{
-		self.successBlock = successBlock
+		self.completionBlock = successBlock
 		errorHandler = errorBlock
+	}
+	internal func logout(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		let fileManager = NSFileManager.defaultManager()
+		if fileManager.fileExistsAtPath(uberOAuthCredentialsLocation)
+		{
+			var error : NSError?
+			if fileManager.removeItemAtPath(uberOAuthCredentialsLocation, error: &error)
+			{
+				success?()
+			}
+			else
+			{
+				failure?(nil, nil, error)
+			}
+		}
+		success?()
 	}
 }

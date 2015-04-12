@@ -32,8 +32,6 @@ You must implement this protocol to communicate with the UberManager and return 
 }
 
 
-public typealias UberSuccessBlock = () -> Void
-
 /**
 This class is the main wrapper around the über API. Create a instance of this class to communicate with this SDK and make all your main requests using this wrapper.
 */
@@ -101,6 +99,10 @@ This class is the main wrapper around the über API. Create a instance of this c
 		sharedUserManager.setupOAuth2AccountStore()
 	}
 	
+	@objc public func logUberUserOut(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		sharedUserManager.logout(completionBlock: success, errorHandler: failure)
+	}
 }
 
 //MARK: - Product Fetching
@@ -288,7 +290,7 @@ extension UberManager
 			}
 			uberLog("Could not parse JSON object. Please look at the console to figure out what went wrong.")
 			uberLog(JSON)
-			failure?(nil, NSError())
+			failure?(UberError(JSON: JSON), nil, NSError())
 		}, errorHandler: failure)
 	}
 }

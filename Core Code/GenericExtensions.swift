@@ -137,7 +137,8 @@ internal protocol UberObjectHasImage
 	var imageURL : NSURL? { get }
 }
 
-public typealias UberErrorHandler =  (NSURLResponse?, NSError?) -> Void
+public typealias UberSuccessBlock = () -> Void
+public typealias UberErrorHandler =  (UberError?, NSURLResponse?, NSError?) -> Void
 
 
 internal func createRequestForURL(var URL: String, withQueryParameters queries: [NSObject: AnyObject]? = nil, withPathParameters paths: [NSObject: AnyObject]? = nil, requireUserAccessToken accessTokenRequired: Bool = false, usingHTTPMethod method: HTTPMethod = .Get) -> NSURLRequest
@@ -190,12 +191,12 @@ private func performRequest(request: NSURLRequest, success: ([NSObject: AnyObjec
 			else
 			{
 				uberLog("Error parsing JSON.")
-				failure?(response, JSONError)
+				failure?(UberError(JSONData: data), response, JSONError)
 			}
 		}
 		else
 		{
-			failure?(response, error)
+			failure?(UberError(JSONData: data), response, error)
 		}
 	})
 	task.resume()
@@ -214,7 +215,7 @@ internal func fetchObjects<T: JSONCreateable>(URL: String, withQueryParameters q
 		{
 			uberLog("No values found inside of JSON object. Please look at the console to figure out what went wrong.")
 			uberLog(JSON)
-			failure?(nil, NSError())
+			failure?(UberError(JSON: JSON), nil, NSError())
 		}
 	}, failure)
 }
@@ -231,7 +232,7 @@ internal func fetchObject<T: JSONCreateable>(var URL: String, withQueryParameter
 		{
 			uberLog("Could not create object using JSON. Please look at the console to figure out what went wrong.")
 			uberLog(JSON)
-			failure?(nil, NSError())
+			failure?(UberError(JSON: JSON), nil, NSError())
 		}
 	}, failure)
 }

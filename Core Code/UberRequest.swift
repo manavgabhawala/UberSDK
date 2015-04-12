@@ -135,7 +135,7 @@ public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 			}
 			else
 			{
-				failure?(response, error)
+				failure?(UberError(JSONData: data), response, error)
 			}
 		})
 	}
