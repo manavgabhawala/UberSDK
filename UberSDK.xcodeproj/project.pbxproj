@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		82023ECF1ADB3D69001C1C56 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82023ECE1ADB3D69001C1C56 /* Media.xcassets */; };
+		82023ED01ADB3D69001C1C56 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82023ECE1ADB3D69001C1C56 /* Media.xcassets */; };
+		82023ED11ADB3D69001C1C56 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82023ECE1ADB3D69001C1C56 /* Media.xcassets */; };
+		82023ED21ADB3D69001C1C56 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82023ECE1ADB3D69001C1C56 /* Media.xcassets */; };
 		822300D51AD76EF900A5CAD7 /* UberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822300D41AD76EF900A5CAD7 /* UberRequest.swift */; };
 		822300D61AD76EF900A5CAD7 /* UberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822300D41AD76EF900A5CAD7 /* UberRequest.swift */; };
 		822300D71AD76EF900A5CAD7 /* UberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822300D41AD76EF900A5CAD7 /* UberRequest.swift */; };
@@ -96,6 +100,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		82023ECE1ADB3D69001C1C56 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = "Core Code/Media.xcassets"; sourceTree = "<group>"; };
 		822300D41AD76EF900A5CAD7 /* UberRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UberRequest.swift; path = "Core Code/UberRequest.swift"; sourceTree = "<group>"; };
 		82360E741AD5E79A000DADA5 /* UberPromotionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberPromotionTests.swift; sourceTree = "<group>"; };
 		82696B1A1AD7543C00A0845E /* UberActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UberActivity.swift; path = "Core Code/UberActivity.swift"; sourceTree = "<group>"; };
@@ -164,6 +169,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		82023E8D1ADB3D2E001C1C56 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				82023ECE1ADB3D69001C1C56 /* Media.xcassets */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
 		8279E8D61ACA93C400186FC1 = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +185,7 @@
 				8279E8F11ACA93E300186FC1 /* UberSDKiOSTests */,
 				8279E9021ACA93FB00186FC1 /* UberSDKMac */,
 				8279E90F1ACA93FB00186FC1 /* UberSDKMacTests */,
+				82023E8D1ADB3D2E001C1C56 /* Assets */,
 				8279E8E31ACA93E300186FC1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -423,6 +437,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82023ECF1ADB3D69001C1C56 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +445,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82023ED01ADB3D69001C1C56 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +453,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82023ED11ADB3D69001C1C56 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +461,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82023ED21ADB3D69001C1C56 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
