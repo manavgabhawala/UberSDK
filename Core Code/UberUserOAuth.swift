@@ -178,7 +178,7 @@ internal class UberUserOAuth : NSObject
 			successBlock?()
 			return
 		}
-		var scopes = sharedDelegate.scopes.reduce("", combine: { $0.0 + "%20" + $0.1.description })
+		var scopes = (sharedDelegate.scopes as! [Int]).reduce("", combine: { $0.0 + "%20" + UberScopes(rawValue: $0.1)!.description })
 		scopes = scopes.substringFromIndex(advance(scopes.startIndex, 3))
 		let redirectURL = sharedDelegate.redirectURI.stringByAddingPercentEncodingWithAllowedCharacters(.URLPasswordAllowedCharacterSet())!
 		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(sharedDelegate.clientID)&redirect_uri=\(redirectURL)&scope=\(scopes)")!

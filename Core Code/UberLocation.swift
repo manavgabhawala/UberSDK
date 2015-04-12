@@ -9,17 +9,17 @@
 import Foundation
 import CoreLocation
 
-public class UberLocation : Printable, DebugPrintable
+@objc public class UberLocation : Printable, DebugPrintable
 {
 	/// The current latitude of the vehicle.
-	public let latitude : Double
+	@objc public let latitude : Double
 	/// The current longitude of the vehicle.
-	public let longitude : Double
+	@objc public let longitude : Double
 	/// The current bearing of the vehicle in degrees (0-359).
-	public let bearing : Int
+	@objc public let bearing : Int
 	
 	/// A CoreLocation representation of the UberLocation
-	public var location : CLLocation
+	@objc public var location : CLLocation
 		{
 		get
 		{
@@ -27,8 +27,8 @@ public class UberLocation : Printable, DebugPrintable
 			return location
 		}
 	}
-	public var description : String { get { return "Location: \(latitude) \(longitude). Orientation: \(bearing)" } }
-	public var debugDescription : String { get { return description } }
+	@objc public var description : String { get { return "Location: \(latitude) \(longitude). Orientation: \(bearing)" } }
+	@objc public var debugDescription : String { get { return description } }
 	
 	private init(latitude : Double, longitude : Double, bearing : Int)
 	{

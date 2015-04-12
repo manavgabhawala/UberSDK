@@ -9,24 +9,26 @@
 import Foundation
 
 public typealias UberUserSuccess = (UberUser) -> Void
-
-public class UberUser : Printable, DebugPrintable, JSONCreateable, UberObjectHasImage
+/**
+This is a wrapper class around an `UberUser`. It contains information about a user's profile.
+*/
+@objc public class UberUser : Printable, DebugPrintable, JSONCreateable, UberObjectHasImage
 {
 	/// First name of the Uber user.
-	public let firstName : String
+	@objc public let firstName : String
 	/// Last name of the Uber user.
-	public let lastName : String
+	@objc public let lastName : String
 	/// Email address of the Uber user.
-	public let email : String
+	@objc public let email : String
 	/// Image URL of the Uber user.
-	public let imageURL : NSURL?
+	@objc public let imageURL : NSURL?
 	/// Promo code of the Uber user.
-	public let promoCode : String
+	@objc public let promoCode : String
 	/// Unique identifier of the Uber user.
-	public let UUID : String
+	@objc public let UUID : String
 	
-	public var description : String { get { return "Uber User: \(firstName) \(lastName)" } }
-	public var debugDescription : String { get { return description } }
+	@objc public var description : String { get { return "Uber User: \(firstName) \(lastName)" } }
+	@objc public var debugDescription : String { get { return description } }
 	
 	private init?(firstName: String?, lastName : String?, email : String?, imageURL: String?, promoCode: String?, UUID: String?)
 	{

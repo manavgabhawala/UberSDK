@@ -43,7 +43,7 @@ Use this enumeration to provide the scopes you wish to show the user when perfor
 - HistoryLite: The HistroyLite scope enables you to pull trip data including times and product type of a user's historical pickups and drop-offs.
 - Request:     The Request scope grants you permission to make requests for Uber Products on behalf of users.
 */
-public enum UberScopes : Printable, DebugPrintable
+@objc public enum UberScopes : Int, Any, Printable, DebugPrintable
 {
 	/// The Profile scope grants you access to basic profile information on a user's Uber account including their first name, email address, and profile picture
 	case Profile
@@ -76,7 +76,7 @@ public enum UberScopes : Printable, DebugPrintable
 /**
 This is an enumeration that allows you to choose between the ProductionAPI and the SandboxAPI.
 */
-public enum UberBaseURL : Printable, DebugPrintable
+@objc public enum UberBaseURL : Int, Printable, DebugPrintable
 {
 	/// Use ProductionAPI when you want the SDK to communicate with the actual production API provided by Uber.
 	case ProductionAPI

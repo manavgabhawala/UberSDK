@@ -49,11 +49,12 @@ class UberPromotionTests: XCTestCase
 		let promotionCompletion = expectationWithDescription("Price Estimates found")
 		var response : NSURLResponse?
 		var error : NSError?
-		self.manager.fetchPromotionsForLocations(startLatitude: self.startLatitude, startLongitude: self.startLongitude, endLatitude: self.endLatitude, endLongitude: self.endLongitude,  completionBlock: {
+		self.manager.fetchPromotionsForLocations(startLatitude: startLatitude, startLongitude: startLongitude, endLatitude: endLatitude, endLongitude: endLongitude, completionBlock: {
 			println("We found an Uber promotion: \($0)")
 			XCTAssertTrue(validPromotion($0), "Invalid product found for uber promotion: \($0)")
 			promotionCompletion.fulfill()
-			} , errorHandler: {(_, _) in  XCTAssertFalse(false, "We should not reach the error handler.") })
+		}, errorHandler: nil)
+		
 		waitForExpectationsWithTimeout(60.0, handler: nil)
 	}
 }

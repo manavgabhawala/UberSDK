@@ -16,25 +16,25 @@ public enum UberActivityStatus : String
 	case Unknown = "Unknown"
 }
 
-public class UberActivity : Printable, DebugPrintable, JSONCreateable
+@objc public class UberActivity : Printable, DebugPrintable, JSONCreateable
 {
 	/// Unique activity identifier.
-	public let UUID: String
+	@objc public let UUID: String
 	/// Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-	public let productID : String
+	@objc public let productID : String
 	/// Activity request time
-	public let requestTime : NSDate
+	@objc public let requestTime : NSDate
 	/// Status of the activity. See `UberActivityStatus`
 	public let status : UberActivityStatus
 	/// Length of activity in miles.
-	public let distance : Float
+	@objc public let distance : Float
 	/// Activity start time
-	public let startTime : NSDate
+	@objc public let startTime : NSDate
 	/// Activity end time.
-	public let endTime : NSDate
+	@objc public let endTime : NSDate
 	
-	public var description : String { get { return "Activity \(UUID) for \(distance) miles" } }
-	public var debugDescription : String { get { return description } }
+	@objc public var description : String { get { return "Activity \(UUID) for \(distance) miles" } }
+	@objc public var debugDescription : String { get { return description } }
 	
 	private init?(UUID: String?, productID: String?, requestTime: NSTimeInterval?, startTime : NSTimeInterval?, endTime: NSTimeInterval?, status: String?, distance: Float?)
 	{

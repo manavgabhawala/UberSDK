@@ -8,20 +8,20 @@
 
 import Foundation
 
-public class UberVehicle : Printable, DebugPrintable, UberObjectHasImage
+@objc public class UberVehicle : Printable, DebugPrintable, UberObjectHasImage
 {
 	/// The vehicle make or brand.
-	public let make : String
+	@objc public let make : String
 	/// The vehicle model or type.
-	public let model : String
+	@objc public let model : String
 	/// The license plate number of the vehicle.
-	public let licensePlate: String
+	@objc public let licensePlate: String
 	/// The URL to a stock photo of the vehicle (may be null).
-	public let imageURL : NSURL?
+	@objc public let imageURL : NSURL?
 	
 	
-	public var description : String { get { return "\(make) \(model)" } }
-	public var debugDescription : String { get { return description } }
+	@objc public var description : String { get { return "\(make) \(model)" } }
+	@objc public var debugDescription : String { get { return description } }
 	
 	private init(make : String, model : String, licensePlate : String, imageURL : String?)
 	{

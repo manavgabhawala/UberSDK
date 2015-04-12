@@ -13,23 +13,23 @@ public typealias UberSingleProductSuccessBlock = (UberProduct) -> Void
 /**
 This class represents an UberProduct. It contains all the data recieved from the end point in this wrapper class for the UberProduct.
 */
-public class UberProduct : Printable, DebugPrintable, JSONCreateable, UberObjectHasImage
+@objc public class UberProduct : Printable, DebugPrintable, JSONCreateable, UberObjectHasImage
 {
 	/// The Product ID for the associated Uber product.
-	public let productID: String
+	@objc public let productID: String
 	/// A user displayable name for the Uber product.
-	public let name: String
+	@objc public let name: String
 	/// A URL to an image of the product. Depending on the platform you are using you can ask the UberProduct class to download the image `asynchronously` for you too.
-	public let imageURL : NSURL?
+	@objc public let imageURL : NSURL?
 	/// A description of the Uber product.
-	public let productDescription: String
+	@objc public let productDescription: String
 	/// Capacity of product. For example, 4 people.
-	public let capacity : Int
+	@objc public let capacity : Int
 	/// The basic price details (not including any surge pricing adjustments). If null, the price is a metered fare such as a taxi service.
-	public var priceDetails : UberPriceDetails?
+	@objc public var priceDetails : UberPriceDetails?
 	
-	public var description : String { get { return "\(name): \(productDescription)" } }
-	public var debugDescription : String { get { return description } }
+	@objc public var description : String { get { return "\(name): \(productDescription)" } }
+	@objc public var debugDescription : String { get { return description } }
 	
 	private init(productID: String, name: String, productDescription: String, capacity: Int, imageURL : String?)
 	{
@@ -78,7 +78,7 @@ public class UberProduct : Printable, DebugPrintable, JSONCreateable, UberObject
 	
 	*:warning:* Product IDs are different for different regions. Fetch all products for a location using the `UberManager` instance.
 	*/
-	class func createProduct(productID: String, success: UberSingleProductSuccessBlock, failure: UberErrorHandler?)
+	@objc class func createProduct(productID: String, success: UberSingleProductSuccessBlock, failure: UberErrorHandler?)
 	{
 		assert(sharedDelegate != nil, "You must initialize the UberManager before being able to call methods on the Uber SDK.")
 		fetchObject("/v1/products/\(productID)", completionHandler: success, errorHandler: failure)
@@ -88,24 +88,24 @@ public class UberProduct : Printable, DebugPrintable, JSONCreateable, UberObject
 /**
 This class represents the PriceDetails object associated with the Products endpoint.
 */
-public class UberPriceDetails
+@objc public class UberPriceDetails
 {
 	/// The base price.
-	public let base : Float
+	@objc public let base : Float
 	/// The minimum price of a trip.
-	public let minimum : Float
+	@objc public let minimum : Float
 	/// The charge per minute (if applicable for the product type).
 	public let costPerMinute : Float?
 	/// The charge per distance unit (if applicable for the product type).
 	public let costPerDistance : Float?
 	/// The unit of distance used to calculate the fare (either mile or km).
-	public let distanceUnit: String
+	@objc public let distanceUnit: String
 	/// The fee if a rider cancels the trip after the grace period.
-	public let cancellationFee : Float
+	@objc public let cancellationFee : Float
 	/// http://en.wikipedia.org/wiki/ISO_4217 ISO 4217 currency code.
-	public let currencyCode : String
+	@objc public let currencyCode : String
 	/// Array containing additional fees added to the price of a product.
-	public let serviceFees : [UberServiceFees]
+	@objc public let serviceFees : [UberServiceFees]
 	
 	private init(base: Float, minimum: Float, costPerMinute: Float?, costPerDistance: Float?, distanceUnit: String, cancellationFee: Float, currencyCode: String, serviceFees: [UberServiceFees])
 	{
@@ -137,12 +137,12 @@ public class UberPriceDetails
 /**
 This class reprsents the Service Fees object that is served as an array to the `UberPriceDetails` object from the Uber API.
 */
-public class UberServiceFees
+@objc public class UberServiceFees
 {
 	/// The name of the service fee.
-	public let name : String
+	@objc public let name : String
 	/// The amount of the service fee.
-	public let fee : Float
+	@objc public let fee : Float
 	
 	private init(name: String, fee: Float)
 	{

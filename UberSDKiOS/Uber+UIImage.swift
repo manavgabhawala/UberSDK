@@ -67,7 +67,7 @@ extension UberProduct
 	:param: completionBlock The block of code to execute on success. This block takes 3 parameters the product for which the image was downloaded, a UIImage representation of the image, and the location to the cached image.
 	:param: errorHandler The block of code to execute on failure.
 	*/
-	public func downloadImageInBackground(completionBlock success: UberProductImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func downloadImageInBackground(completionBlock success: UberProductImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
 	{
 		downloadImage(self, successCallbackBlock: success, andFailureCallbackBlock: failure)
 	}
@@ -83,7 +83,7 @@ extension UberUser
 	:param: completionBlock The block of code to execute on success. This block takes 3 parameters the user for whom the image was downloaded, a UIImage representation of the image, and the location to the cached image.
 	:param: errorHandler The block of code to execute on an error.
 	*/
-	public func downloadImageInBackground(completionBlock success: UberUserImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func downloadImageInBackground(completionBlock success: UberUserImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
 	{
 		downloadImage(self, successCallbackBlock: success, andFailureCallbackBlock: failure)
 	}
@@ -99,7 +99,7 @@ extension UberDriver
 	:param: completionBlock The block of code to execute on success. This block takes 3 parameters the user for whom the image was downloaded, a UIImage representation of the image, and the location to the cached image.
 	:param: errorHandler The block of code to execute on an error.
 	*/
-	public func downloadImageInBackground(completionBlock success: UberDriverImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func downloadImageInBackground(completionBlock success: UberDriverImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
 	{
 		downloadImage(self, successCallbackBlock: success, andFailureCallbackBlock: failure)
 	}
@@ -115,7 +115,7 @@ extension UberVehicle
 	:param: completionBlock The block of code to execute on success. This block takes 3 parameters the user for whom the image was downloaded, a UIImage representation of the image, and the location to the cached image.
 	:param: errorHandler The block of code to execute on an error.
 	*/
-	public func downloadImageInBackground(completionBlock success: UberVehicleImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func downloadImageInBackground(completionBlock success: UberVehicleImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
 	{
 		downloadImage(self, successCallbackBlock: success, andFailureCallbackBlock: failure)
 	}

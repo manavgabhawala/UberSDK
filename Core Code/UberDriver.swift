@@ -8,19 +8,19 @@
 
 import Foundation
 
-public class UberDriver : Printable, DebugPrintable, UberObjectHasImage
+@objc public class UberDriver : Printable, DebugPrintable, UberObjectHasImage
 {
 	/// The first name of the driver.
-	public let name : String
+	@objc public let name : String
 	/// The formatted phone number for contacting the driver.
-	public let phoneNumber : String
+	@objc public let phoneNumber : String
 	/// The URL to the photo of the driver.
-	public let imageURL : NSURL?
+	@objc public let imageURL : NSURL?
 	/// The driver's star rating out of 5 stars.
-	public let rating : Float
+	@objc public let rating : Float
 	
-	public var description : String { get { return "Uber Driver \(name)" } }
-	public var debugDescription : String { get { return description } }
+	@objc public var description : String { get { return "Uber Driver \(name)" } }
+	@objc public var debugDescription : String { get { return description } }
 	
 	private init(name: String, phoneNumber: String, rating: Float, pictureURL: String?)
 	{

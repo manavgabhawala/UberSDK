@@ -10,15 +10,15 @@ import UIKit
 import CoreLocation
 import XCTest
 
-class Delegate : UberManagerDelegate
+@objc class Delegate : UberManagerDelegate
 {
-	var applicationName: String { get { return "CocoaSDK" } }
-	var clientID : String { get { return "DUf5ZDdiJlrhLvFIljaiHUF5n4RNdhTA" } }
-	var clientSecret: String { get { return "PYKgM8F-gF2-ERRV-OLibozrAX7x9lS4QfIDze_c" } }
-	var serverToken : String { get { return "hNsUcO5PW5jbofJ_atHhlt9fZ7SoEJuDrB1zZ22J" } }
-	var redirectURI : String { get { return "https://localhost:8000" } }
-	var baseURL : UberBaseURL { get { return .SandboxAPI } }
-	var scopes : [UberScopes] { get { return [.Profile] } }
+	@objc var applicationName: String { get { return "CocoaSDK" } }
+	@objc var clientID : String { get { return "DUf5ZDdiJlrhLvFIljaiHUF5n4RNdhTA" } }
+	@objc var clientSecret: String { get { return "PYKgM8F-gF2-ERRV-OLibozrAX7x9lS4QfIDze_c" } }
+	@objc var serverToken : String { get { return "hNsUcO5PW5jbofJ_atHhlt9fZ7SoEJuDrB1zZ22J" } }
+	@objc var redirectURI : String { get { return "https://localhost:8000" } }
+	@objc var baseURL : UberBaseURL { get { return .SandboxAPI } }
+	@objc var scopes : NSArray { get { return [ UberScopes.Profile.rawValue ] } }
 }
 
 let sharedTestingDelegate = Delegate()

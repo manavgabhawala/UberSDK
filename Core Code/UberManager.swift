@@ -13,22 +13,22 @@ import CoreLocation
 /**
 You must implement this protocol to communicate with the UberManager and return information as and when requested. This information can all be found in the Uber app dashboard at `https://developer.uber.com/apps/`.
 */
-public protocol UberManagerDelegate
+@objc public protocol UberManagerDelegate
 {
 	/// The application name with which you setup the Uber app.
-	var applicationName: String { get }
+	@objc var applicationName: String { get }
 	/// The client ID for the application setup in Uber
-	var clientID : String { get }
+	@objc var clientID : String { get }
 	/// The client secret for the application setup in Uber
-	var clientSecret: String { get }
+	@objc var clientSecret: String { get }
 	/// The server token for the application setup in Uber
-	var serverToken : String { get }
+	@objc var serverToken : String { get }
 	/// The redirect URI/URL for the application setup in Uber
-	var redirectURI : String { get }
+	@objc var redirectURI : String { get }
 	/// This is an enumeration that allows you to choose between using the SandboxAPI or the ProductionAPI. You should use the Sandbox while testing and change this to Production before releasing the app. See `UberBaseURL` enumeration.
-	var baseURL : UberBaseURL { get }
-	/// Return an array of scopes that you would like to request from the user if you are using OAuth2.0. If you don't require user authentication, return an empty array. This must be an array of UberScopes. See the enum type.
-	var scopes : [UberScopes] { get }
+	@objc var baseURL : UberBaseURL { get }
+	/// Return an array of raw values of the scopes enum that you would like to request from the user if you are using OAuth2.0. If you don't require user authentication, return an empty array. This must be an array of UberScopes. See the enum type.
+	@objc var scopes : NSArray { get }
 }
 
 
@@ -37,7 +37,7 @@ public typealias UberSuccessBlock = () -> Void
 /**
 This class is the main wrapper around the über API. Create a instance of this class to communicate with this SDK and make all your main requests using this wrapper.
 */
-public class UberManager : NSObject
+@objc public class UberManager : NSObject
 {
 	//MARK: - General Initializers and Properties
 	/**
@@ -47,7 +47,7 @@ public class UberManager : NSObject
 	
 	:returns: An initialized UberManager wrapper.
 	*/
-	public init(delegate: UberManagerDelegate)
+	@objc public init(delegate: UberManagerDelegate)
 	{
 		sharedDelegate = delegate
 		sharedUserManager = UberUserOAuth()
@@ -72,12 +72,30 @@ public class UberManager : NSObject
 	}
 	
 	/**
+	Use this constructor if you do not wish to create a delegate around one of your classes and just wish to pass in the data once. Only use this method if you are using Objective C. Otherwise use the other initializer to ensure for type safety.
+	
+	:param: applicationName The application name with which you setup the Uber app.
+	:param: clientID        The client ID for the application setup in Uber
+	:param: clientSecret    The client secret for the application setup in Uber
+	:param: serverToken     The server token for the application setup in Uber
+	:param: redirectURI     The redirect URI/URL for the application setup in Uber
+	:param: baseURL         This is an enumeration that allows you to choose between using the SandboxAPI or the ProductionAPI. You should use the Sandbox while testing and change this to Production before releasing the app. See `UberBaseURL` enumeration.
+	:param: scopes          Return an array of raw values of scopes that you would like to request from the user if you are using OAuth2.0. If you don't require user authentication, return an empty array. This must be an array of UberScopes. See the enum type.
+	
+	:returns: An initialized UberManager wrapper.
+	*/
+	@objc public convenience init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: NSArray)
+	{
+		self.init(delegate: PrivateUberDelegate(applicationName: applicationName, clientID: clientID, clientSecret: clientSecret, serverToken: serverToken, redirectURI: redirectURI, baseURL: baseURL, scopes: (scopes as! [Int]).map { UberScopes(rawValue: $0)!} ))
+	}
+	
+	/**
 	Call this function before using any end points that require user OAuth 2.0. This function will handle displaying the webview and saving and caching the access and refresh tokens to the disk in an encrypted format.
 	
 	:param: completionBlock The block of code to execute once we have successfully recieved the user's access token.
 	:param: errorHandler    An error occurred while getting the user's login. Somehow handle the error in this block.
 	*/
-	public func performUserAuthorization(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	@objc public func performUserAuthorization(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		sharedUserManager.setCallbackBlocks(successBlock: success, errorBlock: failure)
 		sharedUserManager.setupOAuth2AccountStore()
@@ -98,7 +116,7 @@ extension UberManager
 	
 	:param: errorHandler   	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
 	*/
-	public func fetchProductsForLocation(#latitude: Double, longitude: Double, completionBlock success: UberProductSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchProductsForLocation(#latitude: Double, longitude: Double, completionBlock success: UberProductSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		fetchObjects("/v1/products", withPathParameters: ["latitude": latitude, "longitude": longitude], arrayKey: "products", completionHandler: { success($0.0) }, errorHandler: failure)
 	}
@@ -112,7 +130,7 @@ extension UberManager
 	
 	:param: errorHandler  	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
 	*/
-	public func fetchProductsForLocation(location: CLLocation, completionBlock success: UberProductSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchProductsForLocation(location: CLLocation, completionBlock success: UberProductSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		fetchProductsForLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, completionBlock: success, errorHandler: failure)
 	}
@@ -135,7 +153,7 @@ extension UberManager
 	
 	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
 	*/
-	public func fetchPriceEstimateForTrip(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchPriceEstimateForTrip(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		fetchObjects("/v1/estimates/price", withPathParameters: ["start_latitude" : startLatitude, "start_longitude" : startLongitude, "end_latitude" : endLatitude, "end_longitude" : endLongitude], arrayKey: "prices", completionHandler: { success($0.0) }, errorHandler: failure)
 	}
@@ -152,7 +170,7 @@ extension UberManager
 	
 	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
 	*/
-	public func fetchPriceEstimateForTrip(#startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchPriceEstimateForTrip(#startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		fetchPriceEstimateForTrip(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, completionBlock: success, errorHandler: failure)
 	}
@@ -171,7 +189,7 @@ extension UberManager
 	:param: completionBlock The block to be executed if the request was successful and we were able to parse the time estimates. This block takes one parameter, an array of UberTimeEstimates. See the `UberTimeEstimate` class for more details on how this is returned.
 	:param: errorHandler   This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
 	*/
-	public func fetchTimeEstimateForLocation(#startLatitude: Double, startLongitude: Double, userID: String? = nil, productID: String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchTimeEstimateForLocation(#startLatitude: Double, startLongitude: Double, userID: String? = nil, productID: String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		var pathParameters : [NSObject: AnyObject] = ["start_latitude": startLatitude, "start_longitude" : startLongitude]
 		if let user = userID
@@ -196,7 +214,7 @@ extension UberManager
 	
 	:param: errorHandler 	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
 	*/
-	public func fetchTimeEstimateForLocation(location: CLLocation, productID: String? = nil, userID : String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchTimeEstimateForLocation(location: CLLocation, productID: String? = nil, userID : String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		fetchTimeEstimateForLocation(startLatitude: location.coordinate.latitude, startLongitude: location.coordinate.longitude, userID: userID, productID: productID, completionBlock: success, errorHandler: failure)
 	}
@@ -215,7 +233,7 @@ extension UberManager
 	:param: completionBlock The block of code to execute if an UberPromotion was successfully created. This block takes one parameter the `UberPromotion` object.
 	:param: errorHandler   	The block of code to execute if an error occurs.
 	*/
-	public func fetchPromotionsForLocations(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchPromotionsForLocations(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		fetchObject("/v1/promotions", withPathParameters: ["start_latitude": startLatitude, "start_longitude" : startLongitude, "end_latitude" : endLatitude, "end_longitude" : endLongitude], completionHandler: success, errorHandler: failure)
 	}
@@ -228,7 +246,7 @@ extension UberManager
 	:param: completionBlock The block of code to execute if an UberPromotion was successfully created. This block takes one parameter the `UberPromotion` object.
 	:param: errorHandler  	The block of code to execute if an error occurs.
 	*/
-	public func fetchPromotionsForLocations(#startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchPromotionsForLocations(#startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		fetchPromotionsForLocations(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, completionBlock: success, errorHandler: failure)
 	}
@@ -243,7 +261,7 @@ extension UberManager
 	:param: completionBlock The block of code to execute if the user has successfully been created. This block takes one parameter an `UberUser` object.
 	:param: errorHandler    The block of code to execute if an error occurs.
 	*/
-	public func createUserProfile(completionBlock success: UberUserSuccess, errorHandler failure: UberErrorHandler?)
+	@objc public func createUserProfile(completionBlock success: UberUserSuccess, errorHandler failure: UberErrorHandler?)
 	{
 		fetchObject("/v1/me", requireUserAccessToken: true, completionHandler: success, errorHandler: failure)
 	}
@@ -260,7 +278,7 @@ extension UberManager
 	:param: completionBlock  The block of code to execute on success. The parameters to this block is an array of `UberActivity`, the offset that is passed in, the limit passed in, the count which is the total number of items available.
 	:param: errorHandler     The block of code to execute on failure.
 	*/
-	public func fetchActivityForUser(offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
+	@objc public func fetchActivityForUser(offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
 	{
 		assert(limit <= 50, "The maximum limit size supported by this endpoint is 50. Please pass in a value smaller than this.")
 		fetchObjects("/v1.1/history", withPathParameters: ["offset" : offset, "limit" : limit], requireUserAccessToken: true, arrayKey: "history", completionHandler: {(activities: [UberActivity], JSON) in
@@ -289,7 +307,7 @@ extension UberManager
 	:param: completionBlock The block of code to be executed on a successful creation of the request.
 	:param: errorHandler    The block of code to be executed if an error occurs.
 	*/
-	public func createRequest(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, productID: String, completionBlock success: UberRequestSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	@objc public func createRequest(#startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, productID: String, completionBlock success: UberRequestSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		var successUnwrapped : UberRequestSuccessBlock = {(request: UberRequest) in }
 		fetchObject("/v1/requests", withQueryParameters: ["start_latitude": startLatitude, "start_longitude": startLongitude, "end_latitude": endLatitude, "end_longitude": endLongitude, "product_id": productID], requireUserAccessToken: true, usingHTTPMethod: HTTPMethod.Post, completionHandler: success ?? successUnwrapped, errorHandler: failure)
@@ -304,7 +322,7 @@ extension UberManager
 	:param: completionBlock    The block of code to be executed on a successful creation of the request.
 	:param: errorHandler       The block of code to be executed if an error occurs.
 	*/
-	public func createRequest(startLocation: CLLocation, endLocation: CLLocation, productID: String, completionBlock success: UberRequestSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	@objc public func createRequest(startLocation: CLLocation, endLocation: CLLocation, productID: String, completionBlock success: UberRequestSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		createRequest(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, productID: productID, completionBlock: success, errorHandler: failure)
 	}
@@ -313,15 +331,15 @@ extension UberManager
 // MARK: Helper Delegate
 extension UberManager
 {
-	private class PrivateUberDelegate : UberManagerDelegate
+	@objc private class PrivateUberDelegate : UberManagerDelegate
 	{
-		let applicationName : String
-		let clientID : String
-		let clientSecret: String
-		let serverToken : String
-		let redirectURI : String
-		let baseURL : UberBaseURL
-		let scopes : [UberScopes]
+		@objc let applicationName : String
+		@objc let clientID : String
+		@objc let clientSecret: String
+		@objc let serverToken : String
+		@objc let redirectURI : String
+		@objc let baseURL : UberBaseURL
+		@objc let scopes : NSArray
 		
 		init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: [UberScopes])
 		{
@@ -331,7 +349,7 @@ extension UberManager
 			self.serverToken = serverToken
 			self.redirectURI = redirectURI
 			self.baseURL = baseURL
-			self.scopes = scopes
+			self.scopes = scopes.map { $0.rawValue }
 		}
 	}
 }

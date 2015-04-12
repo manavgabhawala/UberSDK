@@ -8,15 +8,15 @@
 
 import Foundation
 
-public class UberEstimate: JSONCreateable, Printable, DebugPrintable
+@objc public class UberEstimate: JSONCreateable, Printable, DebugPrintable
 {
 	/// Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-	public let productID: String
+	@objc public let productID: String
 	/// Display name of product.
-	public let productDisplayName: String
+	@objc public let productDisplayName: String
 	
-	public var description : String { get { return productDisplayName } }
-	public var debugDescription : String { get { return description } }
+	@objc public var description : String { get { return productDisplayName } }
+	@objc public var debugDescription : String { get { return description } }
 	
 	private init(id: String, displayName: String)
 	{
@@ -38,22 +38,22 @@ public typealias UberPriceEstimateSuccessBlock = ([UberPriceEstimate]) -> Void
 public class UberPriceEstimate : UberEstimate
 {
 	/// Upper bound of the estimated price.
-	public let highEstimate: Int
+	@objc public let highEstimate: Int
 	/// Lower bound of the estimated price.
-	public let lowEstimate: Int
+	@objc public let lowEstimate: Int
 	/// Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
-	public let estimate: String
+	@objc public let estimate: String
 	/// http://en.wikipedia.org/wiki/ISO_4217 ISO 4217 currency code.
-	public let currency: String
+	@objc public let currency: String
 	/// Expected activity duration (in seconds). Always show duration in minutes.
-	public let duration: NSTimeInterval
+	@objc public let duration: NSTimeInterval
 	/// Expected activity distance (in miles).
-	public let distance: Float
+	@objc public let distance: Float
 	/// Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
-	public let surgeMultiplier: Float
+	@objc public let surgeMultiplier: Float
 	
 	/// A computed property that gives the estimated time of arrival if one were to take the trip for which the price estimate was requested.
-	public var ETA: NSDate
+	@objc public var ETA: NSDate
 	{
 		get
 		{
@@ -61,8 +61,8 @@ public class UberPriceEstimate : UberEstimate
 		}
 	}
 	
-	public override var description : String { get { return "Uber Price Estimate: \(estimate) for \(distance) mile long trip, lasting \(duration * 60) minutes." } }
-	public override var debugDescription : String { get { return description } }
+	@objc public override var description : String { get { return "Uber Price Estimate: \(estimate) for \(distance) mile long trip, lasting \(duration * 60) minutes." } }
+	@objc public override var debugDescription : String { get { return description } }
 	
 	private init(id: String, displayName: String, lowEstimate: Int, highEstimate: Int, estimate: String, currency: String, surge: Float, duration: Int, distance: Float)
 	{
@@ -98,13 +98,13 @@ public class UberPriceEstimate : UberEstimate
 }
 public typealias UberTimeEstimateSuccessBlock = ([UberTimeEstimate]) -> Void
 
-public class UberTimeEstimate : UberEstimate
+@objc public class UberTimeEstimate : UberEstimate
 {
 	/// ETA for the product (in seconds). Always show estimate in minutes.
-	public let estimate : NSTimeInterval
+	@objc public let estimate : NSTimeInterval
 	
 	/// This is a computed property that tells you the estimated time of departure for the Uber user if he selects a certian Product.
-	public var ETD: NSDate
+	@objc public var ETD: NSDate
 	{
 		get
 		{
@@ -112,8 +112,8 @@ public class UberTimeEstimate : UberEstimate
 		}
 	}
 	
-	public override var description : String { get { return "Uber Time Estimate: Estimated time before \(productDisplayName) arrives is \(estimate * 60) minutes." } }
-	public override var debugDescription : String { get { return description } }
+	@objc public override var description : String { get { return "Uber Time Estimate: Estimated time before \(productDisplayName) arrives is \(estimate * 60) minutes." } }
+	@objc public override var debugDescription : String { get { return description } }
 	
 	private init(id: String, displayName: String, estimate: Int)
 	{

@@ -24,19 +24,19 @@ public enum UberRequestStatus : String
 public typealias UberRequestSuccessBlock = (UberRequest) -> Void
 public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 
-public class UberRequest : Printable, DebugPrintable, JSONCreateable
+@objc public class UberRequest : Printable, DebugPrintable, JSONCreateable
 {
 	
 	/// The unique ID of the Request.
-	public let requestID: String
+	@objc public let requestID: String
 	
 	/// The status of the Request indicating state.
 	public let status : UberRequestStatus
 	
 	/// The estimated arrival time of vehicle arrival in minutes.
-	public let eta : Int
+	@objc public let eta : Int
 	/// The estimated arrival time of vehicle arrival as an NSDate
-	public var estimatedTimeOfArrival : NSDate
+	@objc public var estimatedTimeOfArrival : NSDate
 	{
 		get
 		{
@@ -45,23 +45,16 @@ public class UberRequest : Printable, DebugPrintable, JSONCreateable
 	}
 	
 	/// The surge pricing multiplier used to calculate the increased price of a Request. A multiplier of 1.0 means surge pricing is not in effect.
-	public let surgeMultiplier : Float
+	@objc public let surgeMultiplier : Float
 	
 	/// The object that contains the vehicle details.
-	public let vehicle : UberVehicle?
+	@objc public let vehicle : UberVehicle?
 	
 	/// The object that contains driver details.
-	public let driver : UberDriver?
+	@objc public let driver : UberDriver?
 	
 	/// The object that contains the location information of the vehicle and driver.
-	public let location : UberLocation?
-	
-	/*request_id	string	The unique ID of the Request.
-	status	string	The status of the Request indicating state.
-	
-	
-	eta	integer	The estimated time of vehicle arrival in minutes.
-	surge_multiplier 	float	The surge pricing multiplier used to calculate the increased price of a Request. A multiplier of 1.0 means surge pricing is not in effect.*/
+	@objc public let location : UberLocation?
 
 	public var description : String { get { return "\(driver) will arrive in a \(vehicle) in about \(eta) minutes." } }
 	public var debugDescription : String { get { return description } }
@@ -96,7 +89,7 @@ public class UberRequest : Printable, DebugPrintable, JSONCreateable
 	*/
 	public func cancel(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
-		UberRequest.cancelRequest(self.requestID, success: success, failure: failure)
+		UberRequest.cancelRequest(self.requestID, completionBlock: success, errorHandler: failure)
 	}
 	
 	/**
@@ -107,7 +100,7 @@ public class UberRequest : Printable, DebugPrintable, JSONCreateable
 	*/
 	public func getRequestMap(completionBlock success: UberMapSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
-		UberRequest.mapForRequest(requestID, success: success, failure: failure)
+		UberRequest.mapForRequest(requestID, completionBlock: success, errorHandler: failure)
 	}
 	
 	/**

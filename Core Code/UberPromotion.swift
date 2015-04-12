@@ -15,11 +15,31 @@ An enumeration of the possible Promotion Types.
 - AccountCredit: Credit on the user's account.
 - Unknown:       We do not understand the promotion type. The type will be saved as Unknown and the actual string representation will be printed to the console.
 */
-public enum UberPromotionType
+@objc public enum UberPromotionType: Int, Printable, DebugPrintable
 {
 	case TripCredit
 	case AccountCredit
 	case Unknown
+	
+	public var description : String
+		{
+		get
+		{
+			switch self
+			{
+			case .TripCredit:
+				return "Trip Credit"
+			case .AccountCredit:
+				return "Account Credit"
+			case .Unknown:
+				return "Undefined"
+			default:
+				assert(false, "We have an undefined enum type.")
+				return ""
+			}
+		}
+	}
+	public var debugDescription : String { get { return description } }
 	
 	private static func create(string: String) -> UberPromotionType
 	{
@@ -38,20 +58,21 @@ public enum UberPromotionType
 		uberLog("Unknown Promotion Type Recieved: \(string)")
 		return .Unknown
 	}
+	
 }
 
-public class UberPromotion : Printable, DebugPrintable, JSONCreateable
+@objc public class UberPromotion : Printable, DebugPrintable, JSONCreateable
 {
 	/// A localized string we recommend to use when offering the promotion to users.
-	public let displayText : String
+	@objc public let displayText : String
 	/// The value of the promotion that is available to a user in this location in the local currency.
-	public let value: String
+	@objc public let value: String
 	/// The type of Promotion as defined by the Uber API
-	public let type : UberPromotionType
+	@objc public let type : UberPromotionType
 	
-	public var description: String { get { return displayText } }
+	@objc public var description: String { get { return displayText } }
 	
-	public var debugDescription: String { get { return description } }
+	@objc public var debugDescription: String { get { return description } }
 	
 	private init(displayText : String, value : String, type: String)
 	{

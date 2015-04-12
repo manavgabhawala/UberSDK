@@ -11,7 +11,7 @@ import UIKit
 
 extension UberUserOAuth
 {
-	func generateCodeForRequest(request: NSURLRequest)
+	internal func generateCodeForRequest(request: NSURLRequest)
 	{
 		let view = UIWebView()
 		view.frame = UIScreen.mainScreen().bounds
@@ -23,7 +23,7 @@ extension UberUserOAuth
 }
 extension UberUserOAuth : UIWebViewDelegate
 {
-	func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool
+	private func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool
 	{
 		if let URL = request.URL?.absoluteString
 		{
@@ -57,14 +57,14 @@ extension UberUserOAuth : UIWebViewDelegate
 		}
 		return true
 	}
-	func webView(webView: UIWebView, didFailLoadWithError error: NSError)
+	private func webView(webView: UIWebView, didFailLoadWithError error: NSError)
 	{
 		UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 		//TODO: Show error
 		uberLog(error)
 		errorHandler?(nil, error)
 	}
-	func webViewDidFinishLoad(webView: UIWebView)
+	private func webViewDidFinishLoad(webView: UIWebView)
 	{
 		UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 	}
