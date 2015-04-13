@@ -77,12 +77,12 @@ class SomeClass : NSObject
 ```objc
 NSArray *scopes = [[NSArray alloc] initWithObjects:UberScopesProfile, UberScopesRequest, nil];
 UberManager *manager = [[UberManager alloc] initWithApplicationName:@"APP_NAME"
-clientID:@"CLIENT_ID"
-clientSecret:@"CLIENT_SECRET"
-serverToken:@"SERVER_TOKEN"
-redirectURI:@"REDIRECT_URI"
-baseURL:UberBaseURLSandboxAPI
-scopes:scopes];
+														   clientID:@"CLIENT_ID"
+													   clientSecret:@"CLIENT_SECRET"
+														serverToken:@"SERVER_TOKEN"
+														redirectURI:@"REDIRECT_URI"
+															baseURL:UberBaseURLSandboxAPI
+															 scopes:scopes];
 ```
 ### User Authentication with OAuth 2.0
 Once you have initialized the `UberManager` instance, you must get a user to log in before you can use any of the endpoints that require User Authentication. These include:
