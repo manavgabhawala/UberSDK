@@ -15,21 +15,21 @@ To initialize the `UberManager` You can either implement the `UberManagerDelegat
 ```swift
 class SomeClass : NSObject
 {
-func someFunction()
-{
-let manager = UberManager(delegate: self)
+	func someFunction()
+	{
+		let manager = UberManager(delegate: self)
+	}
 }
 
-}
 extension SomeClass : UberManagerDelegate 
 {
-var applicationName: String { get { return "APP_NAME" } }
-var clientID : String { get { return "CLIENT_ID" } }
-var clientSecret: String { get { return "CLIENT_SECRET" } }
-var serverToken : String { get { return "SERVER_TOKEN" } }
-var redirectURI : String { get { return "REDIRECT_URI" } }
-var baseURL : UberBaseURL { get { return .SandboxAPI } }
-var scopes : NSArray { get { return [UberScopes.Profile.rawValue, UberScopes.Request.rawValue] } }
+	var applicationName: String { get { return "APP_NAME" } }
+	var clientID : String { get { return "CLIENT_ID" } }
+	var clientSecret: String { get { return "CLIENT_SECRET" } }
+	var serverToken : String { get { return "SERVER_TOKEN" } }
+	var redirectURI : String { get { return "REDIRECT_URI" } }
+	var baseURL : UberBaseURL { get { return .SandboxAPI } }
+	var scopes : NSArray { get { return [UberScopes.Profile.rawValue, UberScopes.Request.rawValue] } }
 }
 ```
 #####Objective C
@@ -55,8 +55,8 @@ var scopes : NSArray { get { return [UberScopes.Profile.rawValue, UberScopes.Req
 @implementation SomeClass
 -(void) someFunction
 {
-// You must assign the properties before creating a new instance.
-UberManager *newManager = [[UberManager alloc] initWithDelegate:self];
+	// You must assign the properties before creating a new instance.
+	UberManager *newManager = [[UberManager alloc] initWithDelegate:self];
 }
 @end
 
@@ -66,10 +66,10 @@ UberManager *newManager = [[UberManager alloc] initWithDelegate:self];
 ```swift
 class SomeClass : NSObject
 {
-func someFunction()
-{
-let manager = UberManager(applicationName: "APP_NAME", clientID: "CLIENT_ID", clientSecret: "CLIENT_SECRET", serverToken: "SERVER_TOKEN", redirectURI: "REDIRECT_URI", baseURL: .SandboxAPI, scopes: [.Profile, .Request])
-}
+	func someFunction()
+	{
+		let manager = UberManager(applicationName: "APP_NAME", clientID: "CLIENT_ID", clientSecret: "CLIENT_SECRET", serverToken: "SERVER_TOKEN", redirectURI: "REDIRECT_URI", baseURL: .SandboxAPI, scopes: [.Profile, .Request])
+	}
 
 }
 ```
@@ -94,20 +94,20 @@ Before calling any of these functions you must call `performUserAuthorization(co
 #####Swift 
 ```swift
 manager.performUserAuthorization(completionBlock: { 
-// Yay! The user is now logged in.
-}, errorHandler: {(uberError, response, error) in 
-println(uberError)
-println(error)
-// TODO: Some awesome error handling.
-})  
+		// Yay! The user is now logged in.
+	}, errorHandler: {(uberError, response, error) in 
+		println(uberError)
+		println(error)
+		// TODO: Some awesome error handling.
+})
 ```
 #####Objective C
 ```objc
 [manager performUserAuthorizationWithCompletionBlock:^() {
-// Yay! The user is now logged in!
+	// Yay! The user is now logged in!
 } errorHandler:^(UberError* uberError, NSURLResponse* response,
 NSError* error){
-// TODO: Some amazing error handling
+	// TODO: Some amazing error handling
 }];
 ```
 ### Function Calls
@@ -136,13 +136,6 @@ completionBlock:^(UberProduct* product) {
 errorHandler:^(UberError* uberError,
 NSURLResponse* response, NSError* error){
 	// TODO: Some awesome error handling.
-}];
-
-[UberProduct performUserAuthorizationWithCompletionBlock:^() {
-// Yay! The user is now logged in!
-} errorHandler:^(UberError* uberError, NSURLResponse* response,
-NSError* error){
-// TODO: Some amazing error handling
 }];
 ```
 ### Miscellaneous
