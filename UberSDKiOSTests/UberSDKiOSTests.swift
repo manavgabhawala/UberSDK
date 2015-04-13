@@ -10,15 +10,15 @@ import UIKit
 import CoreLocation
 import XCTest
 
-@objc class Delegate : UberManagerDelegate
+class Delegate : NSObject, UberManagerDelegate
 {
-	@objc var applicationName: String { get { return "CocoaSDK" } }
-	@objc var clientID : String { get { return "DUf5ZDdiJlrhLvFIljaiHUF5n4RNdhTA" } }
-	@objc var clientSecret: String { get { return "" } }
-	@objc var serverToken : String { get { return "" } }
-	@objc var redirectURI : String { get { return "https://localhost:8000" } }
-	@objc var baseURL : UberBaseURL { get { return .SandboxAPI } }
-	@objc var scopes : NSArray { get { return [ UberScopes.Profile.rawValue ] } }
+	var applicationName: String { get { return "CocoaSDK" } }
+	var clientID : String { get { return "DUf5ZDdiJlrhLvFIljaiHUF5n4RNdhTA" } }
+	var clientSecret: String { get { return "" } }
+	var serverToken : String { get { return "" } }
+	var redirectURI : String { get { return "https://localhost:8000" } }
+	var baseURL : UberBaseURL { get { return .SandboxAPI } }
+	var scopes : NSArray { get { return [ UberScopes.Profile.rawValue ] } }
 }
 
 let sharedTestingDelegate = Delegate()
@@ -34,7 +34,7 @@ class UberSDKiOSTests: XCTestCase {
 	{
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-		
+		let manager = UberManager(applicationName: "", clientID: "", clientSecret: "", serverToken: "", redirectURI: "", baseURL: .SandboxAPI, scopes: [.Request, .Profile])
     }
     
     override func tearDown()

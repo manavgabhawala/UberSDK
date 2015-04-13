@@ -13,11 +13,11 @@ A wrapper around an UberError that gets sent as JSON
 @objc public class UberError : Printable, DebugPrintable, JSONCreateable
 {
 	/// Human readable message which corresponds to the client error.
-	@objc let errorMessage : String
+	@objc public let errorMessage : String
 	/// Underscored delimited string.
-	@objc let code : String
+	@objc public let code : String
 	/// A hash of field names that have validations. This has a value of an array with member strings that describe the specific validation error.
-	@objc let fields : [NSObject : AnyObject]?
+	@objc public let fields : [NSObject : AnyObject]?
 	
 	@objc public var description : String { get { return errorMessage } }
 	@objc public var debugDescription : String { get { return description } }

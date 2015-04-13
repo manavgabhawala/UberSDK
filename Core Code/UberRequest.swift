@@ -56,8 +56,8 @@ public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 	/// The object that contains the location information of the vehicle and driver.
 	@objc public let location : UberLocation?
 
-	public var description : String { get { return "\(driver) will arrive in a \(vehicle) in about \(eta) minutes." } }
-	public var debugDescription : String { get { return description } }
+	@objc public var description : String { get { return "\(driver) will arrive in a \(vehicle) in about \(eta) minutes." } }
+	@objc public var debugDescription : String { get { return description } }
 	
 	private init(ID: String, status: String, eta: Int, surgeMultiplier: Float, vehicle: [NSObject: AnyObject]?, driver: [NSObject : AnyObject]?, location: [NSObject: AnyObject]?)
 	{
@@ -87,7 +87,7 @@ public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 	:param: completionBlock The block of code to execute on a successful cancellation.
 	:param: errorHandler 	The block of code to execute on a failure to cancel the request.
 	*/
-	public func cancel(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	@objc public func cancel(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		UberRequest.cancelRequest(self.requestID, completionBlock: success, errorHandler: failure)
 	}
@@ -98,7 +98,7 @@ public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 	:param: completionBlock The block of code to execute on a successful fetching of the map.
 	:param: errorHandler 	The block of code to execute if an error occurs.
 	*/
-	public func getRequestMap(completionBlock success: UberMapSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public func getRequestMap(completionBlock success: UberMapSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		UberRequest.mapForRequest(requestID, completionBlock: success, errorHandler: failure)
 	}
@@ -111,7 +111,7 @@ public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 	:param: errorHandler    The block of code to execute if an error occurs.
 	
 	*/
-	public class func createRequest(requestID: String, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public class func createRequest(requestID: String, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		assert(sharedDelegate != nil, "You must initialize the UberManager before being able to call methods on the Uber SDK.")
 		fetchObject("/v1/products/\(requestID)", requireUserAccessToken: true, completionHandler: success, errorHandler: failure)
@@ -124,7 +124,7 @@ public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 	:param: completionBlock The block of code to execute on a successful cancellation.
 	:param: errorHandler    The block of code to execute on a failure to cancel the request.
 	*/
-	public class func cancelRequest(requestID: String, completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	@objc public class func cancelRequest(requestID: String, completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		let request = createRequestForURL("/v1/requests/\(requestID)", requireUserAccessToken: true, usingHTTPMethod: .Delete)
 		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
@@ -147,7 +147,7 @@ public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 	:param: completionBlock  The block of code to execute on a successful fetching of the map.
 	:param: errorHandler     The block of code to execute if an error occurs.
 	*/
-	public class func mapForRequest(requestID: String, completionBlock success: UberMapSuccessBlock, errorHandler failure: UberErrorHandler?)
+	@objc public class func mapForRequest(requestID: String, completionBlock success: UberMapSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
 		fetchObject("/v1/requests/\(requestID)/map", requireUserAccessToken: true, completionHandler: success, errorHandler: failure)
 	}
@@ -155,12 +155,12 @@ public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
 	/**
 	This class is a wrapper around a request map.
 	*/
-	public class Map : JSONCreateable
+	@objc public class Map : JSONCreateable
 	{
 		/// Unique identifier representing a Request.
-		public let requestID: String
+		@objc public let requestID: String
 		/// A link to the map of the request.
-		public let mapLink : NSURL
+		@objc public let mapLink : NSURL
 		
 		private init(requestID: String, href: String)
 		{

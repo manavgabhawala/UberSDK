@@ -31,28 +31,28 @@ private func downloadImage<T: UberObjectHasImage>(object: T, successCallbackBloc
 						}
 						else
 						{
-							failure?(response, error)
+							failure?(nil, response, error)
 						}
 					}
 					else
 					{
-						failure?(response, moveError)
+						failure?(nil, response, moveError)
 					}
 				}
 				else
 				{
-					failure?(response, error)
+					failure?(nil, response, error)
 				}
 			}
 			else
 			{
-				failure?(response, error)
+				failure?(nil, response, error)
 			}
 		})
 	}
 	else
 	{
-		failure?(nil, NSError(domain: "UberSDK", code: 1, userInfo: ["error" : "Image URL is not valid. Failed to download image."]))
+		failure?(nil, nil, NSError(domain: "UberSDK", code: 1, userInfo: ["error" : "Image URL is not valid. Failed to download image."]))
 	}
 }
 
@@ -67,7 +67,7 @@ extension UberProduct
 	:param: completionBlock The block of code to execute on success. This block takes 3 parameters the product for which the image was downloaded, an NSImage representation of the image, and the location to the cached image.
 	:param: errorHandler The block of code to execute on failure.#failure description#>
 	*/
-	@objc public func downloadImageInBackground(completionBlock success: UberProductImageDownloadedBlock?, errorHandler failure: UberErrorHandler?)
+	@objc public func downloadImageInBackground(completionBlock success: UberProductImageDownloadedBlock, errorHandler failure: UberErrorHandler?)
 	{
 		downloadImage(self, successCallbackBlock: success, andFailureCallbackBlock: failure)
 	}

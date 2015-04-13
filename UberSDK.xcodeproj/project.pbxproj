@@ -16,6 +16,14 @@
 		822300D71AD76EF900A5CAD7 /* UberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822300D41AD76EF900A5CAD7 /* UberRequest.swift */; };
 		822300D81AD76EF900A5CAD7 /* UberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822300D41AD76EF900A5CAD7 /* UberRequest.swift */; };
 		82360E751AD5E79A000DADA5 /* UberPromotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82360E741AD5E79A000DADA5 /* UberPromotionTests.swift */; };
+		82453A651ADBADCC006F781D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82453A631ADBADCC006F781D /* LICENSE.txt */; };
+		82453A661ADBADCC006F781D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82453A631ADBADCC006F781D /* LICENSE.txt */; };
+		82453A671ADBADCC006F781D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82453A631ADBADCC006F781D /* LICENSE.txt */; };
+		82453A681ADBADCC006F781D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82453A631ADBADCC006F781D /* LICENSE.txt */; };
+		82453A691ADBADCC006F781D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 82453A641ADBADCC006F781D /* README.md */; };
+		82453A6A1ADBADCC006F781D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 82453A641ADBADCC006F781D /* README.md */; };
+		82453A6B1ADBADCC006F781D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 82453A641ADBADCC006F781D /* README.md */; };
+		82453A6C1ADBADCC006F781D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 82453A641ADBADCC006F781D /* README.md */; };
 		82696B1B1AD7543C00A0845E /* UberActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82696B1A1AD7543C00A0845E /* UberActivity.swift */; };
 		82696B1C1AD7543C00A0845E /* UberActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82696B1A1AD7543C00A0845E /* UberActivity.swift */; };
 		82696B1D1AD7543C00A0845E /* UberActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82696B1A1AD7543C00A0845E /* UberActivity.swift */; };
@@ -103,6 +111,8 @@
 		82023ECE1ADB3D69001C1C56 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = "Core Code/Media.xcassets"; sourceTree = "<group>"; };
 		822300D41AD76EF900A5CAD7 /* UberRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UberRequest.swift; path = "Core Code/UberRequest.swift"; sourceTree = "<group>"; };
 		82360E741AD5E79A000DADA5 /* UberPromotionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UberPromotionTests.swift; sourceTree = "<group>"; };
+		82453A631ADBADCC006F781D /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		82453A641ADBADCC006F781D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		82696B1A1AD7543C00A0845E /* UberActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UberActivity.swift; path = "Core Code/UberActivity.swift"; sourceTree = "<group>"; };
 		8279E8E21ACA93E300186FC1 /* UberSDKiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UberSDKiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8279E8E61ACA93E300186FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -180,6 +190,8 @@
 		8279E8D61ACA93C400186FC1 = {
 			isa = PBXGroup;
 			children = (
+				82453A631ADBADCC006F781D /* LICENSE.txt */,
+				82453A641ADBADCC006F781D /* README.md */,
 				8279E91F1ACA943A00186FC1 /* CoreFiles */,
 				8279E8E41ACA93E300186FC1 /* UberSDKiOS */,
 				8279E8F11ACA93E300186FC1 /* UberSDKiOSTests */,
@@ -437,6 +449,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82453A651ADBADCC006F781D /* LICENSE.txt in Resources */,
 				82023ECF1ADB3D69001C1C56 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +458,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82453A661ADBADCC006F781D /* LICENSE.txt in Resources */,
 				82023ED01ADB3D69001C1C56 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,6 +467,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82453A671ADBADCC006F781D /* LICENSE.txt in Resources */,
 				82023ED11ADB3D69001C1C56 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,6 +476,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82453A681ADBADCC006F781D /* LICENSE.txt in Resources */,
 				82023ED21ADB3D69001C1C56 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,6 +494,7 @@
 				82ABA3A51ADA693A00F3A32C /* UberDriver.swift in Sources */,
 				828882B81AD5ED5C006A305B /* UberUserOAuth.swift in Sources */,
 				828882A81AD5ED5C006A305B /* UberManager.swift in Sources */,
+				82453A691ADBADCC006F781D /* README.md in Sources */,
 				828882B01AD5ED5C006A305B /* UberPromotion.swift in Sources */,
 				82696B1B1AD7543C00A0845E /* UberActivity.swift in Sources */,
 				8279EA091ACA997100186FC1 /* Uber+UIImage.swift in Sources */,
@@ -496,6 +513,7 @@
 			files = (
 				82ABA3AB1ADA695900F3A32C /* UberLocation.swift in Sources */,
 				828882A91AD5ED5C006A305B /* UberManager.swift in Sources */,
+				82453A6A1ADBADCC006F781D /* README.md in Sources */,
 				828882AD1AD5ED5C006A305B /* UberProduct.swift in Sources */,
 				82ABA3A61ADA693A00F3A32C /* UberDriver.swift in Sources */,
 				828882B51AD5ED5C006A305B /* UberUser.swift in Sources */,
@@ -526,6 +544,7 @@
 				82ABA3A71ADA693A00F3A32C /* UberDriver.swift in Sources */,
 				828882BA1AD5ED5C006A305B /* UberUserOAuth.swift in Sources */,
 				828882AA1AD5ED5C006A305B /* UberManager.swift in Sources */,
+				82453A6B1ADBADCC006F781D /* README.md in Sources */,
 				828882B21AD5ED5C006A305B /* UberPromotion.swift in Sources */,
 				82696B1D1AD7543C00A0845E /* UberActivity.swift in Sources */,
 				8280B58C1ACB64240098E4D8 /* Uber+NSImage.swift in Sources */,
@@ -553,6 +572,7 @@
 				8279E9131ACA93FB00186FC1 /* UberSDKMacTests.swift in Sources */,
 				828882A31AD5ED5C006A305B /* GenericExtensions.swift in Sources */,
 				82ABA3AD1ADA695900F3A32C /* UberLocation.swift in Sources */,
+				82453A6C1ADBADCC006F781D /* README.md in Sources */,
 				82ABA3A81ADA693A00F3A32C /* UberDriver.swift in Sources */,
 				828882AF1AD5ED5C006A305B /* UberProduct.swift in Sources */,
 				82ABA3A31ADA692200F3A32C /* UberVehicle.swift in Sources */,
@@ -844,10 +864,7 @@
 				INFOPLIST_FILE = UberSDKMac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/OAuth2Client",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -899,10 +916,7 @@
 				INFOPLIST_FILE = UberSDKMac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/OAuth2Client",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

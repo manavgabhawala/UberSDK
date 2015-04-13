@@ -78,7 +78,7 @@ This class represents an UberProduct. It contains all the data recieved from the
 	
 	*:warning:* Product IDs are different for different regions. Fetch all products for a location using the `UberManager` instance.
 	*/
-	@objc class func createProduct(productID: String, success: UberSingleProductSuccessBlock, failure: UberErrorHandler?)
+	@objc public class func createProduct(productID: String, success: UberSingleProductSuccessBlock, failure: UberErrorHandler?)
 	{
 		assert(sharedDelegate != nil, "You must initialize the UberManager before being able to call methods on the Uber SDK.")
 		fetchObject("/v1/products/\(productID)", completionHandler: success, errorHandler: failure)
