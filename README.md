@@ -6,8 +6,9 @@ This is an SDK for the new Uber API released in March 2015. This SDK allows deve
 Coming Soon. (If you can't wait lookup importing Swift Frameworks into Swift/Objective-C projects depending on what you are using
 
 ## Documentation and Usage 
-The basic way to initialize the SDK is creating an instance of the `UberManager` object. You should create only one instance of the `UberManager` at a time. You can either implement the `UberManagerDelegate` or pass in all the values required for the application setup including the client key, client secret, etc. Then you can call functions on your instance of the manager.
-Before calling any function that needs user OAuth2.0 you must call `performUserAuthorization(completionBlock: UberSuccessBlock?, errorHandler: UberErrorHandler?)`.
+The basic way to initialize the SDK is creating an instance of the `UberManager` object. You should create only one instance of the `UberManager` at a time. This instance is thread safe in that you can use the same instance on multiple threads but if you initialize a new UberManager your old UberManager will start accessing older properties. 
+To initialize the `UberManager` You can either implement the `UberManagerDelegate` or pass in all the values required for the application setup to the init function. This includes the *client key*, *client secret*, *server token* and *redirectURI*. Then you can call functions on your instance of the manager.
+Before calling any function that needs user OAuth2.0 you must call `performUserAuthorization(completionBlock:, errorHandler:)`.
 
 More detailed information coming soon.
 
