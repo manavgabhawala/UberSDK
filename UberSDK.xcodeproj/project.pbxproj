@@ -20,10 +20,6 @@
 		82453A661ADBADCC006F781D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82453A631ADBADCC006F781D /* LICENSE.txt */; };
 		82453A671ADBADCC006F781D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82453A631ADBADCC006F781D /* LICENSE.txt */; };
 		82453A681ADBADCC006F781D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82453A631ADBADCC006F781D /* LICENSE.txt */; };
-		82453A691ADBADCC006F781D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 82453A641ADBADCC006F781D /* README.md */; };
-		82453A6A1ADBADCC006F781D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 82453A641ADBADCC006F781D /* README.md */; };
-		82453A6B1ADBADCC006F781D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 82453A641ADBADCC006F781D /* README.md */; };
-		82453A6C1ADBADCC006F781D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 82453A641ADBADCC006F781D /* README.md */; };
 		82696B1B1AD7543C00A0845E /* UberActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82696B1A1AD7543C00A0845E /* UberActivity.swift */; };
 		82696B1C1AD7543C00A0845E /* UberActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82696B1A1AD7543C00A0845E /* UberActivity.swift */; };
 		82696B1D1AD7543C00A0845E /* UberActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82696B1A1AD7543C00A0845E /* UberActivity.swift */; };
@@ -494,7 +490,6 @@
 				82ABA3A51ADA693A00F3A32C /* UberDriver.swift in Sources */,
 				828882B81AD5ED5C006A305B /* UberUserOAuth.swift in Sources */,
 				828882A81AD5ED5C006A305B /* UberManager.swift in Sources */,
-				82453A691ADBADCC006F781D /* README.md in Sources */,
 				828882B01AD5ED5C006A305B /* UberPromotion.swift in Sources */,
 				82696B1B1AD7543C00A0845E /* UberActivity.swift in Sources */,
 				8279EA091ACA997100186FC1 /* Uber+UIImage.swift in Sources */,
@@ -513,7 +508,6 @@
 			files = (
 				82ABA3AB1ADA695900F3A32C /* UberLocation.swift in Sources */,
 				828882A91AD5ED5C006A305B /* UberManager.swift in Sources */,
-				82453A6A1ADBADCC006F781D /* README.md in Sources */,
 				828882AD1AD5ED5C006A305B /* UberProduct.swift in Sources */,
 				82ABA3A61ADA693A00F3A32C /* UberDriver.swift in Sources */,
 				828882B51AD5ED5C006A305B /* UberUser.swift in Sources */,
@@ -544,7 +538,6 @@
 				82ABA3A71ADA693A00F3A32C /* UberDriver.swift in Sources */,
 				828882BA1AD5ED5C006A305B /* UberUserOAuth.swift in Sources */,
 				828882AA1AD5ED5C006A305B /* UberManager.swift in Sources */,
-				82453A6B1ADBADCC006F781D /* README.md in Sources */,
 				828882B21AD5ED5C006A305B /* UberPromotion.swift in Sources */,
 				82696B1D1AD7543C00A0845E /* UberActivity.swift in Sources */,
 				8280B58C1ACB64240098E4D8 /* Uber+NSImage.swift in Sources */,
@@ -572,7 +565,6 @@
 				8279E9131ACA93FB00186FC1 /* UberSDKMacTests.swift in Sources */,
 				828882A31AD5ED5C006A305B /* GenericExtensions.swift in Sources */,
 				82ABA3AD1ADA695900F3A32C /* UberLocation.swift in Sources */,
-				82453A6C1ADBADCC006F781D /* README.md in Sources */,
 				82ABA3A81ADA693A00F3A32C /* UberDriver.swift in Sources */,
 				828882AF1AD5ED5C006A305B /* UberProduct.swift in Sources */,
 				82ABA3A31ADA692200F3A32C /* UberVehicle.swift in Sources */,

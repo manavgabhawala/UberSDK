@@ -280,7 +280,8 @@ extension UberManager
 	:param: completionBlock  The block of code to execute on success. The parameters to this block is an array of `UberActivity`, the offset that is passed in, the limit passed in, the count which is the total number of items available.
 	:param: errorHandler     The block of code to execute on failure.
 	*/
-	@objc public func fetchActivityForUser(offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
+	@availability(*, deprecated=1.1, renamed="fetchUserActivity", message="Use fetchUserActivity to use the v1.2 of the User Activity endpoint.")
+ 	@objc public func fetchActivityForUser(offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
 	{
 		assert(limit <= 50, "The maximum limit size supported by this endpoint is 50. Please pass in a value smaller than this.")
 		fetchObjects("/v1.1/history", withPathParameters: ["offset" : offset, "limit" : limit], requireUserAccessToken: true, arrayKey: "history", completionHandler: {(activities: [UberActivity], JSON) in
@@ -292,6 +293,29 @@ extension UberManager
 			uberLog(JSON)
 			failure?(UberError(JSON: JSON), nil, NSError())
 		}, errorHandler: failure)
+	}
+	
+	@availability(*, introduced=1.1)
+	/**
+	Use this function to fetch a user's activity data `asynchronously` for v 1.2.
+	
+	:param: offset  Offset the list of returned results by this amount. Default is zero.
+	:param: limit   Number of items to retrieve. Default is 5, maximum is 50.
+	:param: success The block of code to execute on success. The parameters to this block is an array of `UberActivity`, the offset that is passed in, the limit passed in, the count which is the total number of items available.
+	:param: failure The block of code to execute on failure.
+	*/
+	@objc public func fetchUserActivity(offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
+	{
+		assert(limit <= 50, "The maximum limit size supported by this endpoint is 50. Please pass in a value smaller than this.")
+		fetchObjects("/v1.2/history", withPathParameters: ["offset" : offset, "limit" : limit], requireUserAccessToken: true, arrayKey: "history", completionHandler: {(activities: [UberActivity], JSON) in
+			if let count = JSON["count"] as? Int, let offset = JSON["offset"] as? Int, let limit = JSON["limit"] as? Int
+			{
+				success(activities, offset: offset, limit: limit, count: count)
+			}
+			uberLog("Could not parse JSON object. Please look at the console to figure out what went wrong.")
+			uberLog(JSON)
+			failure?(UberError(JSON: JSON), nil, NSError())
+			}, errorHandler: failure)
 	}
 }
 

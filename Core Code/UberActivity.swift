@@ -36,7 +36,17 @@ public enum UberActivityStatus : String
 	@objc public var description : String { get { return "Activity \(UUID) for \(distance) miles" } }
 	@objc public var debugDescription : String { get { return description } }
 	
-	private init?(UUID: String?, productID: String?, requestTime: NSTimeInterval?, startTime : NSTimeInterval?, endTime: NSTimeInterval?, status: String?, distance: Float?)
+	/**
+	Details about the city the activity started in.
+	*/
+	@availability(*, introduced=1.1)
+	@objc public var startCity : UberLocation
+	
+	/// http://en.wikipedia.org/wiki/ISO_4217 ISO 4217 currency code.
+	@availability(*, introduced=1.1)
+	@objc public var currencyCode : String
+	
+	private init?(UUID: String?, productID: String?, requestTime: NSTimeInterval?, startTime : NSTimeInterval?, endTime: NSTimeInterval?, status: String?, distance: Float?, currencyCode: String?, startCity: UberLocation?)
 	{
 		if let UUID = UUID, let request = requestTime, let start = startTime, let end = endTime, let distance = distance, let status = status, let productID = productID
 		{
@@ -50,6 +60,8 @@ public enum UberActivityStatus : String
 			self.startTime = startTime
 			self.endTime = endTime
 			self.status = UberActivityStatus(rawValue: status) ?? UberActivityStatus(rawValue: "")!
+			self.startCity = startCity ?? UberLocation(latitude: 0, longitude: 0, bearing: 0)
+			self.currencyCode = currencyCode ?? ""
 			return
 		}
 		self.UUID = ""
@@ -59,12 +71,14 @@ public enum UberActivityStatus : String
 		self.endTime = NSDate(timeIntervalSince1970: 0)
 		self.status = UberActivityStatus(rawValue: "")!
 		self.distance = 0
+		self.startCity = UberLocation(latitude: 0, longitude: 0, bearing: 0)
+		self.currencyCode = ""
 		return nil
 	}
 	
 	public convenience required init?(JSON : [NSObject: AnyObject])
 	{
-		self.init(UUID: JSON["uuid"] as? String, productID: JSON["product_id"] as? String, requestTime: JSON["request_time"] as? Double, startTime: JSON["start_time"] as? NSTimeInterval, endTime: JSON["end_time"] as? NSTimeInterval, status: JSON["status"] as? String, distance: JSON["distance"] as? Float)
+		self.init(UUID: JSON["uuid"] as? String, productID: JSON["product_id"] as? String, requestTime: JSON["request_time"] as? Double, startTime: JSON["start_time"] as? NSTimeInterval, endTime: JSON["end_time"] as? NSTimeInterval, status: JSON["status"] as? String, distance: JSON["distance"] as? Float, currencyCode: JSON["currency_code"] as? String, startCity: UberLocation(JSON: JSON["start_city"] as? [NSObject: AnyObject]))
 		if UUID.isEmpty
 		{
 			return nil
