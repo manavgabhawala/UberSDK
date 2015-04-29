@@ -2,6 +2,8 @@
 
 This is an SDK for the new Uber API released in March 2015. This SDK allows developers to easily use the Uber API without having to worry about implementing any OAuth 2.0 or perform any Network Requests. This SDK supports all end points available at https://developer.uber.com/v1/endpoints/ as of the beginning of April 2015.
 
+Added some support for changes made on April 21, 2015. Rest coming soon. 
+
 ## Installation Instructions 
 Coming Soon. (If you can't wait lookup importing Dynamic Frameworks into Swift/Objective-C projects depending on what you are using.
 
@@ -117,7 +119,7 @@ Now, you can make all the function calls you like to access the API endpoints. A
 There are a few exceptions, however. These functions made more logical sense to be in their respective classes and hence are in there. These function calls must also only be made after initializing the `UberManager`. Here is a list of functions available outside the `UberManager` class.
 #####Swift
 ```swift
-UberProduct.createProduct(productID: "SOME_PRODUCT_ID", success: {(product in
+UberProduct.createProduct(productID: "SOME_PRODUCT_ID", success: {(product) in
 	println(product)
 	// Created an UberProduct.
 }, failure: {(uberError, response, error) in 
