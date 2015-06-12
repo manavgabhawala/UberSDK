@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>UberMacSDK.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>UberiOSSDK.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>821983621B2AD543005B5E9D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8219836B1B2AD543005B5E9D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>82FFD9EA1B2A08DC0065C638</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>82FFD9F41B2A08DC0065C638</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>82FFDA071B2A08F70065C638</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>82FFDA101B2A08F70065C638</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
