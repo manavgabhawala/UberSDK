@@ -62,6 +62,19 @@ internal class UberUserAuthenticator : NSObject
 			expiration = dictionary.objectForKey("timeout") as? NSDate
 		}
 	}
+	/**
+	Tests whether authentication has been performed or not.
+	
+	- returns True if authentication has been performed else false.
+	*/
+	internal func authenticated() -> Bool
+	{
+		if let _ = accessToken
+		{
+			return true
+		}
+		return false
+	}
 	
 	/**
 	This function adds the bearer access_token to the authorization field if it is available.

@@ -8,13 +8,19 @@
 
 import Foundation
 
+// MARK: - The callback blocks.
 public typealias UberSuccessBlock = () -> Void
 public typealias UberErrorHandler =  (UberError?) -> Void
 public typealias UberProductSuccessBlock = ([UberProduct]) -> Void
 public typealias UberSingleProductSuccessBlock = (UberProduct) -> Void
 public typealias UberPriceEstimateSuccessBlock = ([UberPriceEstimate]) -> Void
 public typealias UberTimeEstimateSuccessBlock = ([UberTimeEstimate]) -> Void
+public typealias UberPromotionSuccessBlock = (UberPromotion) -> Void
+public typealias UberActivitySuccessCallback = ([UberActivity], offset: Int, limit: Int, count: Int) -> Void
+public typealias UberAllActivitySuccessCallback = ([UberActivity]) -> Void
+public typealias UberUserSuccess = (UberUser) -> Void
 
+// MARK: - Important internal protocols that allow for Generics.
 internal protocol UberObjectHasImage
 {
 	var imageURL : NSURL? { get }
@@ -42,6 +48,7 @@ extension JSONCreateable
 	}
 }
 
+// MARK: - Custom Error For The SDK.
 /**
 A wrapper around an UberError that gets sent as JSON. It is a subclass of NSError so it may also be a wrapper around the NSError. Inspect the isRepresentingNSError property to determine whether to handle this as an error that Uber provided or an NSError.
 */

@@ -30,7 +30,7 @@ class ViewController: UIViewController {
 		manager.performUserAuthorizationToView(view, completionBlock: {
 			print("Success. User is now authenticated")
 			let request = NSMutableURLRequest(URL: NSURL(string: "https://uber.com")!)
-			assert(manager.userAuthenticator.addBearerAccessHeader(request), "We need to make sure that we are successfully adding the bearer accesses to headers of URL requests.")
+			assert(manager.userAuthenticator.authenticated(), "We need to make sure that we are successfully adding the bearer accesses to headers of URL requests.")
 			}, errorHandler: { error in
 				assertionFailure("Failed to authenticate the user. The error: \(error)")
 		})

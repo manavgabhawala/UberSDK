@@ -155,9 +155,9 @@ extension UberManager
 	
 	*:warning:* Product IDs are different for different regions. Fetch all products for a location using the `UberManager` instance.
 	*/
-	@objc public class func createProduct(productID: String, success: (UberProduct) -> Void, errorHandler failure: UberErrorHandler?)
+	@objc public func createProduct(productID: String, completionBlock success: UberSingleProductSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
-		//fetchObject("/v1/products/\(productID)", completionHandler: success, errorHandler: failure)
+		fetchObject("/v1/products/\(productID)", completionHandler: success, errorHandler: failure)
 	}
 }
 
@@ -200,7 +200,177 @@ extension UberManager
 		fetchPriceEstimateForTrip(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, completionBlock: success, errorHandler: failure)
 	}
 }
+//MARK: - Time Estimates
+extension UberManager
+{
+	/**
+	Use this function to fetch time estimates for a particular latitude and longitude `asynchronously`. Optionally, add a productID and/or a userID to narrow down the search results.
+	
+	- parameter startLatitude:   The starting latitude of the user.
+	- parameter startLongitude:  The starting longitude of the user.
+	- parameter userID:         	An optional parameter: the user's unique ID which allows you to improve search results as defined in the Uber API endpoints.
+	- parameter productID:       An optional parameter: a specific product ID which allows you to narrow down searches to a particular product.
+	- parameter completionBlock: The block to be executed if the request was successful and we were able to parse the time estimates. This block takes one parameter, an array of UberTimeEstimates. See the `UberTimeEstimate` class for more details on how this is returned.
+	- parameter errorHandler:   This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	*/
+	@objc public func fetchTimeEstimateForLocation(startLatitude startLatitude: Double, startLongitude: Double, userID: String? = nil, productID: String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		var pathParameters : [NSObject: AnyObject] = ["start_latitude": startLatitude, "start_longitude" : startLongitude]
+		if let user = userID
+		{
+			pathParameters["customer_uuid"] = user
+		}
+		if let product = productID
+		{
+			pathParameters["product_id"] = product
+		}
+		fetchObjects("/v1/estimates/time", withPathParameters: pathParameters, arrayKey: "times", completionHandler: { success($0.0) }, errorHandler: failure)
+	}
+	
+	/**
+	Use this function to fetch time estimates for a particular latitude and longitude `synchronously`. Optionally, add a productID and/or a userID to narrow down the search results. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
+	
+	- parameter location:  		The location of the user.
+	- parameter productID: 		An optional parameter: a specific product ID which allows you to narrow down searches to a particular product.
+	- parameter userID:    		An optional parameter: the user's unique ID which allows you to improve search results as defined in the Uber API endpoints.
+	
+	- parameter completionBlock: The block to be executed if the request was successful and we were able to parse the time estimates. This block takes one parameter, an array of UberTimeEstimates. See the `UberTimeEstimate` class for more details on how this is returned.
+	
+	- parameter errorHandler: 	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	*/
+	@objc public func fetchTimeEstimateForLocation(location: CLLocation, productID: String? = nil, userID : String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		fetchTimeEstimateForLocation(startLatitude: location.coordinate.latitude, startLongitude: location.coordinate.longitude, userID: userID, productID: productID, completionBlock: success, errorHandler: failure)
+	}
+}
 
+//MARK: - Promotions
+extension UberManager
+{
+	/**
+	Use this function to fetch promotions for new users for a particular start and end locations `asynchronously`.
+	
+	- parameter startLatitude:  	The starting latitude of the user.
+	- parameter startLongitude: 	The starting longitude of the user.
+	- parameter endLatitude:    	The ending latitude for the travel.
+	- parameter endLongitude:   	The ending longitude for the travel.
+	- parameter completionBlock: The block of code to execute if an UberPromotion was successfully created. This block takes one parameter the `UberPromotion` object.
+	- parameter errorHandler:   	The block of code to execute if an error occurs.
+	*/
+	@objc public func fetchPromotionsForLocations(startLatitude startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		fetchObject("/v1/promotions", withPathParameters: ["start_latitude": startLatitude, "start_longitude" : startLongitude, "end_latitude" : endLatitude, "end_longitude" : endLongitude], completionHandler: success, errorHandler: failure)
+	}
+	
+	/**
+	Use this function to fetch promotions for new users for a particular start and end locations `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
+	
+	- parameter startLocation: 	The starting location of the user.
+	- parameter endLocation:   	The ending location for the travel.
+	- parameter completionBlock: The block of code to execute if an UberPromotion was successfully created. This block takes one parameter the `UberPromotion` object.
+	- parameter errorHandler:  	The block of code to execute if an error occurs.
+	*/
+	@objc public func fetchPromotionsForLocations(startLocation startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		fetchPromotionsForLocations(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, completionBlock: success, errorHandler: failure)
+	}
+}
+
+//MARK: - Profile
+extension UberManager
+{
+	/**
+	Use this function to `asynchronously` create an Uber User. The uber user gives you access to the logged in user's profile.
+	
+	- parameter completionBlock: The block of code to execute if the user has successfully been created. This block takes one parameter an `UberUser` object.
+	- parameter errorHandler:    The block of code to execute if an error occurs.
+	*/
+	@objc public func createUserProfile(completionBlock success: UberUserSuccess, errorHandler failure: UberErrorHandler?)
+	{
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before calling this end point")
+		fetchObject("/v1/me", requireUserAccessToken: true, completionHandler: success, errorHandler: failure)
+	}
+}
+
+//MARK: - Activity
+extension UberManager
+{
+	/**
+	Use this function to fetch a user's activity data `asynchronously`. This interacts with the v1.1 of the History endpoint and requires the HistoryLite scope.
+	
+	- parameter offset:           Offset the list of returned results by this amount. Default is zero.
+	- parameter limit:            Number of items to retrieve. Default is 5, maximum is 50.
+	- parameter completionBlock:  The block of code to execute on success. The parameters to this block is an array of `UberActivity`, the offset that is passed in, the limit passed in, the count which is the total number of items available.
+	- parameter errorHandler:     The block of code to execute on failure.
+	*/
+	@objc public func fetchActivityForUser(offset offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
+	{
+		assert(limit <= UberActivity.maximumActivitiesRetrievable, "The maximum limit size supported by this endpoint is \(UberActivity.maximumActivitiesRetrievable). Please pass in a value smaller than this.")
+		assert(delegate.scopes.contains(UberScopes.HistoryLite.rawValue), "The HistoryLite scope is required for access to the v1.1 History endpoint. Please make sure you pass this in through the delegate.")
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before calling this end point")
+		fetchObjects("/v1.1/history", withPathParameters: ["offset" : offset, "limit" : limit], requireUserAccessToken: true, arrayKey: "history", completionHandler: {(activities: [UberActivity], JSON) in
+			if let count = JSON["count"] as? Int, let offset = JSON["offset"] as? Int, let limit = JSON["limit"] as? Int
+			{
+				success(activities, offset: offset, limit: limit, count: count)
+				return
+			}
+			failure?(UberError(JSON: JSON))
+			}, errorHandler: failure)
+	}
+	
+	/**
+	Use this function to fetch a user's activity data `asynchronously` for v 1.2. It requires the History scope.
+	
+	- parameter offset:  Offset the list of returned results by this amount. Default is zero.
+	- parameter limit:   Number of items to retrieve. Default is 5, maximum is 50.
+	- parameter success: The block of code to execute on success. The parameters to this block is an array of `UberActivity`, the offset that is passed in, the limit passed in, the count which is the total number of items available.
+	- parameter failure: The block of code to execute on failure.
+	
+	See the `fetchAllUserActivity` function for retrieving all the user's activity at one go.
+	*/
+	@objc public func fetchUserActivity(offset offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
+	{
+		assert(limit <= UberActivity.maximumActivitiesRetrievable, "The maximum limit size supported by this endpoint is \(UberActivity.maximumActivitiesRetrievable). Please pass in a value smaller than this.")
+		assert(delegate.scopes.contains(UberScopes.History.rawValue), "The History scope is required for access to the v1.2 History endpoint. Please make sure you pass this in through the delegate.")
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before calling this end point")
+		fetchObjects("/v1.2/history", withPathParameters: ["offset" : offset, "limit" : limit], requireUserAccessToken: true, arrayKey: "history", completionHandler: {(activities: [UberActivity], JSON) in
+			if let count = JSON["count"] as? Int, let offset = JSON["offset"] as? Int, let limit = JSON["limit"] as? Int
+			{
+				success(activities, offset: offset, limit: limit, count: count)
+				return
+			}
+			failure?(UberError(JSON: JSON))
+			}, errorHandler: failure)
+	}
+	
+	/**
+	Use this function to fetch a user's activity data `asynchronously` for v 1.2. It requires the History scope. This function will return all the user's activity after retrieving all of it without any limits however may take longer to run. If you want tor retrieve a smaller number of results and limit and offset the results use the fetchUserActivity:offset:limit: function.
+	
+	- parameter success: The block of code to execute on success. The parameters to this block is an array of `UberActivity`
+	- parameter failure: The block of code to execute on failure.
+	
+	See the `fetchUserActivity` function for retrieving a few values of the user's activity.
+	*/
+	@objc public func fetchAllUserActivity(completionBlock success: UberAllActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
+	{
+		assert(delegate.scopes.contains(UberScopes.History.rawValue), "The History scope is required for access to the v1.2 History endpoint. Please make sure you pass this in through the delegate.")
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before calling this end point")
+		var userActivity = [UberActivity]()
+		var count = -1
+		let lock = NSLock()
+		while count < userActivity.count
+		{
+			lock.lock()
+			fetchUserActivity(offset: userActivity.count, limit: UberActivity.maximumActivitiesRetrievable, completionBlock: { (activities, offset, limit, theCount) -> Void in
+				count = theCount
+				activities.map { userActivity.append($0) }
+				lock.unlock()
+				}, errorHandler: failure)
+			lock.lock()
+		}
+		success(userActivity)
+	}
+}
 
 // MARK: Generic Helpers
 extension UberManager

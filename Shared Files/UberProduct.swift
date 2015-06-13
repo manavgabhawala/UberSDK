@@ -9,7 +9,7 @@
 import Foundation
 
 /**
-This class represents an UberProduct. It contains all the data recieved from the end point in this wrapper class for the UberProduct.
+The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
 */
 @objc public final class UberProduct : CustomStringConvertible, CustomDebugStringConvertible, JSONCreateable, UberObjectHasImage
 {

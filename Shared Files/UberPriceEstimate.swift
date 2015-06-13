@@ -8,7 +8,10 @@
 
 import Foundation
 
-public class UberPriceEstimate : UberEstimate
+/**
+*  The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.
+*/
+public final class UberPriceEstimate : UberEstimate
 {
 	/// Upper bound of the estimated price.
 	@objc public let highEstimate: Int

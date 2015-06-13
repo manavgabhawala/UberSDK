@@ -9,9 +9,6 @@
 import Foundation
 import XCTest
 
-
-
-
 class UberProductTests: XCTestCase
 {
 	override func setUp() {
@@ -33,6 +30,7 @@ class UberProductTests: XCTestCase
 			XCTAssertNotNil(products, "Fatal error occured. We expected products to be returned after fetching products. Recieved nil as products.")
 			XCTAssertGreaterThan(products.count, 0, "We expected at least one product for the given location.")
 			products.map {(product) in XCTAssertTrue(self.validProduct(product), "Invalid product found for uber product: \(product)") }
+			print(products.map { $0.productID })
 			productCompletion.fulfill()
 			}, errorHandler: {error in
 				XCTAssertNotNil(error, "Error should not be nil in the error handler.")

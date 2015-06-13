@@ -8,14 +8,17 @@
 
 import Foundation
 
-@objc public class UberTimeEstimate : UberEstimate
+/**
+*  The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. Uber recommends that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
+*/
+@objc public final class UberTimeEstimate : UberEstimate
 {
 	/// ETA for the product (in seconds). Always show estimate in minutes.
 	@objc public let estimate : NSTimeInterval
 	
 	/// This is a computed property that tells you the estimated time of departure for the Uber user if he selects a certian Product.
 	@objc public var ETD: NSDate
-		{
+	{
 		get
 		{
 			return NSDate(timeIntervalSinceNow: estimate)

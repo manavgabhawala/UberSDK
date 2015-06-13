@@ -175,3 +175,62 @@ An enumeration of all the languages that Über supports.
 	}
 	public var debugDescription : String { get { return description } }
 }
+
+/**
+An enumeration of the possible Promotion Types.
+
+- TripCredit:    Trip credit for the user.
+- AccountCredit: Credit on the user's account.
+- Unknown:       We do not understand the promotion type. The type will be saved as Unknown and the actual string representation will be printed to the console.
+*/
+@objc public enum UberPromotionType: Int, CustomStringConvertible, CustomDebugStringConvertible
+{
+	/// Trip credit for the user.
+	case TripCredit
+	/// Credit on the user's account.
+	case AccountCredit
+	/// We do not understand the promotion type. The type will be saved as Unknown
+	case Unknown
+	
+	public var description : String
+	{
+		get
+		{
+			switch self
+			{
+			case .TripCredit:
+				return "Trip Credit"
+			case .AccountCredit:
+				return "Account Credit"
+			case .Unknown:
+				return "Undefined"
+			}
+		}
+	}
+	public var debugDescription : String { get { return description } }
+	
+	internal static func create(string: String) -> UberPromotionType
+	{
+		if string == "trip_credit"
+		{
+			return .TripCredit
+		}
+		else if string == "account_credit"
+		{
+			return .AccountCredit
+		}
+		else if string == ""
+		{
+			return .Unknown
+		}
+		print("Unknown Promotion Type Recieved: \(string)")
+		return .Unknown
+	}
+}
+
+
+public enum UberActivityStatus : String
+{
+	case Completed = "completed"
+	case Unknown = "Unknown"
+}

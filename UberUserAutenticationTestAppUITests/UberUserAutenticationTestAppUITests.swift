@@ -12,7 +12,6 @@ import XCTest
 
 class UberUserAutenticationTestAppUITests: XCTestCase {
 	
-	let request = NSMutableURLRequest(URL: NSURL(string: "https://uber.com/")!)
 	
     override func setUp()
 	{
@@ -36,7 +35,7 @@ class UberUserAutenticationTestAppUITests: XCTestCase {
 		let expectation = expectationWithDescription("Logged out")
 
 		manager.logUberUserOut(completionBlock: {
-			XCTAssertFalse(manager.userAuthenticator.addBearerAccessHeader(self.request))
+			XCTAssertFalse(manager.userAuthenticator.authenticated())
 			expectation.fulfill()
 			}, errorHandler: { error in
 				XCTAssertNotNil(error)
@@ -49,12 +48,16 @@ class UberUserAutenticationTestAppUITests: XCTestCase {
 	{
 		let app = XCUIApplication()
 		let emailAddressTextField = app.textFields["Email Address"]
-		while (!emailAddressTextField.exists && !manager.userAuthenticator.addBearerAccessHeader(request))
+		if manager.userAuthenticator.authenticated()
 		{
-			sleep(2)
+			return
+		}
+		if (!emailAddressTextField.exists && !manager.userAuthenticator.authenticated())
+		{
+			sleep(6)
 		}
 		
-		if manager.userAuthenticator.addBearerAccessHeader(request)
+		if manager.userAuthenticator.authenticated()
 		{
 			// Test passed without even logging in.
 			return
@@ -72,6 +75,6 @@ class UberUserAutenticationTestAppUITests: XCTestCase {
 		sleep(3)
 		app.buttons["ALLOW"].tap()
 		sleep(20)
-		XCTAssertTrue(manager.userAuthenticator.addBearerAccessHeader(request), "We should now be able to add the request.")
+		XCTAssertTrue(manager.userAuthenticator.authenticated(), "We should now be able to add the request.")
     }
 }
