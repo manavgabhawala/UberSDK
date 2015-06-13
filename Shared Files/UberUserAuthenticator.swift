@@ -10,6 +10,8 @@ import Foundation
 
 internal class UberUserAuthenticator : NSObject
 {
+	private let refreshSemaphore = dispatch_semaphore_create(1)
+	
 	private var accessToken : String?
 	private var refreshToken: String?
 	private var expiration : NSDate?
@@ -90,12 +92,14 @@ internal class UberUserAuthenticator : NSObject
 		else if allowsRefresh
 		{
 			refreshAccessToken()
+			dispatch_semaphore_wait(refreshSemaphore, DISPATCH_TIME_FOREVER)
 			return requestAccessToken(false)
 		}
 		return nil
 	}
 	private func refreshAccessToken()
 	{
+		dispatch_semaphore_wait(refreshSemaphore, DISPATCH_TIME_NOW)
 		let data = "client_id=\(clientID)&client_secret=\(clientSecret)&redirect_uri=\(redirectURI)&grant_type=refresh_token&refresh_token=\(refreshToken)"
 		let URL = NSURL(string: "https://login.uber.com/oauth/token")!
 		let request = NSMutableURLRequest(URL: URL)
@@ -122,6 +126,10 @@ internal class UberUserAuthenticator : NSObject
 			if (error == nil)
 			{
 				self.parseAuthDataReceived(data!)
+				// If we can't acquire it, it returns imeediately and it means that someone is waiting and needs to be signalled.
+				// If we do acquire it we release it immediately because we don't actually want to hold it for anytime in the future.
+				dispatch_semaphore_wait(self.refreshSemaphore, DISPATCH_TIME_NOW)
+				dispatch_semaphore_signal(self.refreshSemaphore)
 			}
 			else
 			{
@@ -170,7 +178,7 @@ internal class UberUserAuthenticator : NSObject
 		var scopesString = scopes.reduce("", combine: { $0.0 + "%20" + $0.1.description })
 		scopesString = scopesString.substringFromIndex(advance(scopesString.startIndex, 3))
 		let redirectURL = redirectURI.stringByAddingPercentEncodingWithAllowedCharacters(.URLPasswordAllowedCharacterSet())!
-		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(clientID)&redirect_uri=\(redirectURL)&scope=\(scopes)")!
+		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(clientID)&redirect_uri=\(redirectURL)&scope=\(scopesString)")!
 		let request = NSURLRequest(URL: URL)
 		generateCodeForRequest(request, onView: view)
 	}
@@ -181,6 +189,9 @@ internal class UberUserAuthenticator : NSObject
 	}
 	internal func logout(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
+		accessToken = nil
+		refreshToken = nil
+		expiration = nil
 		let fileManager = NSFileManager.defaultManager()
 		if fileManager.fileExistsAtPath(uberOAuthCredentialsLocation)
 		{

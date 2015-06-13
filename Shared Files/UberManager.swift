@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import CoreGraphics
 
 internal protocol Viewable
 {
@@ -100,6 +101,7 @@ You must implement this protocol to communicate with the UberManager and return 
 		self.init(delegate: PrivateUberDelegate(applicationName: applicationName, clientID: clientID, clientSecret: clientSecret, serverToken: serverToken, redirectURI: redirectURI, baseURL: baseURL, scopes: scopes.map { UberScopes(rawValue: $0)!} ))
 	}
 	
+	
 	/**
 	Use this function to log an Uber user out of the system and remove all associated cached files about the user.
 	
@@ -155,7 +157,47 @@ extension UberManager
 	*/
 	@objc public class func createProduct(productID: String, success: (UberProduct) -> Void, errorHandler failure: UberErrorHandler?)
 	{
-//		fetchObject("/v1/products/\(productID)", completionHandler: { success($0 as! UberProduct) }, errorHandler: failure)
+		//fetchObject("/v1/products/\(productID)", completionHandler: success, errorHandler: failure)
+	}
+}
+
+//MARK: - Price Estimates
+extension UberManager
+{
+	/**
+	Use this function to fetch price estimates for a particular trip between two points as defined by you `asynchronously`.
+	
+	- parameter startLatitude:  	The starting latitude for the trip.
+	- parameter startLongitude: 	The starting longitude for the trip.
+	- parameter endLatitude:    	The ending latitude for the trip.
+	- parameter endLongitude:   	The ending longitude for the trip.
+	
+	- parameter completionBlock: The block to be executed if the request was successful and we were able to parse the price estimates. This block takes one parameter, an array of UberPriceEstimates. See the `UberPriceEstimate` class for more details on how this is returned.
+	
+	- parameter errorHandler:   	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	
+	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
+	*/
+	@objc public func fetchPriceEstimateForTrip(startLatitude startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		fetchObjects("/v1/estimates/price", withPathParameters: ["start_latitude" : startLatitude, "start_longitude" : startLongitude, "end_latitude" : endLatitude, "end_longitude" : endLongitude], arrayKey: "prices", completionHandler: { success($0.0) }, errorHandler: failure)
+	}
+	
+	/**
+	Use this function to fetch price estimates for a particular trip between two points `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitudes and longitudes.
+	
+	- parameter startLocation: 	The starting location for the trip
+	- parameter endLocation:   	The ending location for the trip
+	
+	- parameter completionBlock: The block to be executed if the request was successful and we were able to parse the price estimates. This block takes one parameter, an array of UberPriceEstimates. See the `UberPriceEstimate` class for more details on how this is returned.
+	
+	- parameter errorHandler:  	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
+	
+	:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
+	*/
+	@objc public func fetchPriceEstimateForTrip(startLocation startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		fetchPriceEstimateForTrip(startLatitude: startLocation.coordinate.latitude, startLongitude: startLocation.coordinate.longitude, endLatitude: endLocation.coordinate.latitude, endLongitude: endLocation.coordinate.longitude, completionBlock: success, errorHandler: failure)
 	}
 }
 
@@ -227,7 +269,7 @@ extension UberManager
 		return mutableRequest.copy() as! NSURLRequest
 	}
 	
-	private func performRequest(request: NSURLRequest, success: ([NSObject: AnyObject]) -> Void, failure: UberErrorHandler?)
+	private func performRequest(request: NSURLRequest, success: ([NSObject: AnyObject], NSURLResponse?) -> Void, failure: UberErrorHandler?)
 	{
 		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
 		let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) in
@@ -236,7 +278,7 @@ extension UberManager
 			{
 				guard let JSONData = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? [NSObject: AnyObject]
 					else { failure?(UberError(JSONData: data, response: response) ?? UberError(error: error!, response: response)); return }
-				success(JSONData)
+				success(JSONData, response)
 			}
 			catch let error as NSError
 			{
@@ -253,7 +295,7 @@ extension UberManager
 	private func fetchObjects<T: JSONCreateable>(URL: String, withQueryParameters queries: [NSObject: AnyObject]? = nil, withPathParameters paths: [NSObject: AnyObject]? = nil, requireUserAccessToken accessTokenRequired: Bool = false, usingHTTPMethod method: HTTPMethod = .Get, arrayKey key: String, completionHandler success: ([T], [NSObject: AnyObject]) -> Void, errorHandler failure: UberErrorHandler?)
 	{
 		let request = createRequestForURL(URL, withQueryParameters: queries, withPathParameters: paths, requireUserAccessToken: accessTokenRequired, usingHTTPMethod: method)
-		performRequest(request, success: {(JSON) in
+		performRequest(request, success: {(JSON, response) in
 			if let arrayJSON = JSON[key] as? [[NSObject : AnyObject]]
 			{
 				let objects = arrayJSON.map { T(JSON: $0) }.filter { $0 != nil }.map { $0! }
@@ -261,7 +303,7 @@ extension UberManager
 			}
 			else
 			{
-				failure?(UberError(JSON: JSON))
+				failure?(UberError(JSON: JSON, response: response))
 			}
 		}, failure: failure)
 	}
@@ -269,14 +311,14 @@ extension UberManager
 	private func fetchObject<T: JSONCreateable>(URL: String, withQueryParameters queries: [NSObject: AnyObject]? = nil, withPathParameters paths: [NSObject: AnyObject]? = nil, requireUserAccessToken accessTokenRequired: Bool = false, usingHTTPMethod method: HTTPMethod = .Get, completionHandler success: (T) -> Void, errorHandler failure: UberErrorHandler?)
 	{
 		let request = createRequestForURL(URL, withQueryParameters: queries, withPathParameters: paths, requireUserAccessToken: accessTokenRequired, usingHTTPMethod: method)
-		performRequest(request, success: {(JSON) in
+		performRequest(request, success: {(JSON, response) in
 			if let object = T(JSON: JSON)
 			{
 				success(object)
 			}
 			else
 			{
-				failure?(UberError(JSON: JSON))
+				failure?(UberError(JSON: JSON, response: response))
 			}
 		}, failure: failure)
 	}

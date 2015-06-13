@@ -12,7 +12,8 @@ public typealias UberSuccessBlock = () -> Void
 public typealias UberErrorHandler =  (UberError?) -> Void
 public typealias UberProductSuccessBlock = ([UberProduct]) -> Void
 public typealias UberSingleProductSuccessBlock = (UberProduct) -> Void
-
+public typealias UberPriceEstimateSuccessBlock = ([UberPriceEstimate]) -> Void
+public typealias UberTimeEstimateSuccessBlock = ([UberTimeEstimate]) -> Void
 
 internal protocol UberObjectHasImage
 {

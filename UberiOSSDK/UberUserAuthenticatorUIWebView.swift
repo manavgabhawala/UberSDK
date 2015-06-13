@@ -34,7 +34,10 @@ extension UberUserAuthenticator
 		view.delegate = self
 		view.loadRequest(request)
 		view.frame.size = superview.frame.size
-		superview.addSubview(view as! T)
+		dispatch_async(dispatch_get_main_queue(), {
+			superview.addSubview(view as! T)
+		})
+		
 	}
 }
 extension UberUserAuthenticator : UIWebViewDelegate
@@ -74,7 +77,8 @@ extension UberUserAuthenticator : UIWebViewDelegate
 	}
 	@objc func webView(webView: UIWebView, didFailLoadWithError error: NSError?)
 	{
-		errorHandler?(UberError(error: error))
+		print(error?.localizedDescription)
+		//		errorHandler?(UberError(error: error))
 	}
 	@objc func webViewDidFinishLoad(webView: UIWebView)
 	{

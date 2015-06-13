@@ -19,17 +19,28 @@ class UberMacSDKTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
-    }
+	
+	func testDownloadingImageOfProduct()
+	{
+		let imageCompletion = expectationWithDescription("Products found")
+		manager.fetchProductsForLocation(latitude: startLatitude, longitude: startLongitude, completionBlock: { products in
+			XCTAssertNotNil(products, "Fatal error occured. We expected products to be returned after fetching products. Recieved nil as products.")
+			XCTAssertGreaterThan(products.count, 0, "We expected at least one product for the given location.")
+			let product = products.first!
+			product.downloadImage(completionBlock: {image, productReturned in
+				XCTAssertNotNil(image)
+				XCTAssertTrue(product === productReturned)
+				imageCompletion.fulfill()
+				}, errorHandler: { error in
+					XCTAssertNotNil(error)
+					XCTAssertTrue(error!.isRepresentingNSError)
+					XCTFail("We should not have an error when downloading an image.")
+			})
+			
+			}, errorHandler: {error in
+				XCTFail("Fatal error occured. We expected no errors when fetching products. Recieved: \(error!)\nWith Response: \(error!.response)\n")
+		})
+		waitForExpectationsWithTimeout(20.0, handler: nil)
+	}
     
 }
