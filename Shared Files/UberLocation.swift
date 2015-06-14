@@ -11,7 +11,7 @@ import CoreLocation
 /**
 The UberLocation class is a wrapper around a location object provided by Uber. It is contained in several other UberObjects.
 */
-@objc public class UberLocation : JSONCreateable, CustomStringConvertible, CustomDebugStringConvertible
+@objc public final class UberLocation : JSONCreateable, CustomStringConvertible
 {
 	/// The current latitude of the vehicle.
 	@objc public let latitude : Double
@@ -33,7 +33,6 @@ The UberLocation class is a wrapper around a location object provided by Uber. I
 		}
 	}
 	@objc public var description : String { get { return displayName ?? "Location \(latitude), \(longitude). Orientation \(bearing)°" } }
-	@objc public var debugDescription : String { get { return description } }
 	
 	internal init(latitude : Double, longitude : Double, bearing : Int, displayName: String? = nil)
 	{
@@ -51,6 +50,7 @@ The UberLocation class is a wrapper around a location object provided by Uber. I
 		}
 		return nil
 	}
+	/*
 	@objc(initWithNullableJSON:)
 	convenience init?(JSON: [NSObject: AnyObject]?)
 	{
@@ -60,5 +60,5 @@ The UberLocation class is a wrapper around a location object provided by Uber. I
 			return
 		}
 		return nil
-	}
+	}*/
 }

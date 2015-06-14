@@ -11,7 +11,7 @@ import Foundation
 /**
 *  The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. Uber recommends that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
 */
-@objc public final class UberTimeEstimate : UberEstimate
+@objc public final class UberTimeEstimate : UberEstimate, JSONCreateable
 {
 	/// ETA for the product (in seconds). Always show estimate in minutes.
 	@objc public let estimate : NSTimeInterval
@@ -26,10 +26,8 @@ import Foundation
 	}
 	
 	@objc public override var description : String { get { return "Uber Time Estimate: Estimated time before \(productDisplayName) arrives is \(estimate * 60) minutes." } }
-	@objc public override var debugDescription : String { get { return description } }
 	
-	
-	public required init?(JSON: [NSObject: AnyObject])
+	required override public init?(JSON: [NSObject: AnyObject])
 	{
 		guard let estimate = JSON["estimate"] as? Int
 			else { self.estimate = 0; super.init(JSON: JSON)

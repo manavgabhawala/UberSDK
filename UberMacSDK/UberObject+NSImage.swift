@@ -14,7 +14,7 @@ extension UberObjectHasImage
 	func downloadImage(completionBlock success: (NSImage, Self) -> Void, errorHandler failure : UberErrorHandler?)
 	{
 		let fileManager = NSFileManager.defaultManager()
-		guard let URL = imageURL else { failure?(UberError(code: "missing_image", message: "No image URL was found so downloading the image was not possible.", fields: nil, response: nil)); return }
+		guard let URL = imageURL else { failure?(UberError(code: "missing_image", message: "No image URL was found so downloading the image was not possible.", fields: nil, response: nil, errorResponse: nil, JSON: [NSObject: AnyObject]())); return }
 		let documentsURL = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
 		if !fileManager.fileExistsAtPath(documentsURL.path!)
 		{

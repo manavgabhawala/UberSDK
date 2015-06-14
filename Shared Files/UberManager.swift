@@ -8,13 +8,6 @@
 
 import Foundation
 import CoreLocation
-import CoreGraphics
-
-internal protocol Viewable
-{
-	func addSubview(subview: Self)
-	var frame: CGRect { get }
-}
 
 /**
 You must implement this protocol to communicate with the UberManager and return information as and when requested. This information can all be found in the Uber app dashboard at `https://developer.uber.com/apps/`.
@@ -35,18 +28,25 @@ You must implement this protocol to communicate with the UberManager and return 
 	@objc var baseURL : UberBaseURL { get }
 	/// Return an array of raw values of the scopes enum that you would like to request from the user if you are using OAuth2.0. If you don't require user authentication, return an empty array. This must be an array of UberScopes. See the enum type.
 	@objc var scopes : [Int] { get }
+	/// The redirect URI/URL where surge confirmation should be returned to.
+	@objc var surgeConfirmationRedirectURI : String { get }
 }
-
+extension UberManagerDelegate
+{
+	var surgeConfirmationRedirectURI : String { return redirectURI }
+}
 /**
-*  This is the main class to which you make calls to access the UberAPI.
+This is the main class to which you make calls to access the UberAPI.
 */
-@objc public class UberManager
+@objc public class UberManager : NSObject
 {
 	//MARK: - General Initializers and Properties
 	
-	private let delegate : UberManagerDelegate
+	internal let delegate : UberManagerDelegate
 	internal let userAuthenticator : UberUserAuthenticator
 	
+	internal var surgeCode : String?
+	internal let surgeLock = NSLock()
 	/**
 	Set this property to define the language that the Uber SDK should respond in. The default value of this property is English.
 	*/
@@ -78,9 +78,9 @@ You must implement this protocol to communicate with the UberManager and return 
 	
 	- returns: An initialized UberManager wrapper.
 	*/
-	public convenience init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: [UberScopes])
+	public convenience init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, surgeConfirmationRedirectURI: String, baseURL: UberBaseURL, scopes: [UberScopes])
 	{
-		self.init(delegate: PrivateUberDelegate(applicationName: applicationName, clientID: clientID, clientSecret: clientSecret, serverToken: serverToken, redirectURI: redirectURI, baseURL: baseURL, scopes: scopes))
+		self.init(delegate: PrivateUberDelegate(applicationName: applicationName, clientID: clientID, clientSecret: clientSecret, serverToken: serverToken, redirectURI: redirectURI, baseURL: baseURL, scopes: scopes,surgeConfirmationRedirectURI: surgeConfirmationRedirectURI))
 	}
 	
 	/**
@@ -96,9 +96,9 @@ You must implement this protocol to communicate with the UberManager and return 
 	
 	- returns: An initialized UberManager wrapper.
 	*/
-	@objc public convenience init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: [Int])
+	@objc public convenience init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, surgeConfirmationRedirectURI: String, baseURL: UberBaseURL, scopes: [Int])
 	{
-		self.init(delegate: PrivateUberDelegate(applicationName: applicationName, clientID: clientID, clientSecret: clientSecret, serverToken: serverToken, redirectURI: redirectURI, baseURL: baseURL, scopes: scopes.map { UberScopes(rawValue: $0)!} ))
+		self.init(delegate: PrivateUberDelegate(applicationName: applicationName, clientID: clientID, clientSecret: clientSecret, serverToken: serverToken, redirectURI: redirectURI, baseURL: baseURL, scopes: scopes.map { UberScopes(rawValue: $0)!}, surgeConfirmationRedirectURI: surgeConfirmationRedirectURI))
 	}
 	
 	
@@ -372,6 +372,78 @@ extension UberManager
 	}
 }
 
+// MARK: = Request
+extension UberManager
+{
+	func createRequest(startLatitude startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, productID: String, surgeConfirmation: String?, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before attempting to use this endpoint.")
+		assert(delegate.scopes.contains(UberScopes.Request.rawValue), "You must use the Request scope on your delegate or during initialization to access this endpoint.")
+		var queryParameters : [NSObject: AnyObject] = ["start_latitude": startLatitude, "start_longitude": startLongitude, "end_latitude": endLatitude, "end_longitude": endLongitude, "product_id": productID]
+		if let surge = surgeConfirmation
+		{
+			queryParameters["surge_confirmation_id"] = surge
+		}
+		surgeCode = nil
+		fetchObject("/v1/requests", withQueryParameters: queryParameters, requireUserAccessToken: true, usingHTTPMethod: HTTPMethod.Post, completionHandler: success, errorHandler: failure)
+	}
+	
+	/**
+	Use this function to communicate with the Uber Request Endpoint. You can create an `UberRequest` wrapper using just the requestID. You must have authenticated the user with the Request scope before you can use this endpoint.
+	
+	- parameter requestID: 		The requestID with which to create a new `UberRequest`
+	- parameter completionBlock: The block of code to execute if we successfully create the `UberRequest`
+	- parameter errorHandler:    The block of code to execute if an error occurs.
+	
+	*/
+	@objc public func createRequest(requestID: String, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before attempting to use this endpoint.")
+		assert(delegate.scopes.contains(UberScopes.Request.rawValue), "You must use the Request scope on your delegate or during initialization to access this endpoint.")
+		fetchObject("/v1/products/\(requestID)", requireUserAccessToken: true, completionHandler: success, errorHandler: failure)
+	}
+	
+	/**
+	Use this function to cancel an Uber Request whose request ID you have but do not have the wrapper `UberRequest` object. If you have an `UberRequest` which you want to cancel call the function `cancelRequest:` by passing its id.
+	
+	- parameter requestID: 		The request ID for the request you want to cancel.
+	- parameter completionBlock: The block of code to execute on a successful cancellation.
+	- parameter errorHandler:    The block of code to execute on a failure to cancel the request.
+	*/
+	@objc public func cancelRequest(requestID: String, completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
+	{
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before using this endpoint.")
+		assert(delegate.scopes.contains(UberScopes.Request.rawValue), "You must use the Request scope on your delegate or during initialization to access this endpoint.")
+		let request = createRequestForURL("/v1/requests/\(requestID)", requireUserAccessToken: true, usingHTTPMethod: .Delete)
+		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+		let task = session.dataTaskWithRequest(request, completionHandler: {(data, response, error) in
+			guard error != nil && (response as! NSHTTPURLResponse).statusCode == 204
+				else
+			{
+				failure?(error == nil ? UberError(JSONData: data, response: response) : UberError(error: error, response: response))
+				return
+			}
+			success?()
+		})
+		task?.resume()
+	}
+	
+	
+	/**
+	Use this function to get the map for an Uber Request whose request ID you have but do not have the wrapper `UberRequest` object. If you have an `UberRequest` for which you want to get the map call the member function `getRequestMap:` on the object.
+	
+	- parameter requestID: 		 The request ID for the request whose map you want.
+	- parameter completionBlock:  The block of code to execute on a successful fetching of the map.
+	- parameter errorHandler:     The block of code to execute if an error occurs.
+	*/
+	@objc public func mapForRequest(requestID: String, completionBlock success: UberMapSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before using this endpoint.")
+		assert(delegate.scopes.contains(UberScopes.Request.rawValue), "You must use the Request scope on your delegate or during initialization to access this endpoint.")
+		fetchObject("/v1/requests/\(requestID)/map", requireUserAccessToken: true, completionHandler: success, errorHandler: failure)
+	}
+}
+
 // MARK: Generic Helpers
 extension UberManager
 {
@@ -384,8 +456,8 @@ extension UberManager
 		@objc let redirectURI : String
 		@objc let baseURL : UberBaseURL
 		@objc let scopes : [Int]
-		
-		init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: [UberScopes])
+		@objc let surgeConfirmationRedirectURI : String
+		init(applicationName: String, clientID: String, clientSecret: String, serverToken: String, redirectURI: String, baseURL: UberBaseURL, scopes: [UberScopes], surgeConfirmationRedirectURI: String)
 		{
 			self.applicationName = applicationName
 			self.clientID = clientID
@@ -394,6 +466,7 @@ extension UberManager
 			self.redirectURI = redirectURI
 			self.baseURL = baseURL
 			self.scopes = scopes.map { $0.rawValue }
+			self.surgeConfirmationRedirectURI = surgeConfirmationRedirectURI
 		}
 	}
 	

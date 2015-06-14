@@ -10,7 +10,7 @@ import Foundation
 /**
 *  The Promotions endpoint returns information about the promotion that will be available to a new user based on their activity's location. These promotions do not apply for existing users.
 */
-@objc public class UberPromotion : CustomStringConvertible, CustomDebugStringConvertible, JSONCreateable
+@objc public final class UberPromotion : CustomStringConvertible, JSONCreateable
 {
 	/// A localized string we recommend to use when offering the promotion to users.
 	@objc public let displayText : String
@@ -20,9 +20,7 @@ import Foundation
 	@objc public let type : UberPromotionType
 	
 	@objc public var description: String { get { return displayText } }
-	
-	@objc public var debugDescription: String { get { return description } }
-	
+		
 	private init(displayText : String, value : String, type: String)
 	{
 		self.displayText = displayText

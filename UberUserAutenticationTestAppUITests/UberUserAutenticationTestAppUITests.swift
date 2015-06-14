@@ -65,7 +65,7 @@ class UberUserAutenticationTestAppUITests: XCTestCase {
 		
 		emailAddressTextField.tap()
 		sleep(1)
-		emailAddressTextField.typeText("manav1907@gmail.com")
+		emailAddressTextField.typeText(user)
 		
 		let xcuiSecureTextField = app.textFields["_XCUI:Secure"]
 		xcuiSecureTextField.tap()

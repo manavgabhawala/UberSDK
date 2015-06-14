@@ -11,7 +11,7 @@ import Foundation
 /**
 The User Profile endpoint returns information about the Uber user that has authorized with the application.
 */
-@objc public final class UberUser : CustomStringConvertible, CustomDebugStringConvertible, JSONCreateable, UberObjectHasImage
+@objc public final class UberUser : CustomStringConvertible, JSONCreateable, UberObjectHasImage
 {
 	/// First name of the Uber user.
 	@objc public let firstName : String
@@ -27,7 +27,6 @@ The User Profile endpoint returns information about the Uber user that has autho
 	@objc public let UUID : String
 	
 	@objc public var description : String { get { return "Uber User \(firstName) \(lastName)" } }
-	@objc public var debugDescription : String { get { return description } }
 	
 	public required init?(JSON: [NSObject: AnyObject])
 	{

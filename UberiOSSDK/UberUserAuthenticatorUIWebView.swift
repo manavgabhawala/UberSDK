@@ -68,7 +68,7 @@ extension UberUserAuthenticator : UIWebViewDelegate
 				}
 				else
 				{
-					self.errorHandler?(UberError(code: "access_code_not_found", message: "The callback URL did not contain the authentication token required. The code we recieved was nil.", fields: nil, response: nil))
+					self.errorHandler?(UberError(code: "access_code_not_found", message: "The callback URL did not contain the authentication token required. The code we recieved was nil.", fields: nil, response: nil, errorResponse: nil, JSON: [NSObject: AnyObject]()))
 				}
 				return false
 			}

@@ -11,7 +11,7 @@ import Foundation
 /**
 Use this enumeration to provide the scopes you wish to show the user when performing OAuth2 with the Uber API.
 */
-@objc public enum UberScopes : Int, Any, CustomStringConvertible, CustomDebugStringConvertible
+@objc public enum UberScopes : Int, Any, CustomStringConvertible
 {
 	/// Access the basic profile information on a user's Uber account including their first name, email address, and profile picture.
 	case Profile
@@ -47,13 +47,12 @@ Use this enumeration to provide the scopes you wish to show the user when perfor
 			}
 		}
 	}
-	public var debugDescription : String  { get { return description } }
 }
 
 /**
 This is an enumeration that allows you to choose between the ProductionAPI and the SandboxAPI.
 */
-@objc public enum UberBaseURL : Int, CustomStringConvertible, CustomDebugStringConvertible
+@objc public enum UberBaseURL : Int, CustomStringConvertible
 {
 	/// The Uber Production API provides real endpoints to the actual application and should be used in all release builds.
 	case ProductionAPI
@@ -84,7 +83,6 @@ This is an enumeration that allows you to choose between the ProductionAPI and t
 			}
 		}
 	}
-	public var debugDescription : String { get { return description } }
 }
 
 internal enum HTTPMethod : String
@@ -98,7 +96,7 @@ internal enum HTTPMethod : String
 /**
 An enumeration of all the languages that Über supports.
 */
-@objc public enum Language : Int, CustomStringConvertible, CustomDebugStringConvertible
+@objc public enum Language : Int, CustomStringConvertible
 {
 	/// Saudi Arabia
 	case Arabic
@@ -173,7 +171,6 @@ An enumeration of all the languages that Über supports.
 			}
 		}
 	}
-	public var debugDescription : String { get { return description } }
 }
 
 /**
@@ -183,7 +180,7 @@ An enumeration of the possible Promotion Types.
 - AccountCredit: Credit on the user's account.
 - Unknown:       We do not understand the promotion type. The type will be saved as Unknown and the actual string representation will be printed to the console.
 */
-@objc public enum UberPromotionType: Int, CustomStringConvertible, CustomDebugStringConvertible
+@objc public enum UberPromotionType: Int, CustomStringConvertible
 {
 	/// Trip credit for the user.
 	case TripCredit
@@ -207,7 +204,6 @@ An enumeration of the possible Promotion Types.
 			}
 		}
 	}
-	public var debugDescription : String { get { return description } }
 	
 	internal static func create(string: String) -> UberPromotionType
 	{
@@ -233,4 +229,17 @@ public enum UberActivityStatus : String
 {
 	case Completed = "completed"
 	case Unknown = "Unknown"
+}
+
+public enum UberRequestStatus : String
+{
+	case Processing = "processing"
+	case NoDriversAvailable = "no_drivers_available"
+	case Accepted = "accepted"
+	case Arriving = "arriving"
+	case InProgress = "in_progress"
+	case DriverCancelled = "driver_canceled"
+	case RiderCancelled = "rider_canceled"
+	case Completed = "completed"
+	case Unknown = ""
 }

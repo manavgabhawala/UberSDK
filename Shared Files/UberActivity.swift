@@ -10,7 +10,7 @@ import Foundation
 /**
 The User Activity endpoint returns a limited amount of data about a user's lifetime activity with Uber. The response will include pickup and dropoff times, the city the trips took place in, the distance of past requests, and information about which products were requested.
 */
-@objc public final class UberActivity : CustomStringConvertible, CustomDebugStringConvertible, JSONCreateable
+@objc public final class UberActivity : CustomStringConvertible, JSONCreateable
 {
 	public static let maximumActivitiesRetrievable = 50
 	
@@ -30,7 +30,6 @@ The User Activity endpoint returns a limited amount of data about a user's lifet
 	@objc public let endTime : NSDate
 	
 	@objc public var description : String { get { return "Activity \(UUID) for \(distance) miles" } }
-	@objc public var debugDescription : String { get { return description } }
 	
 	/**
 	Details about the city the activity started in.

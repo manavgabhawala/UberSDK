@@ -11,7 +11,7 @@ import Foundation
 /**
 *  The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.
 */
-public final class UberPriceEstimate : UberEstimate
+public final class UberPriceEstimate : UberEstimate, JSONCreateable
 {
 	/// Upper bound of the estimated price.
 	@objc public let highEstimate: Int
@@ -38,7 +38,6 @@ public final class UberPriceEstimate : UberEstimate
 	}
 	
 	@objc public override var description : String { get { return "Uber Price Estimate: \(estimate) for \(distance) mile long trip, lasting \(duration * 60) minutes." } }
-	@objc public override var debugDescription : String { get { return description } }
 	
 	
 	private init?(JSON: [NSObject : AnyObject], lowEstimate: Int? = nil, highEstimate: Int? = nil, estimate: String? = nil, currency: String? = nil, surge: Float? = nil, duration: Int? = nil, distance: Float? = nil)
@@ -61,7 +60,7 @@ public final class UberPriceEstimate : UberEstimate
 		super.init(JSON: JSON)
 	}
 	
-	public convenience required init?(JSON: [NSObject: AnyObject])
+	public convenience required override init?(JSON: [NSObject: AnyObject])
 	{
 		self.init(JSON: JSON, lowEstimate: JSON["low_estimate"] as? Int, highEstimate: JSON["high_estimate"] as? Int, estimate: JSON["estimate"] as? String, currency: JSON["currency_code"] as? String, surge: JSON["surge_multiplier"] as? Float, duration: JSON["duration"] as? Int, distance: JSON["distance"] as? Float)
 		if self.productID.isEmpty
