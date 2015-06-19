@@ -167,30 +167,4 @@ A wrapper around an UberError that gets sent as JSON. It is a subclass of NSErro
 		super.init(coder: aDecoder)
 	}
 }
-/*
-internal class UberRequestError : UberError
-{
-	
-	
-	
-	public override convenience required init?(JSON: [NSObject : AnyObject])
-	{
-		self.init(JSON: JSON, response: nil)
-	}
-	public override init?(JSON: [NSObject : AnyObject], response: NSURLResponse?)
-	{
-		self.JSON = JSON
-		guard let responseCode = JSON["status"] as? Int, let code = JSON["code"] as? String, let description = JSON["title"] as? String
-			else { errorResponse = 0; super.init(code: "", message: "", fields: nil,
-				response: nil);
-				return nil }
-		errorResponse = responseCode
-		super.init(code: code, message: description, fields: nil, response: response)
-	}
-	required override public init?(coder aDecoder: NSCoder)
-	{
-		errorResponse = 0
-		JSON = [NSObject: AnyObject]()
-		super.init(coder: aDecoder)
-	}
-}*/
+

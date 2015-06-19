@@ -446,9 +446,9 @@ extension UberManager
 	/**
 	Use this function to get a receipt for an Uber Request whose request ID you have.
 	
-	:param: requestID The request ID for the request whose receipt
-	:param: success   The block of code to execute on a successful fetching of the receipt.
-	:param: failure   The block of code to execute if an error occurs.
+	- parameter requestID: The request ID for the request whose receipt
+	- parameter success:   The block of code to execute on a successful fetching of the receipt.
+	- parameter failure:   The block of code to execute if an error occurs.
 	*/
 	@objc public func receiptForRequest(requestID: String, completionBlock success: UberRequestReceiptSuccessBlock, errorHandler failure: UberErrorHandler?)
 	{
