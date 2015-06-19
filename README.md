@@ -12,6 +12,7 @@ Coming Soon. (If you can't wait lookup importing Dynamic Frameworks into Swift/O
 The basic way to initialize the SDK is creating an instance of the `UberManager` object. You should create only one instance of the `UberManager` at a time. This instance is thread safe in that you can use the same instance on multiple threads but if you initialize a new UberManager your old UberManager will start accessing the newer app properties that you set. The intention of this SDK was to allow you to use public functions available after initializing an UberManager.
 
 To initialize the `UberManager` You can either implement the `UberManagerDelegate` or pass in all the values required for the application setup to the init function. This includes the **client key**, **client secret**, **server token** and **redirectURI**, all of which can be found on your [Uber App Dashboard](https://developer.uber.com/apps/). Further, you must also return a base URL from the enum `UberBaseURL` which has two types `ProductionAPI` and `SandboxAPI`. This allows you to set which API endpoint you would like to communicate with. You must also return an `Array` of `UberScopes`, which are needed for User Authentication. If you are not planning on using endpoints that require User Authentication return an empty array. This `Array` must be the `rawValue`'s of the enumeration type (this is so that Objective-C NSArrays can be supported too). Here is how you can initialize a manager using a delegate and passing values into the initializer in both Swift and Objective C.
+
 ####Implementation With Delegate
 #####Swift
 ```swift
@@ -31,7 +32,8 @@ extension SomeClass : UberManagerDelegate
 	var serverToken : String { get { return "SERVER_TOKEN" } }
 	var redirectURI : String { get { return "REDIRECT_URI" } }
 	var baseURL : UberBaseURL { get { return .SandboxAPI } }
-	var scopes : NSArray { get { return [UberScopes.Profile.rawValue, UberScopes.Request.rawValue] } }
+	var scopes : [Int] { get { return [UberScopes.Profile.rawValue, UberScopes.Request.rawValue] } }
+	var surgeConfirmationRedirectURI : String { get { return "SURGE_REDIRECT_URI" } }
 }
 ```
 #####Objective C
@@ -50,7 +52,9 @@ extension SomeClass : UberManagerDelegate
 
 @property (nonatomic, readonly) enum UberBaseURL baseURL;
 
-@property (nonatomic, readonly) NSArray * __nonnull scopes;
+@property (nonatomic, readonly) NSArray<int> * __nonnull scopes;
+
+@property (nonatomic, readonly, copy) NSString * __nonnull surgeConfirmationRedirectURI;
 
 @end
 
@@ -70,19 +74,20 @@ class SomeClass : NSObject
 {
 	func someFunction()
 	{
-		let manager = UberManager(applicationName: "APP_NAME", clientID: "CLIENT_ID", clientSecret: "CLIENT_SECRET", serverToken: "SERVER_TOKEN", redirectURI: "REDIRECT_URI", baseURL: .SandboxAPI, scopes: [.Profile, .Request])
+		let manager = UberManager(applicationName: "APP_NAME", clientID: "CLIENT_ID", clientSecret: "CLIENT_SECRET", serverToken: "SERVER_TOKEN", redirectURI: "REDIRECT_URI", surgeConfirmationRedirectURI: "SURGE_REDIRECT", baseURL: .SandboxAPI, scopes: [.Profile, .Request])
 	}
 
 }
 ```
 #####Objective C
 ```objc
-NSArray *scopes = [[NSArray alloc] initWithObjects:UberScopesProfile, UberScopesRequest, nil];
+NSArray *scopes = @[UberScopesProfile, UberScopesRequest];
 UberManager *manager = [[UberManager alloc] initWithApplicationName:@"APP_NAME"
 														   clientID:@"CLIENT_ID"
 													   clientSecret:@"CLIENT_SECRET"
 														serverToken:@"SERVER_TOKEN"
 														redirectURI:@"REDIRECT_URI"
+									   surgeConfirmationRedirectURI:@"SURGE_REDIRECT_URI"
 															baseURL:UberBaseURLSandboxAPI
 															 scopes:scopes];
 ```
@@ -91,8 +96,9 @@ Once you have initialized the `UberManager` instance, you must get a user to log
 - Fetching a User's Profile
 - Fetching a User's Activity History
 - Creating, Cancelling and Viewing a User's Requests
+- Request Receipts and Request Maps.
 
-Before calling any of these functions you must call `performUserAuthorization(completionBlock:errorHandler:)` on your `UberManager` instance. In an iOS App we will present a `UIWebView` on the `keyWindow` and ask the user to login with the `UberScopes` you provided. On a Mac App we do the same thing except with a `WKWebView`. All the nitty grittys of implementing the OAuth2.0 has been done for you including saving an encrypted `access_token`, `refresh_token` and `expiration` to the disk. Further, the `WebView` gets dismissed automatically, too. If the user logs in the completionBlock will get executed else the errorHandler block will get executed with an `UberError`, an `NSURLResponse` and an `NSError` as parameters. Look at `UberErrorHandler` for more details on error handlers. Once the `completionBlock` is called you know that the user has successfully logged in and we have their access token. You can now call the other functions in the SDK to communicate with the API.
+Before calling any of these functions you must call `performUserAuthorizationToView(view:completionBlock:errorHandler:)` on your `UberManager` instance. In an iOS App we will present a `UIWebView` on the `view` you pass in which should be a UIView or a subclass of it. We then ask the user to login with the `UberScopes` you provided during initialization. On a Mac App we do the same thing except with a `WebView` on an `NSView`. All the nitty grittys of implementing the OAuth2.0 has been done for you including saving an encrypted `access_token`, `refresh_token` and `expiration` to the disk. Further, the `WebView` gets dismissed automatically, too. If the user logs in the completionBlock will get executed else the errorHandler block will get executed with an `UberError` as a parameter. Look at [`Error Handling`](#error-handling) section for more details on error handlers. Once the `completionBlock` is called you know that the user has successfully logged in and we have their access token. You can now call the other functions in the SDK to communicate with the API.
 #####Swift 
 ```swift
 manager.performUserAuthorization(completionBlock: { 
@@ -140,6 +146,9 @@ NSURLResponse* response, NSError* error){
 	// TODO: Some awesome error handling.
 }];
 ```
+### Error Handling
+The `UberError` class is at the root of error handling in this SDK.
+
 ### Miscellaneous
 
 More detailed information coming soon.

@@ -36,7 +36,7 @@ extension UberManagerDelegate
 	var surgeConfirmationRedirectURI : String { return redirectURI }
 }
 /**
-This is the main class to which you make calls to access the UberAPI.
+This is the main class to which you make calls to access the UberAPI. In general it is best practice to only make one instance of this class and share it across all threads and classes using weak referencing.
 */
 @objc public class UberManager : NSObject
 {
@@ -372,7 +372,7 @@ extension UberManager
 	}
 }
 
-// MARK: = Request
+// MARK: - Request
 extension UberManager
 {
 	func createRequest(startLatitude startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, productID: String, surgeConfirmation: String?, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?)
@@ -430,7 +430,7 @@ extension UberManager
 	
 	
 	/**
-	Use this function to get the map for an Uber Request whose request ID you have but do not have the wrapper `UberRequest` object. If you have an `UberRequest` for which you want to get the map call the member function `getRequestMap:` on the object.
+	Use this function to get the map for an Uber Request whose request ID you have.
 	
 	- parameter requestID: 		 The request ID for the request whose map you want.
 	- parameter completionBlock:  The block of code to execute on a successful fetching of the map.
@@ -442,9 +442,23 @@ extension UberManager
 		assert(delegate.scopes.contains(UberScopes.Request.rawValue), "You must use the Request scope on your delegate or during initialization to access this endpoint.")
 		fetchObject("/v1/requests/\(requestID)/map", requireUserAccessToken: true, completionHandler: success, errorHandler: failure)
 	}
+	
+	/**
+	Use this function to get a receipt for an Uber Request whose request ID you have.
+	
+	:param: requestID The request ID for the request whose receipt
+	:param: success   The block of code to execute on a successful fetching of the receipt.
+	:param: failure   The block of code to execute if an error occurs.
+	*/
+	@objc public func receiptForRequest(requestID: String, completionBlock success: UberRequestReceiptSuccessBlock, errorHandler failure: UberErrorHandler?)
+	{
+		assert(userAuthenticator.authenticated(), "You must authenticate the user before using this endpoint.")
+		assert(delegate.scopes.contains(UberScopes.RequestReceipt.rawValue), "You must use the Request Receipt scope on your delegate or during initialization to access this endpoint.")
+		fetchObject("/v1/requests/\(requestID)/receipt", requireUserAccessToken: true, completionHandler: success, errorHandler: failure)
+	}
 }
 
-// MARK: Generic Helpers
+// MARK: - Generic Helpers
 extension UberManager
 {
 	@objc private class PrivateUberDelegate : UberManagerDelegate

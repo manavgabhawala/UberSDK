@@ -21,6 +21,7 @@ public typealias UberAllActivitySuccessCallback = ([UberActivity]) -> Void
 public typealias UberUserSuccess = (UberUser) -> Void
 public typealias UberRequestSuccessBlock = (UberRequest) -> Void
 public typealias UberMapSuccessBlock = (UberRequest.Map) -> Void
+public typealias UberRequestReceiptSuccessBlock = (UberRequestReceipt) -> Void
 
 // MARK: - Important internal protocols that allow for Generics.
 internal protocol UberObjectHasImage

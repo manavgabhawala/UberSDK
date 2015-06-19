@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 //import UberiOSSDK
-
+/*
 SET THESE VALUES AS NEEDED TO RUN TESTS.
 // MARK: Globals
 class Delegate : NSObject, UberManagerDelegate
@@ -46,3 +46,4 @@ let closeToStartLocation = CLLocation(latitude: closeToStartLatitude, longitude:
 // To test authentication and stuff.
 let user = "EMAIL ID OF UBER USER"
 let password = "PASSWORD OF UBER USER"
+*/

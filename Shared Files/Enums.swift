@@ -26,7 +26,7 @@ Use this enumeration to provide the scopes you wish to show the user when perfor
 	case Request
 	
 	/// Get receipt details for Requests made by application.
-	case RequestReciept
+	case RequestReceipt
 	
 	public var description : String
 	{
@@ -42,7 +42,7 @@ Use this enumeration to provide the scopes you wish to show the user when perfor
 				return "request"
 			case .History:
 				return "history"
-			case .RequestReciept:
+			case .RequestReceipt:
 				return "request_receipt"
 			}
 		}

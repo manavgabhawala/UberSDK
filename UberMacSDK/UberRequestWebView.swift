@@ -31,10 +31,11 @@ extension UberManager
 			if error.errorCode == "surge_confirmation"
 			{
 				guard let surgeDict = JSON["meta"] as? [NSObject : AnyObject], let href = surgeDict["href"] as? String
-					else {
-						failure?(error)
-						return
-					}
+				else
+				{
+					failure?(error)
+					return
+				}
 				let webView = WebView(frame: view.frame)
 				webView.policyDelegate = self
 				self.surgeLock.lock()
