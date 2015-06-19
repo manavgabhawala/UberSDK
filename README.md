@@ -130,6 +130,19 @@ One example has been provided for you, the headers of the rest of the functions 
 ```objc
 
 ```
+#### All Function Headers
+```swift
+/**
+Call this function before using any end points that require user OAuth 2.0. This function will handle displaying the webview and saving and caching the access and refresh tokens to the disk in an encrypted format.
+
+-
+view: 			 The view on which to display the webview where authentication will occur.
+-
+completionBlock: The block of code to execute once we have successfully recieved the user's access token.
+-
+errorHandler:    An error occurred while getting the user's login. Somehow handle the error in this block.
+*/
+public func performUserAuthorizationToView(view: UIView, completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?) // The UIView is an NSView in the MacSDK.
 
 /**
 Use this function to log an Uber user out of the system and remove all associated cached files about the user.
@@ -140,9 +153,7 @@ completionBlock: The block of code to execute once we have successfully logged a
 errorHandler:    An error occurred while loggin the user out. Handle the error in this block.
 */
 public func logUberUserOut(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
-}
 
-extension UberManager {
 /**
 Use this function to fetch uber products for a particular latitude and longitude `asynchronously`.
 
@@ -186,9 +197,7 @@ failure:   The block of code to execute if an error occurs.
 *:warning:* Product IDs are different for different regions. Fetch all products for a location using the `UberManager` instance.
 */
 public func createProduct(productID: String, completionBlock success: UberSingleProductSuccessBlock, errorHandler failure: UberErrorHandler?)
-}
 
-extension UberManager {
 /**
 Use this function to fetch price estimates for a particular trip between two points as defined by you `asynchronously`.
 
@@ -228,9 +237,7 @@ errorHandler:  	This block is called if an error occurs. This block takes two pa
 :warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
 */
 public func fetchPriceEstimateForTrip(startLocation startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
-}
 
-extension UberManager {
 /**
 Use this function to fetch time estimates for a particular latitude and longitude `asynchronously`. Optionally, add a productID and/or a userID to narrow down the search results.
 
@@ -266,9 +273,8 @@ completionBlock: The block to be executed if the request was successful and we w
 errorHandler: 	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
 */
 public func fetchTimeEstimateForLocation(location: CLLocation, productID: String? = nil, userID : String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
-}
 
-extension UberManager {
+
 /**
 Use this function to fetch promotions for new users for a particular start and end locations `asynchronously`.
 
@@ -300,9 +306,8 @@ completionBlock: The block of code to execute if an UberPromotion was successful
 errorHandler:  	The block of code to execute if an error occurs.
 */
 public func fetchPromotionsForLocations(startLocation startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
-}
 
-extension UberManager {
+
 /**
 Use this function to `asynchronously` create an Uber User. The uber user gives you access to the logged in user's profile.
 
@@ -312,9 +317,8 @@ completionBlock: The block of code to execute if the user has successfully been 
 errorHandler:    The block of code to execute if an error occurs.
 */
 public func createUserProfile(completionBlock success: UberUserSuccess, errorHandler failure: UberErrorHandler?)
-}
 
-extension UberManager {
+
 /**
 Use this function to fetch a user's activity data `asynchronously`. This interacts with the v1.1 of the History endpoint and requires the HistoryLite scope.
 
@@ -357,6 +361,45 @@ See the `fetchUserActivity` function for retrieving a few values of the user's a
 */
 public func fetchAllUserActivity(completionBlock success: UberAllActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
 
+/**
+Create a new request for the logged in user.
+
+-
+startLatitude:   The beginning or "pickup" latitude.
+-
+startLongitude:  The beginning or "pickup" longitude.
+-
+endLatitude:     The final or destination latitude.
+-
+endLongitude:    The final or destination longitude.
+-
+productID:       The unique ID of the product being requested.
+-
+surgeView:		 The view on which to show any surges if applicable.
+-
+completionBlock: The block of code to be executed on a successful creation of the request.
+-
+errorHandler:    The block of code to be executed if an error occurs.
+*/
+public func createRequest(startLatitude startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, productID: String, surgeView view: UIView, surgeID surge : String? = nil, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?) // The UIView is an NSView on the Mac SDK.
+
+/**
+Create a new request for the logged in user.
+
+-
+startLocation:      The beginning or "pickup" location.
+-
+endLocation:        The final or destination location.
+-
+productID:          The unique ID of the product being requested.
+-
+surgeView:		 The view on which to show any surges if applicable.
+-
+completionBlock:    The block of code to be executed on a successful creation of the request.
+-
+errorHandler:       The block of code to be executed if an error occurs.
+*/
+public func createRequest(startLocation: CLLocation, endLocation: CLLocation, productID: String, surgeView view: UIView, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?) // The UIView is an NSView on the Mac SDK.
 
 /**
 Use this function to communicate with the Uber Request Endpoint. You can create an `UberRequest` wrapper using just the requestID. You must have authenticated the user with the Request scope before you can use this endpoint.
