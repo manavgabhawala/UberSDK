@@ -15,7 +15,7 @@ Coming Soon. (If you can't wait lookup importing Dynamic Frameworks into Swift/O
 - [x] Full localization support including all 17 languages supported by Uber
 - [x] Fully native SDK for iOS and Mac including features like using CoreLocation where useful, uses NSDates where relevant and even supports descriptions (`CustomStringConvertible`) so debugging is pain free.
 - [x] Makes use of Swift 2.0's generics, protocol extension, guards and defer statements to give you a great API to use.
--[x] Zero configuration to setup and use.
+- [x] Zero configuration to setup and use.
 
 ## Documentation and Usage 
 ### Initialization
