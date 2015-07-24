@@ -76,10 +76,12 @@ extension UberManager : WebPolicyDelegate
 {
 	public func webView(webView: WebView!, decidePolicyForNavigationAction actionInformation: [NSObject : AnyObject]!, request: NSURLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!)
 	{
-		defer { listener.use() }
-		
-		guard actionInformation[WebActionNavigationTypeKey]?.intValue != nil else { return }
-		guard let URL = request.URL?.absoluteString where URL.hasPrefix(delegate.surgeConfirmationRedirectURI) else { return }
+		guard let URL = request.URL?.absoluteString where URL.hasPrefix(delegate.surgeConfirmationRedirectURI)
+			else
+		{
+			listener.use()
+			return
+		}
 		var code : String?
 		if let URLParams = request.URL?.query?.componentsSeparatedByString("&")
 		{
@@ -93,11 +95,14 @@ extension UberManager : WebPolicyDelegate
 				}
 			}
 		}
-		if let code = code
+		guard let theCode = code
+			else
 		{
-			webView.removeFromSuperview()
-			surgeCode = code
+			listener.use()
+			return
 		}
+		webView.removeFromSuperview()
+		surgeCode = theCode
 		surgeLock.unlock()
 	}
 }

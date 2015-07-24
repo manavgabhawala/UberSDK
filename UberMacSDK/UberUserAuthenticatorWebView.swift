@@ -28,53 +28,49 @@ extension UberUserAuthenticator
 	func generateCodeForRequest<T: Viewable>(request: NSURLRequest, onView superview: T)
 	{
 		let view = WebView()
-		view.frame = NSApplication.sharedApplication().keyWindow!.contentView.frame
+		view.frame = superview.frame
 		view.policyDelegate = self
 		view.frameLoadDelegate = self
 		view.frame.size = superview.frame.size
-		superview.addSubview(view as! T)
+		view.mainFrame.loadRequest(request)
+		dispatch_async(dispatch_get_main_queue(), {
+			superview.addSubview(view as! T)
+		})
 	}
 }
 extension UberUserAuthenticator : WebPolicyDelegate, WebFrameLoadDelegate
 {
 	func webView(webView: WebView!, decidePolicyForNavigationAction actionInformation: [NSObject : AnyObject]!, request: NSURLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!)
 	{
-		if let _ = actionInformation[WebActionNavigationTypeKey]?.intValue
+		guard let URL = request?.URL?.absoluteString where URL.hasPrefix(redirectURI)
+			else
 		{
 			listener.use()
+			return
 		}
-		else
+		var code : String?
+		if let URLParams = request.URL?.query?.componentsSeparatedByString("&")
 		{
-			if let URL = request.URL?.absoluteString
+			for param in URLParams
 			{
-				if URL.hasPrefix(redirectURI)
+				let keyValue = param.componentsSeparatedByString("=")
+				let key = keyValue.first
+				if key == "code"
 				{
-					var code : String?
-					if let URLParams = request.URL?.query?.componentsSeparatedByString("&")
-					{
-						for param in URLParams
-						{
-							let keyValue = param.componentsSeparatedByString("=")
-							let key = keyValue.first
-							if key == "code"
-							{
-								code = keyValue.last
-							}
-						}
-					}
-					if let code = code
-					{
-						getAuthTokenForCode(code)
-						webView.removeFromSuperview()
-					}
-					else
-					{
-						self.errorHandler?(UberError(code: "access_code_not_found", message: "The callback URL did not contain the authentication token required. The code we recieved was nil.", fields: nil, response: nil, errorResponse: nil, JSON: [NSObject: AnyObject]()))
-					}
-					listener.use()
+					code = keyValue.last
 				}
 			}
 		}
+		guard let theCode = code
+			else
+		{
+			self.errorHandler?(UberError(code: "access_code_not_found", message: "The callback URL did not contain the authentication token required. The code we recieved was nil.", fields: nil, response: nil, errorResponse: nil, JSON: [NSObject: AnyObject]()))
+			listener.use()
+			return
+		}
+		getAuthTokenForCode(theCode)
+		webView.removeFromSuperview()
+		listener.ignore()
 	}
 }
 
