@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "821983621B2AD543005B5E9D"
+               BlueprintIdentifier = "829B69151B6282A900E3A020"
                BuildableName = "UberMacSDK.framework"
                BlueprintName = "UberMacSDK"
                ReferencedContainer = "container:UberSDK.xcodeproj">
@@ -23,17 +23,16 @@
       </BuildActionEntries>
    </BuildAction>
    <TestAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES"
-      buildConfiguration = "Debug">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8219836B1B2AD543005B5E9D"
+               BlueprintIdentifier = "829B691E1B6282A900E3A020"
                BuildableName = "UberMacSDKTests.xctest"
                BlueprintName = "UberMacSDKTests"
                ReferencedContainer = "container:UberSDK.xcodeproj">
@@ -43,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "821983621B2AD543005B5E9D"
+            BlueprintIdentifier = "829B69151B6282A900E3A020"
             BuildableName = "UberMacSDK.framework"
             BlueprintName = "UberMacSDK"
             ReferencedContainer = "container:UberSDK.xcodeproj">
@@ -53,11 +52,11 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -65,7 +64,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "821983621B2AD543005B5E9D"
+            BlueprintIdentifier = "829B69151B6282A900E3A020"
             BuildableName = "UberMacSDK.framework"
             BlueprintName = "UberMacSDK"
             ReferencedContainer = "container:UberSDK.xcodeproj">
@@ -75,15 +74,15 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "821983621B2AD543005B5E9D"
+            BlueprintIdentifier = "829B69151B6282A900E3A020"
             BuildableName = "UberMacSDK.framework"
             BlueprintName = "UberMacSDK"
             ReferencedContainer = "container:UberSDK.xcodeproj">

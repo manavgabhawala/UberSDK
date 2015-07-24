@@ -10,7 +10,11 @@ import UIKit
 
 extension UberObjectHasImage
 {
-	func downloadImage(completionBlock success: (UIImage, Self) -> Void, errorHandler failure : UberErrorHandler?)
+	///  Downloads an image asynchronously for the reciever's image. And calls the blocks as required once the download succeeds or fails
+	///
+	///  - parameter success: The block of code to execute once the block succeeded
+	///  - parameter failure: The block of code to execute on an error.
+	public func downloadImage(completionBlock success: (UIImage, Self) -> Void, errorHandler failure : UberErrorHandler?)
 	{
 		let fileManager = NSFileManager.defaultManager()
 		guard let URL = imageURL else { failure?(UberError(code: "missing_image", message: "No image URL was found so downloading the image was not possible.", fields: nil, response: nil, errorResponse: nil, JSON: [NSObject: AnyObject]())); return }
@@ -47,9 +51,9 @@ extension UberObjectHasImage
 			}
 			catch
 			{
-				failure?(nil)
+				failure?(unknownError)
 			}
 		}
-		task?.resume()
+		task.resume()
 	}
 }

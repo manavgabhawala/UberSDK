@@ -11,13 +11,11 @@ import UIKit
 
 extension UberManager
 {
-	/**
-	Call this function before using any end points that require user OAuth 2.0. This function will handle displaying the webview and saving and caching the access and refresh tokens to the disk in an encrypted format.
-	
-	- parameter view: 			 The view on which to display the webview where authentication will occur.
-	- parameter completionBlock: The block of code to execute once we have successfully recieved the user's access token.
-	- parameter errorHandler:    An error occurred while getting the user's login. Somehow handle the error in this block.
-	*/
+	///  Call this function before using any end points that require user OAuth 2.0. This function will handle displaying the webview and saving and caching the access and refresh tokens to the disk in an encrypted format.
+	///
+	///  - parameter view:    The view on which to display the webview where authentication will occur.
+	///  - parameter success: The block of code to execute once we have successfully recieved the user's access token.
+	///  - parameter failure: An error occurred while getting the user's login. Somehow handle the error in this block.
 	@objc public func performUserAuthorizationToView(view: UIView, completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
 	{
 		userAuthenticator.setCallbackBlocks(successBlock: success, errorBlock: failure)

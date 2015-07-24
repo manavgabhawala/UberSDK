@@ -9,11 +9,6 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>UberUserAutenticationTestApp.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
-		</dict>
 		<key>UberiOSSDK.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -22,42 +17,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>821983621B2AD543005B5E9D</key>
+		<key>829B68F81B62828700E3A020</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8219836B1B2AD543005B5E9D</key>
+		<key>829B69021B62828700E3A020</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8228B9B91B2C0CA100403E84</key>
+		<key>829B69151B6282A900E3A020</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8228B9CC1B2C0CA100403E84</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>82FFD9EA1B2A08DC0065C638</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>82FFD9F41B2A08DC0065C638</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>82FFDA071B2A08F70065C638</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>82FFDA101B2A08F70065C638</key>
+		<key>829B691E1B6282A900E3A020</key>
 		<dict>
 			<key>primary</key>
 			<true/>

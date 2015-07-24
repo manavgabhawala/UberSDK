@@ -1,11 +1,21 @@
 # UberSDK for iOS and Mac OS X - Swift
 
-This is an SDK for the new Uber API released in March 2015. This SDK allows developers to easily use the Uber API without having to worry about implementing any OAuth 2.0 or perform any Network Requests. This SDK supports all end points available at https://developer.uber.com/v1/endpoints/ as of the beginning of April 2015.
-
-Added some support for changes made on April 21, 2015.
+This is an SDK for the new Uber API released in March 2015. This SDK allows developers to easily use the Uber API without having to worry about implementing any OAuth 2.0 or perform any Network Requests. This SDK supports all end points available at https://developer.uber.com/v1/endpoints/ as of 22nd June 2015. For the Uber API change log of when it was last updated, click [here](https://developer.uber.com/v1/api-reference/)
 
 ## Installation Instructions 
 Coming Soon. (If you can't wait lookup importing Dynamic Frameworks into Swift/Objective-C projects depending on what you are using.
+
+## Features
+
+- [x] Full Objective-C and Swift support.
+- [x] Small framework file with descriptive function headers.
+- [x] Supports all Uber API endpoints.
+- [x] Doesn't block the main thread by using callbacks. Fully asynchronous.
+- [x] Incredible error handling support including full details of the error.
+- [x] Full localization support including all 17 languages supported by Uber
+- [x] Fully native SDK for iOS and Mac including features like using CoreLocation where useful, uses NSDates where relevant and even supports descriptions (`CustomStringConvertible`) so debugging is pain free.
+- [x] Makes use of Swift 2.0's generics, protocol extension, guards and defer statements to give you a great API to use.
+-[x] Zero configuration to setup and use.
 
 ## Documentation and Usage 
 ### Initialization
@@ -124,339 +134,82 @@ One example has been provided for you, the headers of the rest of the functions 
 
 #####Swift
 ```swift
-
+manager.fetchProductsForLocation(someCLLocation, completionBlock: { products in  
+	products.map { print($0) }
+}, errorHandler: { error in
+	print(error)
+})
 ```
 #####Objective C
 ```objc
 
 ```
-#### All Function Headers
-```swift
-/**
-Call this function before using any end points that require user OAuth 2.0. This function will handle displaying the webview and saving and caching the access and refresh tokens to the disk in an encrypted format.
 
--
-view: 			 The view on which to display the webview where authentication will occur.
--
-completionBlock: The block of code to execute once we have successfully recieved the user's access token.
--
-errorHandler:    An error occurred while getting the user's login. Somehow handle the error in this block.
-*/
+#### All Function Headers
+
+```swift
+// MARK: User Authentication
+
 public func performUserAuthorizationToView(view: UIView, completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?) // The UIView is an NSView in the MacSDK.
 
-/**
-Use this function to log an Uber user out of the system and remove all associated cached files about the user.
 
--
-completionBlock: The block of code to execute once we have successfully logged a user out.
--
-errorHandler:    An error occurred while loggin the user out. Handle the error in this block.
-*/
 public func logUberUserOut(completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch uber products for a particular latitude and longitude `asynchronously`.
+// MARK: Products 
 
--
-latitude:  		The latitude for which you want to find Uber products.
--
-longitude: 		The longitude for which you want to find Uber products.
-
--
-completionBlock: The block to be executed if the request was successful and we were able to parse the products. This block takes one parameter, an array of UberProducts. See the `UberProduct` class for more details on how this is returned.
-
--
-errorHandler:   	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
-*/
 public func fetchProductsForLocation(latitude latitude: Double, longitude: Double, completionBlock success: UberProductSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch uber products for a particular location `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
-
--
-location: 		The location for which you want to find Uber products.
-
--
-completionBlock: The block to be executed if the request was successful and we were able to parse the products. This block takes one parameter, an array of UberProducts. See the `UberProduct` class for more details on how this is returned.
-
--
-errorHandler:  	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
-*/
 public func fetchProductsForLocation(location: CLLocation, completionBlock success: UberProductSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to communicate with the Uber Product Endpoint. You can create an `UberProduct` wrapper using just the productID.
 
--
-productID: The productID with which to create a new `UberProduct`
--
-success:   The block of code to execute if we successfully create the `UberProduct`
--
-failure:   The block of code to execute if an error occurs.
-
-*:warning:* Product IDs are different for different regions. Fetch all products for a location using the `UberManager` instance.
-*/
 public func createProduct(productID: String, completionBlock success: UberSingleProductSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch price estimates for a particular trip between two points as defined by you `asynchronously`.
-
--
-startLatitude:  	The starting latitude for the trip.
--
-startLongitude: 	The starting longitude for the trip.
--
-endLatitude:    	The ending latitude for the trip.
--
-endLongitude:   	The ending longitude for the trip.
-
--
-completionBlock: The block to be executed if the request was successful and we were able to parse the price estimates. This block takes one parameter, an array of UberPriceEstimates. See the `UberPriceEstimate` class for more details on how this is returned.
-
--
-errorHandler:   	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
-
-:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
-*/
+// MARK: - Estimates
 public func fetchPriceEstimateForTrip(startLatitude startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch price estimates for a particular trip between two points `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitudes and longitudes.
-
--
-startLocation: 	The starting location for the trip
--
-endLocation:   	The ending location for the trip
-
--
-completionBlock: The block to be executed if the request was successful and we were able to parse the price estimates. This block takes one parameter, an array of UberPriceEstimates. See the `UberPriceEstimate` class for more details on how this is returned.
-
--
-errorHandler:  	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
-
-:warning: This function will report errors for points further away than 100 miles. Please make sure that you are asserting that the two locations are closer than that for best results.
-*/
 public func fetchPriceEstimateForTrip(startLocation startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPriceEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch time estimates for a particular latitude and longitude `asynchronously`. Optionally, add a productID and/or a userID to narrow down the search results.
 
--
-startLatitude:   The starting latitude of the user.
--
-startLongitude:  The starting longitude of the user.
--
-userID:         	An optional parameter: the user's unique ID which allows you to improve search results as defined in the Uber API endpoints.
--
-productID:       An optional parameter: a specific product ID which allows you to narrow down searches to a particular product.
--
-completionBlock: The block to be executed if the request was successful and we were able to parse the time estimates. This block takes one parameter, an array of UberTimeEstimates. See the `UberTimeEstimate` class for more details on how this is returned.
--
-errorHandler:   This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
-*/
 public func fetchTimeEstimateForLocation(startLatitude startLatitude: Double, startLongitude: Double, userID: String? = nil, productID: String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch time estimates for a particular latitude and longitude `synchronously`. Optionally, add a productID and/or a userID to narrow down the search results. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
-
--
-location:  		The location of the user.
--
-productID: 		An optional parameter: a specific product ID which allows you to narrow down searches to a particular product.
--
-userID:    		An optional parameter: the user's unique ID which allows you to improve search results as defined in the Uber API endpoints.
-
--
-completionBlock: The block to be executed if the request was successful and we were able to parse the time estimates. This block takes one parameter, an array of UberTimeEstimates. See the `UberTimeEstimate` class for more details on how this is returned.
-
--
-errorHandler: 	This block is called if an error occurs. This block takes two parameters the NSURLResponse for the request and the NSError generated because of the failed connection attempt.
-*/
 public func fetchTimeEstimateForLocation(location: CLLocation, productID: String? = nil, userID : String? = nil, completionBlock success: UberTimeEstimateSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-
-/**
-Use this function to fetch promotions for new users for a particular start and end locations `asynchronously`.
-
--
-startLatitude:  	The starting latitude of the user.
--
-startLongitude: 	The starting longitude of the user.
--
-endLatitude:    	The ending latitude for the travel.
--
-endLongitude:   	The ending longitude for the travel.
--
-completionBlock: The block of code to execute if an UberPromotion was successfully created. This block takes one parameter the `UberPromotion` object.
--
-errorHandler:   	The block of code to execute if an error occurs.
-*/
+// MARK: - Promotions
 public func fetchPromotionsForLocations(startLatitude startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch promotions for new users for a particular start and end locations `asynchronously`. If you are using CoreLocation use this function to pass in the location. Otherwise use the actual latitude and longitude.
-
--
-startLocation: 	The starting location of the user.
--
-endLocation:   	The ending location for the travel.
--
-completionBlock: The block of code to execute if an UberPromotion was successfully created. This block takes one parameter the `UberPromotion` object.
--
-errorHandler:  	The block of code to execute if an error occurs.
-*/
 public func fetchPromotionsForLocations(startLocation startLocation: CLLocation, endLocation: CLLocation, completionBlock success: UberPromotionSuccessBlock, errorHandler failure: UberErrorHandler?)
 
+// MARK: - User Profile
 
-/**
-Use this function to `asynchronously` create an Uber User. The uber user gives you access to the logged in user's profile.
-
--
-completionBlock: The block of code to execute if the user has successfully been created. This block takes one parameter an `UberUser` object.
--
-errorHandler:    The block of code to execute if an error occurs.
-*/
 public func createUserProfile(completionBlock success: UberUserSuccess, errorHandler failure: UberErrorHandler?)
 
-
-/**
-Use this function to fetch a user's activity data `asynchronously`. This interacts with the v1.1 of the History endpoint and requires the HistoryLite scope.
-
--
-offset:           Offset the list of returned results by this amount. Default is zero.
--
-limit:            Number of items to retrieve. Default is 5, maximum is 50.
--
-completionBlock:  The block of code to execute on success. The parameters to this block is an array of `UberActivity`, the offset that is passed in, the limit passed in, the count which is the total number of items available.
--
-errorHandler:     The block of code to execute on failure.
-*/
+// MARK: - User Activity
 public func fetchActivityForUser(offset offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch a user's activity data `asynchronously` for v 1.2. It requires the History scope.
-
--
-offset:  Offset the list of returned results by this amount. Default is zero.
--
-limit:   Number of items to retrieve. Default is 5, maximum is 50.
--
-success: The block of code to execute on success. The parameters to this block is an array of `UberActivity`, the offset that is passed in, the limit passed in, the count which is the total number of items available.
--
-failure: The block of code to execute on failure.
-
-See the `fetchAllUserActivity` function for retrieving all the user's activity at one go.
-*/
 public func fetchUserActivity(offset offset: Int = 0, limit: Int = 5, completionBlock success: UberActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to fetch a user's activity data `asynchronously` for v 1.2. It requires the History scope. This function will return all the user's activity after retrieving all of it without any limits however may take longer to run. If you want tor retrieve a smaller number of results and limit and offset the results use the fetchUserActivity:offset:limit: function.
 
--
-success: The block of code to execute on success. The parameters to this block is an array of `UberActivity`
--
-failure: The block of code to execute on failure.
-
-See the `fetchUserActivity` function for retrieving a few values of the user's activity.
-*/
 public func fetchAllUserActivity(completionBlock success: UberAllActivitySuccessCallback, errorHandler failure: UberErrorHandler?)
 
-/**
-Create a new request for the logged in user.
-
--
-startLatitude:   The beginning or "pickup" latitude.
--
-startLongitude:  The beginning or "pickup" longitude.
--
-endLatitude:     The final or destination latitude.
--
-endLongitude:    The final or destination longitude.
--
-productID:       The unique ID of the product being requested.
--
-surgeView:		 The view on which to show any surges if applicable.
--
-completionBlock: The block of code to be executed on a successful creation of the request.
--
-errorHandler:    The block of code to be executed if an error occurs.
-*/
+// MARK: - Request
 public func createRequest(startLatitude startLatitude: Double, startLongitude: Double, endLatitude: Double, endLongitude: Double, productID: String, surgeView view: UIView, surgeID surge : String? = nil, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?) // The UIView is an NSView on the Mac SDK.
 
-/**
-Create a new request for the logged in user.
-
--
-startLocation:      The beginning or "pickup" location.
--
-endLocation:        The final or destination location.
--
-productID:          The unique ID of the product being requested.
--
-surgeView:		 The view on which to show any surges if applicable.
--
-completionBlock:    The block of code to be executed on a successful creation of the request.
--
-errorHandler:       The block of code to be executed if an error occurs.
-*/
 public func createRequest(startLocation: CLLocation, endLocation: CLLocation, productID: String, surgeView view: UIView, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?) // The UIView is an NSView on the Mac SDK.
 
-/**
-Use this function to communicate with the Uber Request Endpoint. You can create an `UberRequest` wrapper using just the requestID. You must have authenticated the user with the Request scope before you can use this endpoint.
-
--
-requestID: 		The requestID with which to create a new `UberRequest`
--
-completionBlock: The block of code to execute if we successfully create the `UberRequest`
--
-errorHandler:    The block of code to execute if an error occurs.
-
-*/
 public func createRequest(requestID: String, completionBlock success: UberRequestSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to cancel an Uber Request whose request ID you have but do not have the wrapper `UberRequest` object. If you have an `UberRequest` which you want to cancel call the function `cancelRequest:` by passing its id.
-
--
-requestID: 		The request ID for the request you want to cancel.
--
-completionBlock: The block of code to execute on a successful cancellation.
--
-errorHandler:    The block of code to execute on a failure to cancel the request.
-*/
 public func cancelRequest(requestID: String, completionBlock success: UberSuccessBlock?, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to get the map for an Uber Request whose request ID you have.
-
--
-requestID: 		 The request ID for the request whose map you want.
--
-completionBlock:  The block of code to execute on a successful fetching of the map.
--
-errorHandler:     The block of code to execute if an error occurs.
-*/
 public func mapForRequest(requestID: String, completionBlock success: UberMapSuccessBlock, errorHandler failure: UberErrorHandler?)
 
-/**
-Use this function to get a receipt for an Uber Request whose request ID you have.
-
-- 
-requestID The request ID for the request whose receipt
--
-success   The block of code to execute on a successful fetching of the receipt.
--
-failure   The block of code to execute if an error occurs.
-*/
 public func receiptForRequest(requestID: String, completionBlock success: UberRequestReceiptSuccessBlock, errorHandler failure: UberErrorHandler?)
 ```
 
 ### Error Handling
 The `UberError` class is at the root of error handling in this SDK. Here is the UberError class header
 ```swift
-/**
-A wrapper around an UberError that gets sent as JSON. It is a subclass of NSError so it may also be a wrapper around the NSError. Inspect the isRepresentingNSError property to determine whether to handle this as an error that Uber provided or an NSError.
-*/
+
+/// A wrapper around an UberError that gets sent as JSON. It is a subclass of NSError so it may also be a wrapper around the NSError. Inspect the isRepresentingNSError property to determine whether to handle this as an error that Uber provided or an NSError.
 class UberError: NSError {
 /// Human readable message which corresponds to the client error.
 public let errorMessage: String
@@ -483,6 +236,18 @@ The UberError class is a subclass of NSError. The isRepresentingNSError property
 ### Miscellaneous
 
 - All languages supported by the Uber API are supported by this SDK. Before making any calls change the language variable on the manager with a different language from the `Language` enum. The default value is English.
+- Synchronicity can be achieved with the help of `NSLock` or even `dispatch_semaphore_t`. Here's an example of how we can take the asynchronous methods provided by this SDK and make them syncronous using NSLock, a similar implementation can be done with semaphores. Warning this should only be done on a background thread, doing this on the main thread will cause UI lag.
+```swift
+class Some: NSObject
+{
+	let lock = NSLock()
+	func doMultipleThingsSynchronously()
+	{
+		// First let's get onto a background thread as mentioned before. 
+		dispatch_async(
+	}
+}
+```
 
 ## Final Notes
 - If you want to contribute some code (or even some test cases) make a new pull request.

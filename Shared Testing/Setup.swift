@@ -2,15 +2,18 @@
 //  Setup.swift
 //  UberSDK
 //
-//  Created by Manav Gabhawala on 6/14/15.
+//  Created by Manav Gabhawala on 25/07/15.
 //
 //
 
 import Foundation
+
+import Foundation
 import CoreLocation
-//import UberiOSSDK
+@testable import UberiOSSDK
 /*
 SET THESE VALUES AS NEEDED TO RUN TESTS.
+
 // MARK: Globals
 class Delegate : NSObject, UberManagerDelegate
 {
@@ -23,6 +26,13 @@ class Delegate : NSObject, UberManagerDelegate
 	var scopes : [Int] { get { return [ UberScopes.Profile.rawValue, UberScopes.Request.rawValue, UberScopes.History.rawValue ] } }
 	var surgeConfirmationRedirectURI : String { return redirectURI /* Change to custom if required */ }
 }
+
+// To test authentication and stuff.
+let user = "EMAIL ID OF UBER USER"
+let password = "PASSWORD OF UBER USER"
+
+
+// MARK: - Already setup globals
 
 let manager = UberManager(delegate: Delegate())
 
@@ -43,7 +53,5 @@ let closeToStartLatitude = 37.7789792
 let closeToStartLongitude = -122.31823
 let closeToStartLocation = CLLocation(latitude: closeToStartLatitude, longitude: closeToStartLongitude)
 
-// To test authentication and stuff.
-let user = "EMAIL ID OF UBER USER"
-let password = "PASSWORD OF UBER USER"
+
 */
