@@ -1,9 +1,10 @@
 # UberSDK for iOS and Mac OS X - Swift And Objective C
 
-![Latest Release](https://img.shields.io/badge/release-0.0.1-blue.svg)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![License](https://img.shields.io/badge/license-Apache%20License-blue.svg)
-![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20OS%20X-000000.svg)
+[![Latest Release](https://img.shields.io/badge/release-0.0.1-blue.svg)](https://github.com/manavgabhawala/UberSDK)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/manavgabhawala/UberSDK)
+[![License](https://img.shields.io/badge/license-Apache%20License-blue.svg)](https://github.com/manavgabhawala/UberSDK)
+[![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20OS%20X-000000.svg)](https://github.com/manavgabhawala/UberSDK)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 This is an SDK for the new Uber API released in March 2015. This SDK allows developers to easily use the Uber API without having to worry about implementing any OAuth 2.0 or perform any Network Requests. This SDK supports all end points available at https://developer.uber.com/v1/endpoints/ as of 22nd June 2015. For the Uber API change log of when it was last updated, click [here](https://developer.uber.com/v1/api-reference/)
 
@@ -37,11 +38,15 @@ import UberiOSSDK // or UberMacSDK for Mac targets
 // That import statement is all you need. Now you can start using the SDK as described below
 ```
 
-### Cocoapods
+### Cocoa Pods
 Coming soon.
 
 ### Carthage
-Coming soon.
+This project is compatible with Carthage. To install it using Carthage add this to your `Cartfile`
+```
+github "manavgabhawala/UberSDK" == 0.0.1
+```
+For more information about Carthage and how to set it up click [here](https://github.com/Carthage/Carthage).
 
 ## Features
 
