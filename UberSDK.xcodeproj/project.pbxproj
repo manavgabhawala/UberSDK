@@ -87,7 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		829B68CA1B62810200E3A020 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		826644191B638BDB00042F93 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		829B68CB1B62810200E3A020 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		829B68CD1B62813800E3A020 /* UberManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UberManager.swift; path = Shared/UberManager.swift; sourceTree = "<group>"; };
 		829B68CE1B62815800E3A020 /* UberUserAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UberUserAuthenticator.swift; path = Shared/UberUserAuthenticator.swift; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 		829B68C31B6280E900E3A020 = {
 			isa = PBXGroup;
 			children = (
-				829B68CA1B62810200E3A020 /* LICENSE.txt */,
+				826644191B638BDB00042F93 /* LICENSE */,
 				829B68CB1B62810200E3A020 /* README.md */,
 				829B68CC1B62810900E3A020 /* Shared */,
 				829B69851B62C49C00E3A020 /* Shared Testing */,
@@ -1013,6 +1013,7 @@
 				829B690D1B62828700E3A020 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		829B690E1B62828700E3A020 /* Build configuration list for PBXNativeTarget "UberiOSSDKTests" */ = {
 			isa = XCConfigurationList;
@@ -1021,6 +1022,7 @@
 				829B69101B62828700E3A020 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		829B69271B6282A900E3A020 /* Build configuration list for PBXNativeTarget "UberMacSDK" */ = {
 			isa = XCConfigurationList;
@@ -1029,6 +1031,7 @@
 				829B69291B6282A900E3A020 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		829B692A1B6282A900E3A020 /* Build configuration list for PBXNativeTarget "UberMacSDKTests" */ = {
 			isa = XCConfigurationList;
@@ -1037,6 +1040,7 @@
 				829B692C1B6282A900E3A020 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
