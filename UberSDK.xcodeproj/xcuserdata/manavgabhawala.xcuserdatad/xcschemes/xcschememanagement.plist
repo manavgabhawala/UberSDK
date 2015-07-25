@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>UberSDKMac.xcscheme</key>
+		<key>UberMacSDK.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>UberSDKiOS.xcscheme</key>
+		<key>UberiOSSDK.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -17,22 +17,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>8279E8E11ACA93E300186FC1</key>
+		<key>829B68F81B62828700E3A020</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8279E8EC1ACA93E300186FC1</key>
+		<key>829B69021B62828700E3A020</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8279E9001ACA93FB00186FC1</key>
+		<key>829B69151B6282A900E3A020</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8279E90A1ACA93FB00186FC1</key>
+		<key>829B691E1B6282A900E3A020</key>
 		<dict>
 			<key>primary</key>
 			<true/>
