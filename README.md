@@ -1,6 +1,8 @@
 # UberSDK for iOS and Mac OS X
 # Swift And Objective C
 
+[https://img.shields.io/badge/build-passing-brightgreen.svg]
+
 This is an SDK for the new Uber API released in March 2015. This SDK allows developers to easily use the Uber API without having to worry about implementing any OAuth 2.0 or perform any Network Requests. This SDK supports all end points available at https://developer.uber.com/v1/endpoints/ as of 22nd June 2015. For the Uber API change log of when it was last updated, click [here](https://developer.uber.com/v1/api-reference/)
 
 ## Installation Instructions 
