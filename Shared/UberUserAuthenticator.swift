@@ -187,7 +187,7 @@ internal class UberUserAuthenticator : NSObject
 			return
 		}
 		var scopesString = scopes.reduce("", combine: { $0.0 + "%20" + $0.1.description })
-		scopesString = scopesString.substringFromIndex(advance(scopesString.startIndex, 3))
+		scopesString = scopesString.substringFromIndex(scopesString.startIndex.advancedBy(3))
 		let redirectURL = redirectURI.stringByAddingPercentEncodingWithAllowedCharacters(.URLPasswordAllowedCharacterSet())!
 		let URL = NSURL(string: "https://login.uber.com/oauth/authorize?response_type=code&client_id=\(clientID)&redirect_uri=\(redirectURL)&scope=\(scopesString)")!
 		let request = NSURLRequest(URL: URL)

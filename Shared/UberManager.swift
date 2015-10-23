@@ -317,7 +317,7 @@ extension UberManager
 			lock.lock()
 			fetchUserActivity(offset: userActivity.count, limit: UberActivity.maximumActivitiesRetrievable, completionBlock: { (activities, offset, limit, theCount) -> Void in
 				count = theCount
-				activities.map { userActivity.append($0) }
+				userActivity.appendContentsOf(activities)
 				lock.unlock()
 				}, errorHandler: failure)
 			lock.lock()
